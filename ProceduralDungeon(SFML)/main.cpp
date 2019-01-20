@@ -1,8 +1,8 @@
 ﻿#include "Level.h"
 #include "GameInterface.h"
 
-int WINDOW_WIDTH = 1920;
-int WINDOW_HEIGHT = 1080;
+int WINDOW_WIDTH = 1280;
+int WINDOW_HEIGHT = 720;
 
 
 int main()

@@ -73,14 +73,14 @@ void Player::movement(float elapsedTime)
 		sprite_iterator = am.getCurrentFrame();
 		am.tick(elapsedTime);
 	}
-	if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	/*if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		if(currentTime >= shootingCooldown)
 		{
 			shoot();
 			currentTime = 0;
 		}
-	}
+	}*/
 }
 void Player::decreaseHealth(float value)
 {
@@ -99,6 +99,7 @@ void Player::decreaseHealth(float value)
 			current_sublevel->getEnterGlobalCoords(newXCord, newYCord);
 			x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2;
 			y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2;
+			updateRect();
 		}
 	}
 

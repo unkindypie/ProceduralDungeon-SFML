@@ -1,51 +1,6 @@
 #pragma once
 #include "Sublevel.h"
 
-//void drawSublevel(Sublevel & sublevel, sf::RenderWindow & win, float elapsedTime)
-//{
-//	for (int i = 0; i < sublevel.getMap().size(); i++)
-//	{
-//		for (int j = 0; j < sublevel.getMap()[i].size(); j++)
-//		{
-//			sublevel.getMap()[i][j]->update(elapsedTime);
-//			sublevel.getMap()[i][j]->draw(win);
-//		}
-//	}
-//	if(DEBUG_GENERATION_DRAW) //чтобы успевать увидеть что отрисовалось
-//	{
-//		//Sleep(70);
-//	}
-//}
-void drawSublevel(Sublevel & sublevel, sf::RenderWindow & win)
-{
-	for (int i = 0; i < sublevel.getMap().size(); i++)
-	{
-		for (int j = 0; j < sublevel.getMap()[i].size(); j++)
-		{
-			sublevel.getMap()[i][j]->draw(win);
-		}
-	}
-}
-void updateSublevel(Sublevel & sublevel, float elapsedTime)
-{
-	for (int i = 0; i < sublevel.getMap().size(); i++)
-	{
-		for (int j = 0; j < sublevel.getMap()[i].size(); j++)
-		{
-			sublevel.getMap()[i][j]->update(elapsedTime);
-			
-		}
-	}
-
-}
-void drawLevel(vector<Sublevel> & level, sf::RenderWindow & win)
-{
-	for (int i = 0; i < level.size(); i++)
-	{
-		drawSublevel(level[i], win);
-	}
-}
-
 enum sublevelLineState
 {
 	start, rightEnterLeftExit, leftEnterRightExit
@@ -56,13 +11,12 @@ class Level
 protected:
 	vector<Sublevel> level; //вектор подуровней, в котором каждый подуровень знает, в какой координате его отрисовать
 	ResourceManager rm; //класс для хранением картинок/спрайтов и т.д. Разные блоки могут использовать один и тот же спрайт. Этот класс занимается их распределением.
-	size_t levelHeight;
+	size_t levelHeight; //примерная высота и ширина уровня
 	size_t levelWidth;
 public:
 	Level(size_t levelWidth, size_t levelHeight);
-	Content * player;
-	Sublevel & findSublevel(size_t x, size_t y);
-	int getPlayerTries();
+	Content * player; //указатель на игрока, нужен для удобного доступа к его координатам извне
+	int getPlayerTries();//функция получения попыток(жизней игрока)
 	ResourceManager & getResourceManager();
 	int levelLenght; //количество подуровней по горизонтали
 	vector<Sublevel> & getLevelMap();

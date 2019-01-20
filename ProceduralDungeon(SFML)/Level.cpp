@@ -24,6 +24,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 		//из-за несостыковки по высоте. То есть, в одном столбике создались подуровени с слишком большими высотами, а в другом слишком маленькими. В таком случае конструктор подуровня отправляет
 		// в generationState значение restart и выходит из цикла. По умолчанию переменная равна normal, но потому что это do while цикл отработает один раз.
 	{
+		
 		state = start; //первым сработает первый кейс в свиче
 		generationState = normal; //ставлю состояние генерации в нормальное
 		lx = 0;
@@ -34,7 +35,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 		sublevelHorizontalLineHeight.clear();
 		sub = Sublevel(lx, ly, right_, exit_, generationState, rm); //создаю первую стартовую комнату, в которой будет только выход
 		lenght = 0;
-
+		try {
 		do //данный цикл необходим для чередования линий из подуровней. То есть вход справа сверху, выход снизу слева и вход слева сверху и выход справа снизу
 			//цикл необходим из-за того, что неизвестно сколько именно подуровней может поместится по высоте т.е. не известно количество чередований rightEnterLeftExit и leftEnterRightExit
 			//start отработает один раз и больше в свич в него не зайдет
@@ -64,9 +65,8 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 				{
 					break;
 				}
-				Block * block = (Block*)level[lenght - 1].getMap()[level[lenght - 1].getExitPosY()][level[lenght - 1].getExitPosX()]; //убераю старый выход в бок, вместо него ставлю стену
-				block->setBlockType(brick, rm);
-				level[lenght - 1].getMap()[level[lenght - 1].getExitPosY()][level[lenght - 1].getExitPosX()] = block;
+				dynamic_cast<Block*>(level[lenght - 1].getMap()[level[lenght - 1].getExitPosY()][level[lenght - 1].getExitPosX()])->setBlockType(brick, rm);
+			
 
 				level[lenght - 1].addExit(down, rm); //теперь делаю новый выход уже вниз
 				level[lenght - 1].makeItAngle();
@@ -102,21 +102,21 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 					}
 					sublevelHorizontalLineHeight[i] += sub.getHeight(); //увеличиваю высоту горизонтали подуровней за счет высоты нового подуровня. Теперь это будет новым y для следующего подуровня
 					sub.addExit(left_, rm); //добавляю выход в новый подуровень
-				//	level.insert(level.begin() + lenght + 1, sub); //добавляю новый подуровень в вектор
+				
 					level.push_back(sub);
 				}
 				if (generationState == restart)
 				{
 					break;
 				}
-				//убераю старый выход влево, вместо него делаю выход вниз
-				Block * block = (Block*)level[level.size()-1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()]; //убераю старый выход в бок, вместо него ставлю стену
-				block->setBlockType(brick, rm);
-				level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()] = block;
 
-				level[level.size() - 1].makeItAngle();
+				//убераю старый выход влево, вместо него делаю выход вниз
+				dynamic_cast<Block*>(level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()])->setBlockType(brick, rm);
+				
+				level[level.size() - 1].makeItAngle(); //делаю этот подуровень угловым(в нем не будут ставиться ловушки)
 
 				level[level.size() - 1].addExit(down, rm); //теперь делаю новый выход уже вниз
+
 				enterX = level[level.size() - 1].getExitPosX(); //получаю координаты выхода из этого подуровня
 				enterY = level[level.size() - 1].getExitPosY();
 				state = leftEnterRightExit;//изменяю состояние линии подуровней на начало слева
@@ -150,7 +150,6 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 					sub.addExit(right_, rm); //добавляю выход в новый подуровень
 					enterX = sub.getExitPosX(); //получаю координаты выхода из этого подуровня
 					enterY = sub.getExitPosY();
-					//level.insert(level.begin() + lenght, sub); //добавляю новый подуровень в вектор
 					level.push_back(sub);
 				}
 				if (generationState == restart)
@@ -158,9 +157,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 					break;
 				}
 				//меняю выход из бокового в нижний справа
-				Block * block = (Block*)level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()]; //убераю старый выход в бок, вместо него ставлю стену
-				block->setBlockType(brick, rm);
-				level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()] = block;
+				dynamic_cast<Block*>(level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()])->setBlockType(brick, rm);
 
 				level[level.size() - 1].addExit(down, rm); //теперь делаю новый выход уже вниз
 
@@ -175,11 +172,17 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 				break;
 			}
 		} while (sublevelHorizontalLineHeight[0] < levelHeight - 3 && generationState != restart);
-		Block * block = (Block*)level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()]; //убераю старый выход
-		block->setBlockType(brick, rm);
+
+		dynamic_cast<Block*>(level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()])->setBlockType(brick, rm);
+
 		level[level.size() - 1].makeItAngle();
-		level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()] = block;
+		}
+		catch(LevelGenerationState)
+		{
+			generationState = restart;
+		}
 	} while (generationState == restart);
+
 	for(int i = 0; i < level.size()-1; i++)
 	{
 		level[i].next = level[i+1].getPointer();
@@ -206,22 +209,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 	
 	
 }
-Sublevel & Level::findSublevel(size_t x, size_t y)
-{
-	for(int subIterator = 0; subIterator < level.size(); subIterator++)
-	{
-		for(int i = 0; i < level[subIterator].getMap().size(); i++)
-		{
-			for (int j = 0; j < level[subIterator].getMap()[i].size(); j++)
-			{
-				if(level[subIterator].getMap()[i][j]->getX() == x && level[subIterator].getMap()[i][j]->getY() == y)
-				{
-					return level[subIterator];
-				}
-			}
-		}
-	}
-}
+
 ResourceManager & Level::getResourceManager()
 {
 	return rm;
@@ -237,16 +225,29 @@ vector<Sublevel> & Level::getLevelMap()
 
 void Level::draw(sf::RenderWindow & win)
 {
-	for (int i = 0; i < level.size(); i++)
+	for (int sub = 0; sub < level.size(); sub++) //проход по вектору подуровней уровня
 	{
-		drawSublevel(level[i], win);
+		for (int i = 0; i < level[sub].getMap().size(); i++) //проход по двумерному массиву подуровня
+		{
+			for (int j = 0; j < level[sub].getMap()[i].size(); j++)
+			{
+				level[sub].getMap()[i][j]->draw(win);
+			}
+		}
 	}
 }
 void Level::update(float elapsedTime)
 {
-	for (int i = 0; i < level.size(); i++)
+	for (int sub = 0; sub < level.size(); sub++) //проход по вектору подуровней уровня
 	{
-		updateSublevel(level[i], elapsedTime);
+		for (int i = 0; i < level[sub].getMap().size(); i++) //проход по двумерному массиву подуровня
+		{
+			for (int j = 0; j < level[sub].getMap()[i].size(); j++)
+			{
+				level[sub].getMap()[i][j]->update(elapsedTime);
+
+			}
+		}
 	}
 }
 Level::~Level()

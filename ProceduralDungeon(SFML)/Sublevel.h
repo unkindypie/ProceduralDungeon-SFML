@@ -1,15 +1,9 @@
 #pragma once
 #include <vector>
-//#include <iterator>
 #include "Block.h"
 
-//#include "Entity.h"
-//#include "Player.h"
 
-using namespace std;
 
-//const size_t X_SIZE = 70; //максимальный размер карты по x
-//const size_t Y_SIZE = 70; // максимальный размер карты по y
 const size_t MIN_RAND_SIZE = 10; //8 минимальный размер подуровня
 const size_t MAX_RAND_SIZE = 20; //20 максимальный размер подуровня
 const size_t MAX_RAND_LOOP_COUNT = 40; //максимальное количество итераций цикла генерации размеров подуровня
