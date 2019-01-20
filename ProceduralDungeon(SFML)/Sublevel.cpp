@@ -1,5 +1,7 @@
 #include "Sublevel.h"
 #include "Guntrap.h"
+#include "Razer.h"
+
 //#include "Player.h"
 int randomNumber(int minNum, int maxNum) {
 	int result;
@@ -349,6 +351,9 @@ vector<Content*>::iterator Sublevel::getContentIterator(Content * cont) //поиск 
 void Sublevel::fill(SublevelFillingType ft, ResourceManager & rm)
 {
 	bool rn;
+	int dirX;
+	int dirY;
+
 	switch (ft)
 	{
 	case first:
@@ -365,6 +370,8 @@ void Sublevel::fill(SublevelFillingType ft, ResourceManager & rm)
 		for(int i = 2; i < width-2; i++)
 		{
 			rn = randomNumber(0, 1);
+			
+
 			if(rn) addContent(new Guntrap((x + i)*COMMON_SPRITE_SIZE, y * COMMON_SPRITE_SIZE + COMMON_SPRITE_SIZE, rm, top, this));
 		}
 		break;
@@ -373,6 +380,17 @@ void Sublevel::fill(SublevelFillingType ft, ResourceManager & rm)
 		break;
 	case razer:
 		fillingType = ft;
+		rn = randomNumber(1, 5);
+		for (int i = 0; i < rn; i++)
+		{
+			do
+			{
+				dirX = randomNumber(-1, 1);
+				dirY = randomNumber(-1, 1);
+
+			} while (!dirX || !dirY);
+			addContent(new Razer((randomNumber(width/3, width-2)+x)*COMMON_SPRITE_SIZE, (randomNumber(height / 3, height - 2)+y) * COMMON_SPRITE_SIZE, this, rm, dirX, dirY));
+		}
 		break;
 	default:
 		break;

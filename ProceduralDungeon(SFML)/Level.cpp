@@ -1,9 +1,14 @@
 #include "Level.h"
 #include "Player.h"
 #include "Guntrap.h"
+#include "Razer.h"
 
-Level::Level() //в этом конструкторе находится основная часть алгортима процедурной генерации карты. он получился огромезный, но смысла разделять на функции я не вижу, потому что больше это ни где не используется
+Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находится основная часть алгортима процедурной генерации карты. он получился огромезный, но смысла разделять на функции я не вижу, потому что больше это ни где не используется
 {
+	Sublevel::X_SIZE = levelHeight;
+	Sublevel::Y_SIZE = levelWidth;
+	this->levelHeight = levelHeight;
+	this->levelWidth = levelWidth;
 	sublevelLineState state; //старт - создается линия подуровней без изначального входа, но с выходом справа снизу.
 	//rightEnterLeftExit - создается линия подуровней с входом срправа сверху и выходом слева снизу
 	//leftEnterRightExit - наоборот
@@ -46,7 +51,7 @@ Level::Level() //в этом конструкторе находится основная часть алгортима процедур
 			{
 			case start: //на этапе старта создается самая первая линия из подуровней с произвольной шириной и высотой. В других кейсах произвольной будет только высота.
 			{
-				while (lx < X_SIZE - 3)
+				while (lx < levelWidth - 3)
 				{
 					level.push_back(sub);
 					if (DEBUG_GENERATION_DRAW) //отрисовка подуровней нагорячую прямо во время создания уровня. Необходимо было чтобы понять где именно появлялся бесконечный цикл. Оставил, потому что красиво выглядит )
@@ -207,7 +212,7 @@ Level::Level() //в этом конструкторе находится основная часть алгортима процедур
 			default:
 				break;
 			}
-		} while (sublevelHorizontalLineHeight[0] < Y_SIZE - 3 && generationState != restart);
+		} while (sublevelHorizontalLineHeight[0] < levelHeight - 3 && generationState != restart);
 		Block * block = (Block*)level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()]; //убераю старый выход
 		block->setBlockType(brick, rm);
 		level[level.size() - 1].makeItAngle();
@@ -217,19 +222,27 @@ Level::Level() //в этом конструкторе находится основная часть алгортима процедур
 	{
 		level[i].next = level[i+1].getPointer();
 	}
-	for(int i = 0; i < level.size();i++)
+	SublevelFillingType stype;
+	for(int i = 1; i < level.size();i++)
 	{
 		if(!level[i].isAngle())
 		{
-			level[i].fill(guntrapped_vertical, rm);
+			stype = SublevelFillingType(randomNumber(0, 3));
+			if(stype > 0)
+			{
+				level[i].fill(guntrapped_vertical, rm);
+			}
+			else
+			{
+				level[i].fill(razer, rm);
+			}
+			
 		}
 	}
 	player = new Player((level[0].getWidth() / 2) * COMMON_SPRITE_SIZE, (level[0].getHeight() / 2) * COMMON_SPRITE_SIZE, &level[0], rm);
 	level[0].addContent(player);
 	
-	/*level[0].addContent(new Guntrap((level[0].getWidth() / 2)*COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE, rm, top, &level[0]));
-	level[0].addContent(new Guntrap((level[0].getWidth() / 2)*COMMON_SPRITE_SIZE, (level[0].getHeight()-1) * COMMON_SPRITE_SIZE, rm, down, &level[0]));
-	level[0].addContent(new Guntrap(COMMON_SPRITE_SIZE, (level[0].getHeight() / 2) * COMMON_SPRITE_SIZE, rm, left_, &level[0]));*/
+	
 }
 Sublevel & Level::findSublevel(size_t x, size_t y)
 {

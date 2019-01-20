@@ -129,6 +129,7 @@
     <ClCompile Include="Content.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Guntrap.cpp" />
+    <ClCompile Include="Razer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="Content.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Guntrap.h" />
+    <ClInclude Include="Razer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Player.h" />

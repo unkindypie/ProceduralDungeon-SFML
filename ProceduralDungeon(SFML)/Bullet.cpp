@@ -11,7 +11,7 @@ Bullet::Bullet(float x, float y, int dirX, int dirY, Sublevel * current_sublevel
 	this->y = y;
 	damage = 1;
 	speed = 0.1;
-	health = 1000;
+	hitable = false;
 	//sprite_iterator = rm.loadSprite("images/fire1.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
 	am.addAnimation("fly");
 	am.addFrame("fly", rm, "images/fire1.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
@@ -66,14 +66,15 @@ void Bullet::hitDetection(float elapsedTime)
 			{//провер€ю, не пересекает ли один из пр€моугольников спрайтов подуровн€ пр€моугольник моего спрайта, и если да и тот элемент имеет коллизии, то иду обратно
 				collide = 1;
 			}
-			if (current_sublevel->getMap()[i][j]->getRect().intersects(rect) && current_sublevel->getMap()[i][j]->isHitable())
-			{
-				this->hit(dynamic_cast<Entity*>(current_sublevel->getMap()[i][j])); //при столкновении с другой сущностью наношу ей урон и удал€ю пулю
-				current_sublevel->getMap()[current_sublevel->getHeight() - 1].erase(current_sublevel->getContentIterator(this));
-				delete this;
-			}
 		}
 	}
+	if(damageDealing()) //если пул€ сталкиваетс€ с другой сущностью, то наношу ей урон(damageDealing), эта функци€ вовзращает true в таком случае и € удал€ю пулю
+	{
+		current_sublevel->getMap()[current_sublevel->getHeight() - 1].erase(current_sublevel->getContentIterator(this));
+		delete this;
+		return;
+	}
+	
 	if (x - COMMON_SPRITE_SIZE / 2 - current_sublevel->getX() * COMMON_SPRITE_SIZE + dirX * elapsedTime < 0 && x + COMMON_SPRITE_SIZE / 2 - current_sublevel->getX() * COMMON_SPRITE_SIZE + dirX * elapsedTime > current_sublevel->getWidth() * COMMON_SPRITE_SIZE &&
 		y - COMMON_SPRITE_SIZE / 2 - current_sublevel->getY() * COMMON_SPRITE_SIZE + dirY * elapsedTime < 0 && y + COMMON_SPRITE_SIZE / 2 - current_sublevel->getY() * COMMON_SPRITE_SIZE + dirY * elapsedTime > current_sublevel->getHeight() * COMMON_SPRITE_SIZE)
 	{

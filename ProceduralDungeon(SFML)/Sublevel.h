@@ -8,11 +8,13 @@
 
 using namespace std;
 
-const size_t X_SIZE = 70; //максимальный размер карты по x
-const size_t Y_SIZE = 70; // максимальный размер карты по y
+//const size_t X_SIZE = 70; //максимальный размер карты по x
+//const size_t Y_SIZE = 70; // максимальный размер карты по y
 const size_t MIN_RAND_SIZE = 10; //8 минимальный размер подуровня
 const size_t MAX_RAND_SIZE = 20; //20 максимальный размер подуровня
 const size_t MAX_RAND_LOOP_COUNT = 40; //максимальное количество итераций цикла генерации размеров подуровня
+
+extern int randomNumber(int minNum, int maxNum);
 
 enum LevelGenerationState  //перечисление, отвечающее за попадание в ситуацию бесконечного цикла в конструкторах подуровней. Если такое случается, то весь уровень будет пересоздан заново.
 {
@@ -50,8 +52,10 @@ private:
 	//функция с кучей параметров, необходимоя для процедурной генерации координат проходов подуровня
 	void generateEnterExit(int & coordX, int & coordY, size_t width, size_t height, direction holePosition); //функция генерации координат входа или выхода, удолетворяющих размерам подуровня
 	bool angle = 0;
+	
 public:
-	//vector<Sublevel>::iterator nextSublevelIterator;
+	static size_t X_SIZE;
+	static size_t Y_SIZE;
 	Sublevel * next;
 	Sublevel();
 	~Sublevel();
@@ -83,3 +87,5 @@ public:
 	size_t getExitPosX();
 	size_t getExitPosY();
 };
+size_t Sublevel::X_SIZE;
+size_t Sublevel::Y_SIZE;

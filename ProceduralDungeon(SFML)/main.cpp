@@ -2,13 +2,25 @@
 #include "Level.h"
 #include <SFML/System.hpp>
 #include <iostream>
+
+int WINDOW_WIDTH = 1280;
+int WINDOW_HEIGHT = 720;
+
+//class GameCamera
+//{
+//private:
+//	float x, y;
+//	sf::View view;
+//public:
+//	GameCamera(float x, float y, sf::RenderWindow & win);
+//};
 int main()
 {
 	srand(time(NULL));
-	sf::RenderWindow window(sf::VideoMode(1280, 720), "Dungeon");
+	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Dungeon");
 	sf::View view;
-	view.reset(sf::FloatRect(0, 0, 1280, 720));
-	Level level;
+	view.reset(sf::FloatRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT));
+	Level level(WINDOW_WIDTH / COMMON_SPRITE_SIZE, WINDOW_HEIGHT / COMMON_SPRITE_SIZE);
 	sf::Clock updateClock; 
 	float elapsedTime;
 	size_t updates;
