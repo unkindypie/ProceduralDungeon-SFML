@@ -128,8 +128,10 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Content.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="GameCamera.cpp" />
+    <ClCompile Include="GameInterface.cpp" />
     <ClCompile Include="Guntrap.cpp" />
-    <ClCompile Include="Razer.cpp" />
+    <ClCompile Include="Blade.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
@@ -143,8 +145,10 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Content.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="GameCamera.h" />
+    <ClInclude Include="GameInterface.h" />
     <ClInclude Include="Guntrap.h" />
-    <ClInclude Include="Razer.h" />
+    <ClInclude Include="Blade.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Player.h" />

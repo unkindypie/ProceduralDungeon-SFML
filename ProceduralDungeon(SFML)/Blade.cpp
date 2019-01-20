@@ -1,8 +1,8 @@
-﻿#include "Razer.h"
+﻿#include "Blade.h"
 
 
 
-Razer::Razer(float x, float y, Sublevel * sub, ResourceManager & rm, int dirX, int dirY)
+Blade::Blade(float x, float y, Sublevel * sub, ResourceManager & rm, int dirX, int dirY)
 {
 	this->x = x;
 	this->y = y;
@@ -16,7 +16,7 @@ Razer::Razer(float x, float y, Sublevel * sub, ResourceManager & rm, int dirX, i
 	(*sprite_iterator).second.setOrigin(COMMON_SPRITE_SIZE / 2, COMMON_SPRITE_SIZE / 2);
 	updateRect();
 }
-void Razer::update(float elapsedTime)
+void Blade::update(float elapsedTime)
 {
 	currentRotation += speed*4 * elapsedTime;
 	if(currentRotation > 360)
@@ -26,7 +26,7 @@ void Razer::update(float elapsedTime)
 	(*sprite_iterator).second.setRotation(currentRotation);
 	reflect(elapsedTime);
 }
-void Razer::reflect(float elapsedTime)
+void Blade::reflect(float elapsedTime)
 {
 	elapsedTime *= speed;
 	bool collide = 0;
@@ -80,11 +80,11 @@ void Razer::reflect(float elapsedTime)
 		}
 	}
 }
-void Razer::draw(sf::RenderWindow & win)
+void Blade::draw(sf::RenderWindow & win)
 {
 	sprite_iterator->second.setPosition(x, y);
 	win.draw(sprite_iterator->second);
 }
-Razer::~Razer()
+Blade::~Blade()
 {
 }

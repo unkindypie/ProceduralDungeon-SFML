@@ -1,6 +1,6 @@
 #pragma once
 #include "Entity.h"
-class Razer :
+class Blade :
 	public Entity
 {
 private:
@@ -8,10 +8,10 @@ private:
 	int dirY = -1;
 	int currentRotation = 0;
 public:
-	Razer(float x, float y, Sublevel * sub, ResourceManager & rm, int dirX, int dirY);
+	Blade(float x, float y, Sublevel * sub, ResourceManager & rm, int dirX, int dirY);
 	void update(float elapsedTime);
 	void draw(sf::RenderWindow & win);
 	void reflect(float elapsedTime);
-	~Razer();
+	~Blade();
 };
 

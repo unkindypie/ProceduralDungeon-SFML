@@ -1,6 +1,6 @@
 #include "Sublevel.h"
 #include "Guntrap.h"
-#include "Razer.h"
+#include "Blade.h"
 
 //#include "Player.h"
 int randomNumber(int minNum, int maxNum) {
@@ -389,7 +389,7 @@ void Sublevel::fill(SublevelFillingType ft, ResourceManager & rm)
 				dirY = randomNumber(-1, 1);
 
 			} while (!dirX || !dirY);
-			addContent(new Razer((randomNumber(width/3, width-2)+x)*COMMON_SPRITE_SIZE, (randomNumber(height / 3, height - 2)+y) * COMMON_SPRITE_SIZE, this, rm, dirX, dirY));
+			addContent(new Blade((randomNumber(width/3, width-2)+x)*COMMON_SPRITE_SIZE, (randomNumber(height / 3, height - 2)+y) * COMMON_SPRITE_SIZE, this, rm, dirX, dirY));
 		}
 		break;
 	default:

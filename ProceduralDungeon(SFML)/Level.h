@@ -1,8 +1,5 @@
 #pragma once
 #include "Sublevel.h"
-//#include "Entity.h"
-//#include <windows.h>
-const bool DEBUG_GENERATION_DRAW = false; //отрисовка подуровней во время работы конструктора уровня
 
 //void drawSublevel(Sublevel & sublevel, sf::RenderWindow & win, float elapsedTime)
 //{
@@ -65,6 +62,8 @@ public:
 	Level(size_t levelWidth, size_t levelHeight);
 	Content * player;
 	Sublevel & findSublevel(size_t x, size_t y);
+	int getPlayerTries();
+	ResourceManager & getResourceManager();
 	int levelLenght; //количество подуровней по горизонтали
 	vector<Sublevel> & getLevelMap();
 	void draw(sf::RenderWindow & win);

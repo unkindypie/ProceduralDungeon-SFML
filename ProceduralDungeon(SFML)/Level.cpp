@@ -1,7 +1,7 @@
 #include "Level.h"
 #include "Player.h"
 #include "Guntrap.h"
-#include "Razer.h"
+#include "Blade.h"
 
 Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находится основная часть алгортима процедурной генерации карты. он получился огромезный, но смысла разделять на функции я не вижу, потому что больше это ни где не используется
 {
@@ -24,10 +24,6 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 		//из-за несостыковки по высоте. То есть, в одном столбике создались подуровени с слишком большими высотами, а в другом слишком маленькими. В таком случае конструктор подуровня отправляет
 		// в generationState значение restart и выходит из цикла. По умолчанию переменная равна normal, но потому что это do while цикл отработает один раз.
 	{
-		if (DEBUG_GENERATION_DRAW == true)
-		{
-			system("cls");
-		}
 		state = start; //первым сработает первый кейс в свиче
 		generationState = normal; //ставлю состояние генерации в нормальное
 		lx = 0;
@@ -38,10 +34,6 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 		sublevelHorizontalLineHeight.clear();
 		sub = Sublevel(lx, ly, right_, exit_, generationState, rm); //создаю первую стартовую комнату, в которой будет только выход
 		lenght = 0;
-		if (DEBUG_GENERATION_DRAW) //отрисовка подуровней нагорячую прямо во время создания уровня. Необходимо было чтобы понять где именно появлялся бесконечный цикл. Оставил, потому что красиво выглядит )
-		{
-			//drawSublevel(sub);
-		}
 
 		do //данный цикл необходим для чередования линий из подуровней. То есть вход справа сверху, выход снизу слева и вход слева сверху и выход справа снизу
 			//цикл необходим из-за того, что неизвестно сколько именно подуровней может поместится по высоте т.е. не известно количество чередований rightEnterLeftExit и leftEnterRightExit
@@ -54,10 +46,6 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 				while (lx < levelWidth - 3)
 				{
 					level.push_back(sub);
-					if (DEBUG_GENERATION_DRAW) //отрисовка подуровней нагорячую прямо во время создания уровня. Необходимо было чтобы понять где именно появлялся бесконечный цикл. Оставил, потому что красиво выглядит )
-					{
-						//drawSublevel(sub);
-					}
 					sublevelHorizontalLineHeight.push_back(sub.getHeight()); //заполняю вектор высот
 					lx += sub.getWidth();
 					enterX = sub.getExitPosX(); 
@@ -82,10 +70,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 
 				level[lenght - 1].addExit(down, rm); //теперь делаю новый выход уже вниз
 				level[lenght - 1].makeItAngle();
-				if(DEBUG_GENERATION_DRAW) //отрисовка подуровней нагорячую прямо во время создания уровня. Необходимо было чтобы понять где именно появлялся бесконечный цикл. Оставил, потому что красиво выглядит )
-				{
-					//drawSublevel(level[lenght - 1]);
-				}
+			
 				state = rightEnterLeftExit;
 				enterX = level[lenght - 1].getExitPosX();
 				enterY = level[lenght - 1].getExitPosY();
@@ -99,10 +84,6 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 				enterX = sub.getExitPosX(); //получаю координаты выхода из этого подуровня
 				enterY = sub.getExitPosY();
 				//level.insert(level.begin() + lenght, sub);
-				if (DEBUG_GENERATION_DRAW) //отрисовка подуровней нагорячую прямо во время создания уровня. Необходимо было чтобы понять где именно появлялся бесконечный цикл. Оставил, потому что красиво выглядит )
-				{
-					//drawSublevel(sub);
-				}
 				level.push_back(sub);
 				for (int i = lenght - 2; i >= 0; i--)
 				{
@@ -122,10 +103,6 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 					sublevelHorizontalLineHeight[i] += sub.getHeight(); //увеличиваю высоту горизонтали подуровней за счет высоты нового подуровня. Теперь это будет новым y для следующего подуровня
 					sub.addExit(left_, rm); //добавляю выход в новый подуровень
 				//	level.insert(level.begin() + lenght + 1, sub); //добавляю новый подуровень в вектор
-					if (DEBUG_GENERATION_DRAW) //отрисовка подуровней нагорячую прямо во время создания уровня. Необходимо было чтобы понять где именно появлялся бесконечный цикл. Оставил, потому что красиво выглядит )
-					{
-						//drawSublevel(sub);
-					}
 					level.push_back(sub);
 				}
 				if (generationState == restart)
@@ -143,10 +120,6 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 				enterX = level[level.size() - 1].getExitPosX(); //получаю координаты выхода из этого подуровня
 				enterY = level[level.size() - 1].getExitPosY();
 				state = leftEnterRightExit;//изменяю состояние линии подуровней на начало слева
-				if (DEBUG_GENERATION_DRAW) //отрисовка подуровней нагорячую прямо во время создания уровня. Необходимо было чтобы понять где именно появлялся бесконечный цикл. Оставил, потому что красиво выглядит )
-				{
-					//drawSublevel(level[level.size() - 1]);
-				}
 			}
 				break;
 			case leftEnterRightExit:
@@ -156,10 +129,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 				sub.addExit(right_, rm); //добавляю выход в левую стенку подуровня
 				//level.insert(level.begin() + lenght, sub);
 				level.push_back(sub);
-				if (DEBUG_GENERATION_DRAW) //отрисовка подуровней нагорячую прямо во время создания уровня. Необходимо было чтобы понять где именно появлялся бесконечный цикл. Оставил, потому что красиво выглядит )
-				{
-					//drawSublevel(sub);
-				}
+
 				for (int i = 1; i < lenght; i++)
 				{
 					sub.getExitGlobalCoords(enterX, enterY); //получаю координаты выхода из прошлого подуровня в масштабе всего уровня(то есть, не относительно начала подуровня)
@@ -181,10 +151,6 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 					enterX = sub.getExitPosX(); //получаю координаты выхода из этого подуровня
 					enterY = sub.getExitPosY();
 					//level.insert(level.begin() + lenght, sub); //добавляю новый подуровень в вектор
-					if (DEBUG_GENERATION_DRAW) //отрисовка подуровней нагорячую прямо во время создания уровня. Необходимо было чтобы понять где именно появлялся бесконечный цикл. Оставил, потому что красиво выглядит )
-					{
-						//drawSublevel(sub);
-					}
 					level.push_back(sub);
 				}
 				if (generationState == restart)
@@ -203,10 +169,6 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 				enterX = level[level.size() - 1].getExitPosX(); //получаю координаты выхода из этого подуровня
 				enterY = level[level.size() - 1].getExitPosY();
 				state = rightEnterLeftExit;
-				if (DEBUG_GENERATION_DRAW) //отрисовка подуровней нагорячую прямо во время создания уровня. Необходимо было чтобы понять где именно появлялся бесконечный цикл. Оставил, потому что красиво выглядит )
-				{
-					//drawSublevel(level[level.size() - 1]);
-				}
 			}
 				break;
 			default:
@@ -259,6 +221,14 @@ Sublevel & Level::findSublevel(size_t x, size_t y)
 			}
 		}
 	}
+}
+ResourceManager & Level::getResourceManager()
+{
+	return rm;
+}
+int Level::getPlayerTries()
+{
+	return dynamic_cast<Player*>(player)->getTries();
 }
 vector<Sublevel> & Level::getLevelMap()
 {

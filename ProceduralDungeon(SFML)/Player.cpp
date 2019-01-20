@@ -1,11 +1,11 @@
 #include "Player.h"
 #include <windows.h>
-Player::Player(float x, float y, Sublevel * sub, ResourceManager & rm1) /*: Player()*/ : rm(rm1)
+Player::Player(float x, float y, Sublevel * sub, ResourceManager & rm1) : rm(rm1)
 {
 	dirX = 0;
 	dirY = -1;
-	health = 5;
-	trys = 5;
+	health = 1;
+	tries = 10;
 	speed = 0.1;
 	currentTime = 0;
 	shootingCooldown = 300;
@@ -87,14 +87,14 @@ void Player::decreaseHealth(float value)
 	health -= value;
 
 	if (health <= 0) {
-		trys--;
-		if(trys < 1)
+		tries--;
+		if(tries < 1)
 		{
 			//gameover		
 		}
 		else
 		{
-			health = 5;
+			health = 1;
 			float newXCord, newYCord;
 			current_sublevel->getEnterGlobalCoords(newXCord, newYCord);
 			x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2;
@@ -122,6 +122,12 @@ void Player::draw(sf::RenderWindow & win)
 	}
 	
 }
+
+int Player::getTries()
+{
+	return tries;
+}
+
 Player::~Player()
 {
 }

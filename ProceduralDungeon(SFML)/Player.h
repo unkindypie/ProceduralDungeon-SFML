@@ -12,7 +12,7 @@ protected:
 	int dirX, dirY;
 	float currentTime;
 	float shootingCooldown;
-	int trys;
+	int tries;
 	ResourceManager & rm;
 public:
 	Player(float x, float y, Sublevel * sub, ResourceManager & rm);
@@ -20,6 +20,7 @@ public:
 	void movement(float elapsedTime);
 	void update(float elapsedTime);
 	void shoot();
+	int getTries();
 	void decreaseHealth(float value);
 	~Player();
 };
