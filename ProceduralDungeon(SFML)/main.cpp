@@ -16,12 +16,12 @@ int main()
 	sf::Clock updateClock; //класс счетчик времени, позволяет засекать и сбрасывать насчитанное время.
 
 	float elapsedTime;// здесь хранится прошеднее время
-	float nextUpdate = 1.f/40.f; //это количество обновлений игрового цикла в герцах
+	float nextUpdate = 1.f/30.f; //это количество обновлений игрового цикла в герцах
 	sf::Event event; //sfml класс событие, позволяет обрабатывать много чего, в данном случае я использую его для обработки закрытия окна
 	while (window.isOpen())
 	{
-		elapsedTime = updateClock.getElapsedTime().asMicroseconds()/800;//получаю насчи
-		elapsedTime = updateClock.getElapsedTime().asSeconds();
+		elapsedTime = updateClock.getElapsedTime().asMicroseconds() / 800;//получаю насчи
+		//elapsedTime = updateClock.getElapsedTime().asSeconds();
 		if(elapsedTime >= nextUpdate)
 		{
 			
@@ -36,12 +36,13 @@ int main()
 			cam.update(elapsedTime);
 			interf.update(cam, level.getPlayerTries());
 
+			level.draw(window);
+			interf.draw(window);
+			window.display();
 			
 			updateClock.restart();
 		}
-		level.draw(window);
-		interf.draw(window);
-		window.display();
+	
 	}
 	return 0;
 }

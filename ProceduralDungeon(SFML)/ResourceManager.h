@@ -10,9 +10,10 @@ class ResourceManager
 private:
 	map<string, sf::Texture> textures; 
 	map<string, sf::Sprite> sprites;
+	void loadTexture(string path);
 public:
 	ResourceManager();
-	void loadTexture(string path);
+	
 	map<string, sf::Sprite>::iterator loadSprite(string path, sf::IntRect rect);
 	~ResourceManager();
 };

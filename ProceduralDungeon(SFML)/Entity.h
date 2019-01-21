@@ -5,12 +5,6 @@
 #include "AnimationManager.h"
 //#include "Level.h"
 
-
-//enum EntityType
-//{
-//	invisible, cross, snake, v_arrow_up, v_arrow_down, v_arrow_right, v_arrow_left 
-//};
-
 class Entity : public Content //класс сущность. Представляет собой объект с возможностью движения по подуровню, смены подуровня, получения и нанесения урона
 {
 protected:
@@ -29,4 +23,4 @@ public:
 	Entity();
 	~Entity();
 };
-float Entity::speedMultiplier = 150;
+float Entity::speedMultiplier = 10;
