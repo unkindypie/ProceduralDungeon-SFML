@@ -29,4 +29,4 @@ public:
 	Entity();
 	~Entity();
 };
-float Entity::speedMultiplier = 10;
+float Entity::speedMultiplier = 150;
