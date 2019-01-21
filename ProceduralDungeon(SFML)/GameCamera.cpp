@@ -35,17 +35,17 @@ void GameCamera::move(float x, float y, float elapasedTime)
 {
 	if(this->x < x)
 	{
-		this->x += elapasedTime * 0.15;
+		this->x += elapasedTime * 0.4;
 		view.move(this->x, this->y);
 	}
 	if (this->x > x)
 	{
-		this->x -= elapasedTime * 0.15;
+		this->x -= elapasedTime * 0.4;
 		view.move(this->x, this->y);
 	}
 	if (this->y < y)
 	{
-		this->y += elapasedTime * 0.15;
+		this->y += elapasedTime * 0.4;
 		view.move(this->x, this->y);
 	}
 	

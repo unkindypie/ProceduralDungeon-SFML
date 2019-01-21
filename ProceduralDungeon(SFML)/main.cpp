@@ -16,33 +16,30 @@ int main()
 	sf::Clock updateClock; 
 
 	float elapsedTime;
-
-
+	float nextUpdate = 1.f/40.f;
+	sf::Event event;
 	while (window.isOpen())
 	{
-		
-		
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
 		elapsedTime = updateClock.getElapsedTime().asMicroseconds() / 800;
-		if (elapsedTime > 10) {
-			elapsedTime = 10;
+		if(elapsedTime >= nextUpdate)
+		{
+			
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+					window.close();
+			}
+			window.clear();
+
+			level.update(elapsedTime);
+			cam.update(elapsedTime);
+			interf.update(cam, level.getPlayerTries());
+
+			level.draw(window);
+			interf.draw(window);
+			window.display();
+			updateClock.restart();
 		}
-		window.clear();
-
-		level.update(elapsedTime);
-		updateClock.restart();
-		cam.update(elapsedTime);
-		interf.update(cam, level.getPlayerTries());
-
-		level.draw(window);
-		interf.draw(window);
-		window.display();
-		
 	}
 	return 0;
 }

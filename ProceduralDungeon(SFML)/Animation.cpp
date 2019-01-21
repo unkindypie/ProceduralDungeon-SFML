@@ -23,7 +23,7 @@ void Animation::setAngle(int anlge)
 }
 void Animation::tick(float elapsedTime)
 {
-	currentFrame += elapsedTime * 0.01;//двигаю текущий кадр с привязкой ко времени
+	currentFrame += elapsedTime * 0.1;//двигаю текущий кадр с привязкой ко времени
 	if (currentFrame >= frames.size())  //в случае, если происходит выход за размер массива, то возвращаюсь в начало.(анимации цикличны)
 	{
 		currentFrame = 0;

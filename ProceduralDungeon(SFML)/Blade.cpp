@@ -6,7 +6,7 @@ Blade::Blade(float x, float y, Sublevel * sub, ResourceManager & rm, int dirX, i
 {
 	this->x = x;
 	this->y = y;
-	speed = 0.3;
+	speed = 0.3 * speedMultiplier;
 	health = 20;
 	damage = 1;
 	this->dirX = dirX;

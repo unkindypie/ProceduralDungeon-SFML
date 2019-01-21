@@ -6,7 +6,7 @@ Player::Player(float x, float y, Sublevel * sub, ResourceManager & rm1) : rm(rm1
 	dirY = -1;
 	health = 1;
 	tries = 10;
-	speed = 0.1;
+	speed = 0.1 * speedMultiplier;
 	currentTime = 0;
 	shootingCooldown = 300;
 	current_sublevel = sub;

@@ -15,8 +15,8 @@ protected:
 	size_t levelWidth;
 public:
 	Level(size_t levelWidth, size_t levelHeight);
-	Content * player; //указатель на игрока, нужен для удобного доступа к его координатам извне
-	int getPlayerTries();//функция получения попыток(жизней игрока)
+	Content * player; 
+	int getPlayerTries();
 	ResourceManager & getResourceManager();
 	int levelLenght; //количество подуровней по горизонтали
 	vector<Sublevel> & getLevelMap();

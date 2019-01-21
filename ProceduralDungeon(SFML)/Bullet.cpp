@@ -10,7 +10,7 @@ Bullet::Bullet(float x, float y, int dirX, int dirY, Sublevel * current_sublevel
 	this->x = x;
 	this->y = y;
 	damage = 1;
-	speed = 0.1;
+	speed = 0.1 * speedMultiplier;
 	hitable = false;
 	//sprite_iterator = rm.loadSprite("images/fire1.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
 	am.addAnimation("fly");

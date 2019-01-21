@@ -2,8 +2,6 @@
 #include <vector>
 #include "Block.h"
 
-
-
 const size_t MIN_RAND_SIZE = 10; //8 минимальный размер подуровня
 const size_t MAX_RAND_SIZE = 20; //20 максимальный размер подуровня
 const size_t MAX_RAND_LOOP_COUNT = 40; //максимальное количество итераций цикла генерации размеров подуровня

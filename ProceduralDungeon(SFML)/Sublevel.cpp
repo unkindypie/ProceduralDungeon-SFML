@@ -2,7 +2,6 @@
 #include "Guntrap.h"
 #include "Blade.h"
 
-//#include "Player.h"
 int randomNumber(int minNum, int maxNum) {
 	int result;
 	int lowNum = 0;

@@ -24,7 +24,6 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 		//из-за несостыковки по высоте. То есть, в одном столбике создались подуровени с слишком большими высотами, а в другом слишком маленькими. В таком случае конструктор подуровня отправляет
 		// в generationState значение restart и выходит из цикла. По умолчанию переменная равна normal, но потому что это do while цикл отработает один раз.
 	{
-		
 		state = start; //первым сработает первый кейс в свиче
 		generationState = normal; //ставлю состояние генерации в нормальное
 		lx = 0;
@@ -35,7 +34,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 		sublevelHorizontalLineHeight.clear();
 		sub = Sublevel(lx, ly, right_, exit_, generationState, rm); //создаю первую стартовую комнату, в которой будет только выход
 		lenght = 0;
-		try {
+
 		do //данный цикл необходим для чередования линий из подуровней. То есть вход справа сверху, выход снизу слева и вход слева сверху и выход справа снизу
 			//цикл необходим из-за того, что неизвестно сколько именно подуровней может поместится по высоте т.е. не известно количество чередований rightEnterLeftExit и leftEnterRightExit
 			//start отработает один раз и больше в свич в него не зайдет
@@ -176,11 +175,8 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 		dynamic_cast<Block*>(level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()])->setBlockType(brick, rm);
 
 		level[level.size() - 1].makeItAngle();
-		}
-		catch(LevelGenerationState)
-		{
-			generationState = restart;
-		}
+
+
 	} while (generationState == restart);
 
 	for(int i = 0; i < level.size()-1; i++)

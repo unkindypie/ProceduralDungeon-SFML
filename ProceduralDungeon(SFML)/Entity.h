@@ -17,6 +17,7 @@ protected:
 	float health;
 	float damage;
 	double speed;
+	static float speedMultiplier;
 	Sublevel * current_sublevel;
 	AnimationManager am;
 public:
@@ -28,4 +29,4 @@ public:
 	Entity();
 	~Entity();
 };
-
+float Entity::speedMultiplier = 10;
