@@ -1,5 +1,4 @@
 #include "Block.h"
-//#include <windows.h>
 
 
 Block::Block()
@@ -9,26 +8,16 @@ Block::Block()
 }
 void Block::draw(sf::RenderWindow & win)
 {
-	//drawBlock(*this);
 	if(type != none)
 	{
 		sprite_iterator->second.setPosition(x, y);
-	/*	sf::Texture texture;
-		texture.loadFromFile("images/blocks.png");
-		sf::Sprite tmp(texture);
-		tmp.setTextureRect(sf::IntRect(0, 0, 64, 64));
-		tmp.setPosition(x * 64, y * 64);*/
 		win.draw(sprite_iterator->second);
 		sprite_iterator->second.setPosition(0, 0);
 	}
 }
 void Block::update(float elapsedTime)
 {
-	if(!isRendered)
-	{
-		//draw();
-		//isRendered = 1;
-	}
+
 }
 void Block::setBlockType(BlockType type, ResourceManager & rm)
 {

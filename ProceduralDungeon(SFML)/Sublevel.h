@@ -48,13 +48,14 @@ private:
 public:
 	static size_t X_SIZE;
 	static size_t Y_SIZE;
-	Sublevel * next;
+	Sublevel * next = NULL;
 	Sublevel();
 	~Sublevel();
+	//произвольная ширина
 	Sublevel(size_t x, size_t y, int lastWidth, size_t holeCoordX, size_t holeCoordY, bool holeType, LevelGenerationState & gState, HoleDestenation holeDestenation, ResourceManager & rm); //конструктор подуровня с произвольной высотой
-	//конструкторы с предустановленными координатами входа/выхода
+	//конструкторы с предустановленными координатами входа/выхода, произвольными высотой и шириной
 	Sublevel(size_t x, size_t y, size_t holeCoordX, size_t holeCoordY, bool holeTyp, LevelGenerationState & gStatee, ResourceManager & rm); //конструктор для создания подуровня с отверствием с одной стороны и произвольными размерами(holeType = 0 - вход, 1 - выход)
-	//конструкторы с произвольными координатами входа/выхода
+	//конструкторы с произвольными координатами входа/выхода, шириной и высотой.
 	Sublevel(size_t x, size_t y, direction holePosition, holeMode mode, LevelGenerationState & gState, ResourceManager & rm); //конструктор подуровня с произвольной координатой отверстия или отверстий(зависит от mode)
 	vector<vector<Content*>> & getMap();
 	void addExit(direction holePosition, ResourceManager & rm); //функция для создания выхода в уже созданном подуровне
@@ -64,7 +65,6 @@ public:
 	void getEnterGlobalCoords(float & x, float & y); //функция для получения глобальных координат выхода(в классе хранятся координаты относительно начала)
 	vector<Content*>::iterator getContentIterator(Content * cont); //возвращает итератор на элемент в векторе. Нужен для поиска и удаления элемента во время вызова из самого элемента
 	void addContent(Content * c); //добавление элемента в вектор подуровня(в конец)
-	Sublevel * getPointer();
 	void makeItAngle();
 	bool isAngle();
 	void fill(SublevelFillingType ft, ResourceManager & rm);

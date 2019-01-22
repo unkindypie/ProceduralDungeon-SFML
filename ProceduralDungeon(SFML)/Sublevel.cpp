@@ -24,7 +24,14 @@ Sublevel::Sublevel()
 }
 Sublevel::~Sublevel()
 {
-
+	//for(int i = 0; i < map.size();i++)
+	//{
+	//	for(int j = 0; j < map[i].size(); j++)
+	//	{
+	//		delete map[i][j];
+	//		
+	//	}
+	//}
 }
 Sublevel::Sublevel(size_t x, size_t y, size_t holeCoordX, size_t holeCoordY, bool holeType, LevelGenerationState & gState, ResourceManager & rm)  //конструктор для создания подуровня с отверствием с одной стороны(holeType = 0 - вход, 1 - выход)
 {
@@ -438,8 +445,4 @@ size_t Sublevel::getExitPosY()
 vector<vector<Content*>> & Sublevel::getMap()
 {
 	return map;
-}
-Sublevel * Sublevel::getPointer()
-{
-	return this;
 }

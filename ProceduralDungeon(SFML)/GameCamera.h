@@ -3,6 +3,7 @@
 class GameCamera
 {
 	float x, y;
+	float speed;
 	Content * target;
 	sf::RenderWindow & win;
 	sf::View view;

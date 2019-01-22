@@ -7,8 +7,8 @@ Player::Player(float x, float y, Sublevel * sub, ResourceManager & rm1) : rm(rm1
 	health = 1;
 	tries = 10;
 	speed = 0.1 * speedMultiplier;
-	currentTime = 0;
-	shootingCooldown = 300;
+	//currentTime = 0;
+	//shootingCooldown = 300;
 	current_sublevel = sub;
 	this->x = x;
 	this->y = y;
@@ -24,9 +24,13 @@ Player::Player(float x, float y, Sublevel * sub, ResourceManager & rm1) : rm(rm1
 	(*sprite_iterator).second.setOrigin(COMMON_SPRITE_SIZE / 2, COMMON_SPRITE_SIZE / 2);
 	updateRect();
 }
+ResourceManager & Player::getResourceManager()
+{
+	return rm;
+}
 void Player::shoot()
 {
-	current_sublevel->addContent(new Bullet(x /*- (dirX * COMMON_SPRITE_SIZE)*/, y /*- (dirY * COMMON_SPRITE_SIZE)*/, dirX, dirY, current_sublevel, rm));
+	current_sublevel->addContent(new Bullet(x, y, dirX, dirY, current_sublevel, rm));
 }
 void Player::movement(float elapsedTime)
 {
@@ -90,7 +94,7 @@ void Player::decreaseHealth(float value)
 		tries--;
 		if(tries < 1)
 		{
-			//gameover		
+			gameOver = true;
 		}
 		else
 		{
@@ -106,13 +110,17 @@ void Player::decreaseHealth(float value)
 }
 void Player::update(float elapsedTime)
 {
+	if(current_sublevel->next == NULL)
+	{
+		levelPassed = true;
+	}
 	if(health <= 0)
 	{
 		//delete this;
 		return;
 	}
 	movement(elapsedTime);
-	currentTime += elapsedTime;
+	//currentTime += elapsedTime;
 }
 void Player::draw(sf::RenderWindow & win)
 {
@@ -123,7 +131,14 @@ void Player::draw(sf::RenderWindow & win)
 	}
 	
 }
-
+bool Player::isGameOver()
+{
+	return gameOver;
+}
+bool Player::isLevelPassed()
+{
+	return levelPassed;
+}
 int Player::getTries()
 {
 	return tries;

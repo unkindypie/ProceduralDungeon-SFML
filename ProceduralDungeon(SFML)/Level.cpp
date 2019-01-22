@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Guntrap.h"
 #include "Blade.h"
-
+Level::Level(){}
 Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находится основная часть алгортима процедурной генерации карты. он получился огромезный, но смысла разделять на функции я не вижу, потому что больше это ни где не используется
 {
 	Sublevel::X_SIZE = levelHeight;
@@ -181,7 +181,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 
 	for(int i = 0; i < level.size()-1; i++)
 	{
-		level[i].next = level[i+1].getPointer();
+		level[i].next = &level[i + 1];
 	}
 	SublevelFillingType stype;
 	for(int i = 1; i < level.size();i++)
@@ -245,6 +245,14 @@ void Level::update(float elapsedTime)
 			}
 		}
 	}
+}
+bool Level::isGameOver()
+{
+	return dynamic_cast<Player*>(player)->isGameOver();
+}
+bool Level::isLevelPassed()
+{
+	return dynamic_cast<Player*>(player)->isLevelPassed();
 }
 Level::~Level()
 {

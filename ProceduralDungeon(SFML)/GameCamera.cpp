@@ -4,6 +4,7 @@
 GameCamera::GameCamera(Content * target, sf::RenderWindow & win) : win(win)
 {
 	this->target = target;
+	speed = 1;
 	x = win.getSize().x / 2;
 	y = win.getSize().y / 2;
 	view.reset(sf::FloatRect(x, y, win.getSize().x, win.getSize().y));
@@ -35,20 +36,25 @@ void GameCamera::move(float x, float y, float elapasedTime)
 {
 	if(this->x < x)
 	{
-		this->x += elapasedTime * 0.4;
+		this->x += elapasedTime * 0.5 * speed;
 		view.move(this->x, this->y);
 	}
 	if (this->x > x)
 	{
-		this->x -= elapasedTime * 0.4;
+		this->x -= elapasedTime * 0.5 * speed;
 		view.move(this->x, this->y);
 	}
 	if (this->y < y)
 	{
-		this->y += elapasedTime * 0.4;
+		this->y += elapasedTime * 0.5 * speed;
 		view.move(this->x, this->y);
 	}
 	
+}
+void GameCamera::deathcam()//красиво пролетаю по уровню под конец
+{
+	speed *= 1.1;
+	target->setY(8000);
 }
 float GameCamera::getX()
 {

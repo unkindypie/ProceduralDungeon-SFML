@@ -10,8 +10,10 @@ class Player :
 {
 protected:
 	int dirX, dirY;
-	float currentTime;
-	float shootingCooldown;
+//	float currentTime;
+//	float shootingCooldown;
+	bool gameOver = 0;
+	bool levelPassed = 0;
 	int tries;
 	ResourceManager & rm;
 public:
@@ -19,6 +21,9 @@ public:
 	void draw(sf::RenderWindow & win);
 	void movement(float elapsedTime);
 	void update(float elapsedTime);
+	ResourceManager & getResourceManager();
+	bool isGameOver();
+	bool isLevelPassed();
 	void shoot();
 	int getTries();
 	void decreaseHealth(float value);

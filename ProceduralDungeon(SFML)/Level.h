@@ -14,12 +14,14 @@ protected:
 	size_t levelHeight; //примерная высота и ширина уровня
 	size_t levelWidth;
 public:
+	Level();
 	Level(size_t levelWidth, size_t levelHeight);
 	Content * player; 
 	int getPlayerTries();
 	ResourceManager & getResourceManager();
-	int levelLenght; //количество подуровней по горизонтали
 	vector<Sublevel> & getLevelMap();
+	bool isGameOver();
+	bool isLevelPassed();
 	void draw(sf::RenderWindow & win);
 	void update(float elapsedTime);
 	~Level();

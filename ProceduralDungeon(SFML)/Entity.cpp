@@ -1,5 +1,6 @@
 ﻿#include "Entity.h"
-
+#include "Player.h"
+#include <string>
 void Entity::move(float dirX, float dirY, float elapsedTime)
 {
 	elapsedTime *= speed;
@@ -15,6 +16,11 @@ void Entity::move(float dirX, float dirY, float elapsedTime)
 		x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2;
 		y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2;
 		updateRect();
+		//if(typeid(this).name() == "Player *")
+		//{
+		//	dynamic_cast<Block*>(current_sublevel->getMap()[current_sublevel->getEnterPosY()][current_sublevel->getExitPosX()])->setBlockType(brick, dynamic_cast<Player*>(this)->getResourceManager());
+		//}
+		
 		current_sublevel->next->getMap()[current_sublevel->next->getHeight() - 1].push_back(std::move(this));
 		current_sublevel = current_sublevel->next;
 		return;
