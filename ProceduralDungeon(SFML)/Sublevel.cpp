@@ -1,6 +1,7 @@
 #include "Sublevel.h"
 #include "Guntrap.h"
 #include "Blade.h"
+#include "Player.h"
 
 int randomNumber(int minNum, int maxNum) {
 	int result;
@@ -33,7 +34,7 @@ Sublevel::~Sublevel()
 	//	}
 	//}
 }
-Sublevel::Sublevel(size_t x, size_t y, size_t holeCoordX, size_t holeCoordY, bool holeType, LevelGenerationState & gState, ResourceManager & rm)  //конструктор для создания подуровня с отверствием с одной стороны(holeType = 0 - вход, 1 - выход)
+Sublevel::Sublevel(size_t x, size_t y, size_t holeCoordX, size_t holeCoordY, bool holeType, LevelGenerationState & gState, ResourceManager & rm) /*: rm(rm) */ //конструктор для создания подуровня с отверствием с одной стороны(holeType = 0 - вход, 1 - выход)
 {
 	bool doesHoleExist = 0;
 	size_t iterationsCounter = 0;
@@ -105,7 +106,7 @@ Sublevel::Sublevel(size_t x, size_t y, size_t holeCoordX, size_t holeCoordY, boo
 		}
 	}
 }
-Sublevel::Sublevel(size_t x, size_t y, int lastWidth, size_t holeCoordX, size_t holeCoordY, bool holeType, LevelGenerationState & gState, HoleDestenation holeDestenation, ResourceManager & rm) //фиксированая ширина и координата входа
+Sublevel::Sublevel(size_t x, size_t y, int lastWidth, size_t holeCoordX, size_t holeCoordY, bool holeType, LevelGenerationState & gState, HoleDestenation holeDestenation, ResourceManager & rm) /*: rm(rm)*///фиксированая ширина и координата входа
 {
 	bool doesHoleExist = 0; //в случае, если не получилось добавить проход, то эта переменная равна нулю. Пока она ноль, цикл будет пересоздавать подуровень
 
@@ -213,7 +214,7 @@ Sublevel::Sublevel(size_t x, size_t y, int lastWidth, size_t holeCoordX, size_t 
 }
 
 
-Sublevel::Sublevel(size_t x, size_t y, direction holePosition, holeMode mode, LevelGenerationState & gState, ResourceManager & rm) //конструктор для создания подуровня с отверствиями(holeType = 0 - вход, 1 - выход)
+Sublevel::Sublevel(size_t x, size_t y, direction holePosition, holeMode mode, LevelGenerationState & gState, ResourceManager & rm) /*: rm(rm)*/ //конструктор для создания подуровня с отверствиями(holeType = 0 - вход, 1 - выход)
 {
 	this->x = x;
 	this->y = y;
@@ -279,7 +280,7 @@ Sublevel::Sublevel(size_t x, size_t y, direction holePosition, holeMode mode, Le
 		}
 	}
 }
-void Sublevel::generateEnterExit(int & coordX, int & coordY, size_t width, size_t height, direction holePosition) //функция генерации координат проходов конкретно в массиве(без учета координат отрисовки на экран)
+void Sublevel::generateEnterExit(int & coordX, int & coordY, size_t width, size_t height, direction holePosition)//функция генерации координат проходов конкретно в массиве(без учета координат отрисовки на экран)
 {
 	switch (holePosition) //от этого свича зависит позиция
 	{
@@ -401,6 +402,18 @@ void Sublevel::fill(SublevelFillingType ft, ResourceManager & rm)
 	default:
 		break;
 	}
+}
+//Sublevel & Sublevel::operator =(const Sublevel & sub)
+//{
+//
+//}
+void Sublevel::addPlayerToEnter(ResourceManager & rm)
+{
+	float newXCord, newYCord;
+	this->getEnterGlobalCoords(newXCord, newYCord);
+	int x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2;
+	int y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2;
+	map[height - 1].push_back(new Player(x, y, this, rm));
 }
 sf::FloatRect Sublevel::getExitRect()
 {

@@ -8,9 +8,11 @@ class GameCamera
 	sf::RenderWindow & win;
 	sf::View view;
 public:
+
 	GameCamera(Content * target, sf::RenderWindow & win);
 	void move(float x, float y, float elapasedTime);
 	void update(float elapasedTime);
+	Content * getTarget();
 	float getX();
 	float getY();
 	void deathcam();

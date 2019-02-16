@@ -3,6 +3,8 @@
 #include <map>
 #include <string>
 #include <iterator>
+//sf::Clock globalClock;
+//int plUpdates = 0;
 using namespace std;
 
 class ResourceManager

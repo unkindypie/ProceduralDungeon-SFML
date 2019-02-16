@@ -33,6 +33,7 @@ class Sublevel
 private:
 	size_t x, y; //координаты подуровня в уровне
 	size_t height, width; //высота и ширины подуровня
+
 	int enterPosX = -1; //координаты точек входа и выхода
 	int enterPosY = -1; // -1 взята как координата, которой не может быть на карте. Дальше это нужно в алгоритме генерации проходов
 	int exitPosX = -1;
@@ -42,6 +43,7 @@ private:
 	SublevelFillingType fillingType;//тип наполнения подуровня
 	vector<vector<Content*>> map;//двумерный массив, хрянищий все блоки подуровня, представляет собой полиморфный кластер. Вот такие умные слова я знаю.
 	//функция с кучей параметров, необходимоя для процедурной генерации координат проходов подуровня
+	//ResourceManager *& rm;
 	void generateEnterExit(int & coordX, int & coordY, size_t width, size_t height, direction holePosition); //функция генерации координат входа или выхода, удолетворяющих размерам подуровня
 	bool angle = 0;
 	
@@ -49,6 +51,7 @@ public:
 	static size_t X_SIZE;
 	static size_t Y_SIZE;
 	Sublevel * next = NULL;
+	Sublevel * prev = NULL;
 	Sublevel();
 	~Sublevel();
 	//произвольная ширина
@@ -78,6 +81,8 @@ public:
 	size_t getEnterPosY();
 	size_t getExitPosX();
 	size_t getExitPosY();
+	void addPlayerToEnter(ResourceManager & rm);
+	//Sublevel & operator =(const Sublevel & sub);
 };
 size_t Sublevel::X_SIZE;
 size_t Sublevel::Y_SIZE;

@@ -1,17 +1,19 @@
 #include "Player.h"
 #include <windows.h>
+#include <iostream>
+
 Player::Player(float x, float y, Sublevel * sub, ResourceManager & rm1) : rm(rm1)
 {
 	dirX = 0;
 	dirY = -1;
 	health = 1;
 	tries = 10;
-	speed = 0.1 * speedMultiplier;
+	speed = 0.3 * speedMultiplier;
 	//currentTime = 0;
 	//shootingCooldown = 300;
 	current_sublevel = sub;
-	this->x = x;
-	this->y = y;
+	this->x = sub->getX() * COMMON_SPRITE_SIZE + x;
+	this->y = sub->getY() * COMMON_SPRITE_SIZE + y;
 	this->rm = rm;
 	//sprite_iterator = rm.loadSprite("images/player.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
 	am.addAnimation("stand");
@@ -110,16 +112,25 @@ void Player::decreaseHealth(float value)
 }
 void Player::update(float elapsedTime)
 {
-	if(current_sublevel->next == NULL)
+	if (current_sublevel->next == NULL)
 	{
 		levelPassed = true;
 	}
-	if(health <= 0)
+	if (health <= 0)
 	{
 		//delete this;
 		return;
 	}
 	movement(elapsedTime);
+	
+	//if(globalClock.getElapsedTime().asSeconds() >= 1) //причина бага ускорени€ находитс€ где-то здесь. — каждыи проходом через вход/выход количество обновлений возрастает в 2 раза от изначального(30)
+	//{
+	//	cout << plUpdates << endl;
+	//	plUpdates = 0;
+	//	globalClock.restart();
+	//	return;
+	//}
+	//plUpdates++;
 	//currentTime += elapsedTime;
 }
 void Player::draw(sf::RenderWindow & win)

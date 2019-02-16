@@ -1,6 +1,6 @@
 #include "GameInterface.h"
-
-
+#include <sstream>;
+#include "Entity.h"
 
 GameInterface::GameInterface(ResourceManager & rm, GameCamera & cam, float windowHeight, float windowWidth, int quantityOfHearts)
 {
@@ -14,6 +14,11 @@ GameInterface::GameInterface(ResourceManager & rm, GameCamera & cam, float windo
 	this->windowHeight = windowHeight;
 	this->windowWidth = windowWidth;
 	this->quantityOfHearts = quantityOfHearts;
+
+	ostringstream ss;
+	ss << dynamic_cast<Entity*>(cam.getTarget())->getSpeed();
+	playerSpeed = ss.str();
+	
 }
 
 void GameInterface::draw(sf::RenderWindow & win)
@@ -35,6 +40,14 @@ void GameInterface::draw(sf::RenderWindow & win)
 			(*healthbar).second.setPosition(x - (COMMON_SPRITE_SIZE * i), y);
 			win.draw((*healthbar).second);
 		}
+		sf::Text txt;
+		sf::Font font;
+		font.loadFromFile("fonts/prstart.ttf");
+		txt.setFont(font);
+		txt.setString(playerSpeed);
+		txt.setPosition(x - 200, y - 100);
+		win.draw(txt);
+		
 	}
 	
 }
@@ -50,6 +63,9 @@ void GameInterface::update(GameCamera & cam, int quantityOfHearts)
 		y = cam.getY();
 	}
 	this->quantityOfHearts = quantityOfHearts;
+	ostringstream ss;
+	ss << dynamic_cast<Entity*>(cam.getTarget())->getSpeed();
+	playerSpeed = ss.str();
 }
 
 void GameInterface::gamepassed()

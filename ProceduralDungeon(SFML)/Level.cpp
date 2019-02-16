@@ -183,6 +183,10 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 	{
 		level[i].next = &level[i + 1];
 	}
+	for (int i = level.size() - 1; i > 0 ; i--)
+	{
+		level[i].prev = &level[i - 1];
+	}
 	SublevelFillingType stype;
 	for(int i = 1; i < level.size();i++)
 	{
@@ -202,6 +206,9 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 	}
 	player = new Player((level[0].getWidth() / 2) * COMMON_SPRITE_SIZE, (level[0].getHeight() / 2) * COMMON_SPRITE_SIZE, &level[0], rm);
 	level[0].addContent(player);
+	//size_t pos = level.size()-2;
+	//player = new Player((level[pos].getWidth() / 2) * COMMON_SPRITE_SIZE, (level[pos].getHeight() / 2) * COMMON_SPRITE_SIZE, &level[pos], rm);
+	//level[pos].addContent(player);
 	
 	
 }
@@ -231,6 +238,27 @@ void Level::draw(sf::RenderWindow & win)
 			}
 		}
 	}
+	////вариант отрисовки, в котором отрисовывается сначал тот подуровень, в котором находидтся игрок
+	//for (int i = 0; i < dynamic_cast<Player*>(player)->getCurrentSublevel()->getMap().size(); i++) 
+	//{
+	//	for (int j = 0; j < dynamic_cast<Player*>(player)->getCurrentSublevel()->getMap()[i].size(); j++)
+	//	{
+	//		dynamic_cast<Player*>(player)->getCurrentSublevel()->getMap()[i][j]->draw(win);
+	//	}
+	//}
+	//for (int sub = 0; sub < level.size(); sub++) 
+	//{
+	//	if (&level[sub] != dynamic_cast<Player*>(player)->getCurrentSublevel())
+	//	{
+	//		for (int i = 0; i < level[sub].getMap().size(); i++) 
+	//		{
+	//			for (int j = 0; j < level[sub].getMap()[i].size(); j++)
+	//			{
+	//				level[sub].getMap()[i][j]->draw(win);
+	//			}
+	//		}
+	//	}
+	//}
 }
 void Level::update(float elapsedTime)
 {
@@ -245,6 +273,22 @@ void Level::update(float elapsedTime)
 			}
 		}
 	}
+	////вариант обновления, где обновляются только Entity и всегда сначала тот подуровень, в котором находится игрок
+	//for (int j = 0; j < dynamic_cast<Player*>(player)->getCurrentSublevel()->getMap()[dynamic_cast<Player*>(player)->getCurrentSublevel()->getHeight() - 1].size(); j++)
+	//{
+	//	dynamic_cast<Player*>(player)->getCurrentSublevel()->getMap()[dynamic_cast<Player*>(player)->getCurrentSublevel()->getHeight() - 1][j]->update(elapsedTime);
+	//}
+	//for (int sub = 0; sub < level.size(); sub++) //проход по вектору подуровней уровня
+	//{
+	//	if (&level[sub] != dynamic_cast<Player*>(player)->getCurrentSublevel())
+	//	{
+	//		for (int j = 0; j < level[sub].getMap()[level[sub].getHeight() - 1].size(); j++)
+	//		{
+	//			level[sub].getMap()[level[sub].getHeight() - 1][j]->update(elapsedTime);
+	//		}
+	//	}
+	//}
+	
 }
 bool Level::isGameOver()
 {

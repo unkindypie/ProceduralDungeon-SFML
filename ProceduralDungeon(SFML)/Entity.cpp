@@ -1,6 +1,8 @@
 ﻿#include "Entity.h"
 #include "Player.h"
 #include <string>
+
+
 void Entity::move(float dirX, float dirY, float elapsedTime)
 {
 	elapsedTime *= speed;
@@ -13,16 +15,40 @@ void Entity::move(float dirX, float dirY, float elapsedTime)
 	{
 		float newXCord, newYCord;
 		current_sublevel->next->getEnterGlobalCoords(newXCord, newYCord);
-		x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2;
-		y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2;
+		x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2 + dirX * COMMON_SPRITE_SIZE;
+		//x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2;
+		y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2 + dirY * COMMON_SPRITE_SIZE;
+		//y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2;
 		updateRect();
+		//Player * player = dynamic_cast<Player*>(this); // dynamic_cast<Player*>(this)->getResourceManager();
+		//player->current_sublevel = current_sublevel->next;;
+		//current_sublevel->next->addPlayerToEnter(dynamic_cast<Player*>(this)->getResourceManager());
+		//current_sublevel->next->getMap()[current_sublevel->next->getHeight() - 1].push_back(player);
+		//delete this;
 		//if(typeid(this).name() == "Player *")
 		//{
 		//	dynamic_cast<Block*>(current_sublevel->getMap()[current_sublevel->getEnterPosY()][current_sublevel->getExitPosX()])->setBlockType(brick, dynamic_cast<Player*>(this)->getResourceManager());
 		//}
-		
+		current_sublevel->getMap()[current_sublevel->getHeight() - 1].erase(current_sublevel->getContentIterator(this)); // Я ПОФИКСИЛ ТОТ БАГ СО СКОРОСТЬЮ!!!!! Фишка в том,
+		//что он обновлялся по нескольку раз, +1 при каждом переходе, потому что я не удалял указатель на игрока из старого вектора
 		current_sublevel->next->getMap()[current_sublevel->next->getHeight() - 1].push_back(std::move(this));
+		
 		current_sublevel = current_sublevel->next;
+		return;
+	}
+	else if(rect.intersects(current_sublevel->getEnterRect()))
+	{
+		float newXCord, newYCord;
+		current_sublevel->prev->getExitGlobalCoords(newXCord, newYCord);
+		x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2 + dirX * COMMON_SPRITE_SIZE;
+		y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2 + dirY * COMMON_SPRITE_SIZE;
+		updateRect();
+
+		current_sublevel->getMap()[current_sublevel->getHeight() - 1].erase(current_sublevel->getContentIterator(this));//фикс бага со скоростью
+
+		current_sublevel->prev->getMap()[current_sublevel->prev->getHeight() - 1].push_back(std::move(this));
+
+		current_sublevel = current_sublevel->prev;
 		return;
 	}
 	else//в случае, если персонаж не находится в координатах выхода, то возвращаюсь обратно
@@ -33,6 +59,8 @@ void Entity::move(float dirX, float dirY, float elapsedTime)
 	}
 	//-------передвижение по подуровню--------------
 	bool collide = 0;
+	float prevx = x;
+	float prevy = y;
 	x += dirX * elapsedTime; //сначала иду, потом проверяю столкновения. Если они есть, то иду обратно
 	y += dirY * elapsedTime;
 	updateRect();
@@ -61,6 +89,7 @@ void Entity::move(float dirX, float dirY, float elapsedTime)
 		y -= dirY * elapsedTime;
 		updateRect();//обновляю прямоугольник спрайта
 	}
+	//cout << "dif X:" << x - prevx << " dif Y:" << y - prevy << endl;
 }
 void Entity::hit(Entity * en)
 {
@@ -92,7 +121,10 @@ bool Entity::damageDealing()
 	}
 	return false;
 }
-
+Sublevel * Entity::getCurrentSublevel()
+{
+	return current_sublevel;
+}
 Entity::Entity()
 {
 	hitable = true;
@@ -109,4 +141,8 @@ void Entity::updateRect()
 }
 Entity::~Entity()
 {
+}
+double Entity::getSpeed()
+{
+	return speed;
 }

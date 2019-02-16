@@ -12,6 +12,7 @@ class GameInterface
 	map<string, sf::Sprite>::iterator healthbar;
 	map<string, sf::Sprite>::iterator gameOver;
 	map<string, sf::Sprite>::iterator gamePassed;
+	string playerSpeed;
 public:
 	GameInterface(ResourceManager & rm, GameCamera & cam, float windowHeight, float windowWidth, int quantityOfHearts);
 	void draw(sf::RenderWindow & win);

@@ -64,6 +64,10 @@ float GameCamera::getY()
 {
 	return y;
 }
+Content * GameCamera::getTarget()
+{
+	return target;
+}
 GameCamera::~GameCamera()
 {
 }
