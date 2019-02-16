@@ -11,43 +11,28 @@ void Entity::move(float dirX, float dirY, float elapsedTime)
 	y += dirY * elapsedTime;
 	updateRect(); //обновляю прямоугольник спрайта, поскольку координаты изменились
 
-	if (rect.intersects(current_sublevel->getExitRect())) //обрабатываю выход из подуровня
+	if (rect.intersects(current_sublevel->getExitRect()) && isDirectedToHole(dirX, dirY, exit_)) //обрабатываю выход из подуровня(проверяю, пересекает ли сущность прямоугольник выхода и двигается ли в сторону этого выхода)
 	{
 		float newXCord, newYCord;
-		current_sublevel->next->getEnterGlobalCoords(newXCord, newYCord);
-		x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2 + dirX * COMMON_SPRITE_SIZE;
-		//x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2;
-		y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2 + dirY * COMMON_SPRITE_SIZE;
-		//y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2;
-		updateRect();
-		//Player * player = dynamic_cast<Player*>(this); // dynamic_cast<Player*>(this)->getResourceManager();
-		//player->current_sublevel = current_sublevel->next;;
-		//current_sublevel->next->addPlayerToEnter(dynamic_cast<Player*>(this)->getResourceManager());
-		//current_sublevel->next->getMap()[current_sublevel->next->getHeight() - 1].push_back(player);
-		//delete this;
-		//if(typeid(this).name() == "Player *")
-		//{
-		//	dynamic_cast<Block*>(current_sublevel->getMap()[current_sublevel->getEnterPosY()][current_sublevel->getExitPosX()])->setBlockType(brick, dynamic_cast<Player*>(this)->getResourceManager());
-		//}
+		current_sublevel->next->getEnterGlobalCoords(newXCord, newYCord); //получаю координаты входа со следующего подуровня
+		x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2; //получаю центр(координаты берутся с левого верхнего угла)
+		y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2;
+		updateRect();//обновляю прямоугольник игрока соответсвенно новым координатам
 		current_sublevel->getMap()[current_sublevel->getHeight() - 1].erase(current_sublevel->getContentIterator(this)); // Я ПОФИКСИЛ ТОТ БАГ СО СКОРОСТЬЮ!!!!! Фишка в том,
 		//что он обновлялся по нескольку раз, +1 при каждом переходе, потому что я не удалял указатель на игрока из старого вектора
-		current_sublevel->next->getMap()[current_sublevel->next->getHeight() - 1].push_back(std::move(this));
-		
-		current_sublevel = current_sublevel->next;
+		current_sublevel->next->getMap()[current_sublevel->next->getHeight() - 1].push_back(std::move(this)); //перемещаю сущность в следующий подуровень
+		current_sublevel = current_sublevel->next;//теперь текущий подуровень стает следующим для сущности
 		return;
 	}
-	else if(rect.intersects(current_sublevel->getEnterRect()))
+	else if(rect.intersects(current_sublevel->getEnterRect()) && isDirectedToHole(dirX, dirY, enter))//вход в подуровень
 	{
 		float newXCord, newYCord;
 		current_sublevel->prev->getExitGlobalCoords(newXCord, newYCord);
-		x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2 + dirX * COMMON_SPRITE_SIZE;
-		y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2 + dirY * COMMON_SPRITE_SIZE;
+		x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2;
+		y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2;
 		updateRect();
-
 		current_sublevel->getMap()[current_sublevel->getHeight() - 1].erase(current_sublevel->getContentIterator(this));//фикс бага со скоростью
-
 		current_sublevel->prev->getMap()[current_sublevel->prev->getHeight() - 1].push_back(std::move(this));
-
 		current_sublevel = current_sublevel->prev;
 		return;
 	}
@@ -97,6 +82,26 @@ void Entity::hit(Entity * en)
 	{
 		en->decreaseHealth(damage);
 	}
+}
+bool Entity::isDirectedToHole(float dirX, float dirY, holeMode hole) //функция, провериющая двигается ли сущность в сторону прохода
+{
+	float holeX, holeY;
+	if(hole == enter)
+	{
+		holeX = current_sublevel->getEnterPosX();
+		holeY = current_sublevel->getEnterPosY();
+	}
+	else
+	{
+		holeX = current_sublevel->getExitPosX();
+		holeY = current_sublevel->getExitPosY();
+	}
+	if (dirX == 1 && current_sublevel->getWidth()-1 == holeX) return true;
+	if (dirX == -1 && holeX == 0) return true;
+	if (dirY == 1 && holeY == current_sublevel->getHeight()-1) return true;
+	if (dirY == -1 && holeY == 0) return true;
+
+	return false;
 }
 void Entity::decreaseHealth(float value)
 {

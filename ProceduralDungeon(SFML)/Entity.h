@@ -18,6 +18,7 @@ public:
 	void move(float dirX, float dirY, float elapsedTime); //метод передвижения по уровню с проверкой столкновений
 	void updateRect(); //метод для обновления координат прямоугольника спрайта
 	void hit(Entity * en); //нанесение урона
+	bool isDirectedToHole(float dirX, float dirY, holeMode hole);
 	Sublevel * getCurrentSublevel();
 	double getSpeed();
 	virtual void decreaseHealth(float value); //метод уменьшения здоровья этой сущности на конкретное значение(виртуальный, поскольку перегружен для игрока)
