@@ -12,10 +12,7 @@ enum LevelGenerationState  //перечисление, отвечающее за попадание в ситуацию бе
 {
 	normal, restart
 };
-enum direction //перечисление позиций отверстия в подуровне
-{
-	left_, right_, top, down
-};
+
 enum HoleDestenation //перечисление для выбора назначения отвертвия. В одном случае оно сможет принимать координаты 0-hight или 0-width в другом нет
 {
 	x_sided, y_sided

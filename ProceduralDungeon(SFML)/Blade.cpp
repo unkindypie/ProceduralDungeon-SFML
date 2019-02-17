@@ -11,9 +11,9 @@ Blade::Blade(float x, float y, Sublevel * sub, ResourceManager & rm, int dirX, i
 	damage = 1;
 	this->dirX = dirX;
 	this->dirY = dirY;
-	sprite_iterator = rm.loadSprite("images/razer.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+	sprite_iterator = rm.loadSprite("images/razer.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
 	current_sublevel = sub;
-	(*sprite_iterator).second.setOrigin(COMMON_SPRITE_SIZE / 2, COMMON_SPRITE_SIZE / 2);
+	(*sprite_iterator).second.setOrigin(pxSizeX / 2, pxSizeY / 2);
 	updateRect();
 }
 void Blade::update(float elapsedTime)

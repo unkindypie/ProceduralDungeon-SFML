@@ -5,7 +5,7 @@
 
 Guntrap::Guntrap(float x, float y, ResourceManager & rm1, direction dir, Sublevel * current_sublevel) : rm(rm1)
 {
-	sprite_iterator = rm.loadSprite("images/guntrap.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+	sprite_iterator = rm.loadSprite("images/guntrap.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
 	shootingCooldown = 50;
 	currentTimeBeforeShooting = 0;
 	this->x = x;

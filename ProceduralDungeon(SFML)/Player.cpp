@@ -18,12 +18,12 @@ Player::Player(float x, float y, Sublevel * sub, ResourceManager & rm1) : rm(rm1
 	//sprite_iterator = rm.loadSprite("images/player.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
 	am.addAnimation("stand");
 	am.addAnimation("walk");
-	am.addFrame("stand", rm, "images/player1.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
-	am.addFrame("walk", rm, "images/player2.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
-	am.addFrame("walk", rm, "images/player3.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+	am.addFrame("stand", rm, "images/player1.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
+	am.addFrame("walk", rm, "images/player2.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
+	am.addFrame("walk", rm, "images/player3.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
 	am.setCurrentAnimation("stand");
 	sprite_iterator = am.getCurrentFrame();
-	(*sprite_iterator).second.setOrigin(COMMON_SPRITE_SIZE / 2, COMMON_SPRITE_SIZE / 2);
+	(*sprite_iterator).second.setOrigin(pxSizeX / 2, pxSizeY / 2);
 	updateRect();
 }
 ResourceManager & Player::getResourceManager()

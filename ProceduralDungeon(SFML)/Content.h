@@ -1,6 +1,10 @@
 #pragma once
 #include "ResourceManager.h"
-const size_t COMMON_SPRITE_SIZE = 16;
+const size_t COMMON_SPRITE_SIZE = 32;
+enum direction //перечисление позиций отверстия в подуровне
+{
+	left_, right_, top, down, left_top_angle, left_bottom_angle, right_top_angle, right_bottom_angle
+};
 class Content
 {
 protected:

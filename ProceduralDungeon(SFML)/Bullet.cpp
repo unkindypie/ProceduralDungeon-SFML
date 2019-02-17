@@ -14,13 +14,13 @@ Bullet::Bullet(float x, float y, int dirX, int dirY, Sublevel * current_sublevel
 	hitable = false;
 	//sprite_iterator = rm.loadSprite("images/fire1.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
 	am.addAnimation("fly");
-	am.addFrame("fly", rm, "images/fire1.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
-	am.addFrame("fly", rm, "images/fire2.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
-	am.addFrame("fly", rm, "images/fire3.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
-	am.addFrame("fly", rm, "images/fire4.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
-	am.addFrame("fly", rm, "images/fire5.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
-	am.addFrame("fly", rm, "images/fire6.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
-	am.addFrame("fly", rm, "images/fire7.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+	am.addFrame("fly", rm, "images/fire1.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
+	am.addFrame("fly", rm, "images/fire2.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
+	am.addFrame("fly", rm, "images/fire3.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
+	am.addFrame("fly", rm, "images/fire4.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
+	am.addFrame("fly", rm, "images/fire5.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
+	am.addFrame("fly", rm, "images/fire6.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
+	am.addFrame("fly", rm, "images/fire7.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
 	am.setCurrentAnimation("fly");
 	if(dirX == 0 && dirY == -1)
 	{

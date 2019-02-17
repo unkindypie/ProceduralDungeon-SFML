@@ -19,7 +19,7 @@ void Block::update(float elapsedTime)
 {
 
 }
-void Block::setBlockType(BlockType type, ResourceManager & rm)
+void Block::setBlockType(BlockType type, ResourceManager & rm, direction dir)
 {
 	this->type = type;
 	switch (type)
@@ -30,14 +30,22 @@ void Block::setBlockType(BlockType type, ResourceManager & rm)
 		break;
 	case brick:
 		collides = true;
-		sprite_iterator = rm.loadSprite("images/blocks16x16.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		//left_, right_, top, down
+		if (dir == top) sprite_iterator = rm.loadSprite("images/topwall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		if (dir == left_) sprite_iterator = rm.loadSprite("images/left_wall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		if (dir == right_) sprite_iterator = rm.loadSprite("images/right_wall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		if (dir == down) sprite_iterator = rm.loadSprite("images/bottomwall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		if (dir == left_top_angle) sprite_iterator = rm.loadSprite("images/left_top_angle_wall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		if (dir == left_bottom_angle) sprite_iterator = rm.loadSprite("images/left_bottom_angle_wall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		if (dir == right_top_angle) sprite_iterator = rm.loadSprite("images/right_top_angle_wall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		if (dir == right_bottom_angle) sprite_iterator = rm.loadSprite("images/right_bottom_angle_wall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
 		updateRect();
 		break;
 	default:
 		break;
 	}
 }
-Block::Block(size_t x, size_t y, BlockType type, ResourceManager & rm)
+Block::Block(size_t x, size_t y, BlockType type, ResourceManager & rm, direction dir)
 {
 	this->x = x;
 	this->y = y;
@@ -52,7 +60,15 @@ Block::Block(size_t x, size_t y, BlockType type, ResourceManager & rm)
 		break;
 	case brick:
 		collides = true;
-		sprite_iterator = rm.loadSprite("images/blocks16x16.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		//left_, right_, top, down
+		if(dir == top) sprite_iterator = rm.loadSprite("images/topwall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		if(dir == left_) sprite_iterator = rm.loadSprite("images/left_wall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		if (dir == right_) sprite_iterator = rm.loadSprite("images/right_wall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		if(dir == down) sprite_iterator = rm.loadSprite("images/bottomwall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		if(dir == left_top_angle) sprite_iterator = rm.loadSprite("images/left_top_angle_wall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		if(dir == left_bottom_angle) sprite_iterator = rm.loadSprite("images/left_bottom_angle_wall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		if (dir == right_top_angle) sprite_iterator = rm.loadSprite("images/right_top_angle_wall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+		if (dir == right_bottom_angle) sprite_iterator = rm.loadSprite("images/right_bottom_angle_wall.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
 		updateRect();
 		break;
 	default:

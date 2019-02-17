@@ -9,7 +9,7 @@ int main()
 	srand(time(NULL));
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), L"TODO: Придумать игре название"); //класс окна, в этой строчке я указываю его разрешение и название
 	sf::Clock updateClock; //класс счетчик времени, позволяет засекать и сбрасывать насчитанное время.
-	Level level(WINDOW_WIDTH / COMMON_SPRITE_SIZE, WINDOW_HEIGHT / COMMON_SPRITE_SIZE); //создаю уровень
+	Level level(70/*WINDOW_WIDTH / COMMON_SPRITE_SIZE*/, 70/*WINDOW_HEIGHT / COMMON_SPRITE_SIZE*/); //создаю уровень
 	GameCamera cam(level.player, window); //игровая камера будет следить за игркоом
 	GameInterface interf(level.getResourceManager(), cam, WINDOW_HEIGHT, WINDOW_WIDTH, level.getPlayerTries()); //интерфейс будет выводить жизни игрока относительно координат камеры
 

@@ -15,6 +15,8 @@ protected:
 	Sublevel * current_sublevel;
 	AnimationManager am;
 public:
+	size_t pxSizeX = 16;
+	size_t pxSizeY = 16;
 	void move(float dirX, float dirY, float elapsedTime); //метод передвижения по уровню с проверкой столкновений
 	void updateRect(); //метод для обновления координат прямоугольника спрайта
 	void hit(Entity * en); //нанесение урона

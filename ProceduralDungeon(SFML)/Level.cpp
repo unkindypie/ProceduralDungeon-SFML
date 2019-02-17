@@ -64,7 +64,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 				{
 					break;
 				}
-				dynamic_cast<Block*>(level[lenght - 1].getMap()[level[lenght - 1].getExitPosY()][level[lenght - 1].getExitPosX()])->setBlockType(brick, rm);
+				dynamic_cast<Block*>(level[lenght - 1].getMap()[level[lenght - 1].getExitPosY()][level[lenght - 1].getExitPosX()])->setBlockType(brick, rm, right_);
 			
 
 				level[lenght - 1].addExit(down, rm); //теперь делаю новый выход уже вниз
@@ -110,7 +110,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 				}
 
 				//убераю старый выход влево, вместо него делаю выход вниз
-				dynamic_cast<Block*>(level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()])->setBlockType(brick, rm);
+				dynamic_cast<Block*>(level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()])->setBlockType(brick, rm, left_);
 				
 				level[level.size() - 1].makeItAngle(); //делаю этот подуровень угловым(в нем не будут ставиться ловушки)
 
@@ -156,7 +156,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 					break;
 				}
 				//меняю выход из бокового в нижний справа
-				dynamic_cast<Block*>(level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()])->setBlockType(brick, rm);
+				dynamic_cast<Block*>(level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()])->setBlockType(brick, rm, right_);
 
 				level[level.size() - 1].addExit(down, rm); //теперь делаю новый выход уже вниз
 
@@ -172,7 +172,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 			}
 		} while (sublevelHorizontalLineHeight[0] < levelHeight - 3 && generationState != restart);
 
-		dynamic_cast<Block*>(level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()])->setBlockType(brick, rm);
+		dynamic_cast<Block*>(level[level.size() - 1].getMap()[level[level.size() - 1].getExitPosY()][level[level.size() - 1].getExitPosX()])->setBlockType(brick, rm, down);
 
 		level[level.size() - 1].makeItAngle();
 

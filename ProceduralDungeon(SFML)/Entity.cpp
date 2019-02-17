@@ -19,7 +19,8 @@ void Entity::move(float dirX, float dirY, float elapsedTime)
 		y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2;
 		updateRect();//обновляю прямоугольник игрока соответсвенно новым координатам
 		current_sublevel->getMap()[current_sublevel->getHeight() - 1].erase(current_sublevel->getContentIterator(this)); // Я ПОФИКСИЛ ТОТ БАГ СО СКОРОСТЬЮ!!!!! Фишка в том,
-		//что он обновлялся по нескольку раз, +1 при каждом переходе, потому что я не удалял указатель на игрока из старого вектора
+		//что он обновлялся по нескольку раз, +(1*начальное_количество_обновлений) при каждом переходе, потому что я не удалял указатель на игрока из старого вектора. В итоге получалось так, что
+		//количество вызовов функции update у игрока росло в арифметической прогрессии. Сначала 30, потом 60, потом 90 и т.д. с каждым переходом.
 		current_sublevel->next->getMap()[current_sublevel->next->getHeight() - 1].push_back(std::move(this)); //перемещаю сущность в следующий подуровень
 		current_sublevel = current_sublevel->next;//теперь текущий подуровень стает следующим для сущности
 		return;

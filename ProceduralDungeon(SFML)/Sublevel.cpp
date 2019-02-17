@@ -83,15 +83,22 @@ Sublevel::Sublevel(size_t x, size_t y, size_t holeCoordX, size_t holeCoordY, boo
 			{
 				if (i == 0 || j == 0 || j == width - 1 || i == height - 1)//если это граница, то ставлю кирпичи
 				{
-					map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm);
+					if(i == 0 && j == 0)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, left_top_angle);
+					else if(i == height - 1 && j == 0)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, left_bottom_angle);
+					else if(i == 0 && j == width - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, right_top_angle);
+					else if (i == height - 1 && j == width-1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, right_bottom_angle);
+					else if(i == 0 && j > 0 && j < width - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, top);
+					else if(i == height-1 && j > 0 && j < width - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, down);
+					else if(j == 0 && i > 0 && i < height - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, left_);
+					else if(j == width-1 && i > 0 && i < height - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, right_);
 				}
 				else//если нет, то пустоту
 				{
-					map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, none, rm);
+					map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, none, rm, top);
 				}
 				if(i == holeCoordY && j == holeCoordX)//выход из подуровня
 				{
-					map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, none, rm);
+					map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, none, rm, top);
 					doesHoleExist = 1;
 					if (holeType)
 					{
@@ -174,15 +181,22 @@ Sublevel::Sublevel(size_t x, size_t y, int lastWidth, size_t holeCoordX, size_t 
 			{
 				if (i == 0 || j == 0 || j == width - 1 || i == height - 1)//если это граница, то ставлю кирпичи
 				{
-					map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm);
+					if (i == 0 && j == 0)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, left_top_angle);
+					else if (i == height - 1 && j == 0)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, left_bottom_angle);
+					else if (i == 0 && j == width - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, right_top_angle);
+					else if (i == height - 1 && j == width - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, right_bottom_angle);
+					else if (i == 0 && j > 0 && j < width - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, top);
+					else if (i == height - 1 && j > 0 && j < width - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, down);
+					else if (j == 0 && i > 0 && i < height - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, left_);
+					else if (j == width - 1 && i > 0 && i < height - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, right_);
 				}
 				else//если нет, то пустоту
 				{
-					map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, none, rm);
+					map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, none, rm, top);
 				}
 				if (i == holeCoordY && j == holeCoordX)//выход из подуровня
 				{
-					map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, none, rm);
+					map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, none, rm, top);
 					doesHoleExist = 1;
 					if (holeType)
 					{
@@ -265,15 +279,22 @@ Sublevel::Sublevel(size_t x, size_t y, direction holePosition, holeMode mode, Le
 		{
 			if (i == 0 || j == 0 || j == width - 1 || i == height - 1)//если это граница, то ставлю кирпичи
 			{
-				map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm);
+				if (i == 0 && j == 0)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, left_top_angle);
+				else if (i == height - 1 && j == 0)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, left_bottom_angle);
+				else if (i == 0 && j == width - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, right_top_angle);
+				else if (i == height - 1 && j == width - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, right_bottom_angle);
+				else if (i == 0 && j > 0 && j < width - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, top);
+				else if (i == height - 1 && j > 0 && j < width - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, down);
+				else if (j == 0 && i > 0 && i < height - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, left_);
+				else if (j == width - 1 && i > 0 && i < height - 1)map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, brick, rm, right_);
 			}
 			else //если нет, то пустоту
 			{
-				map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, none, rm);
+				map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, none, rm, top);
 			}
 			if (i == enterPosY && j == enterPosX || i == exitPosY && j == exitPosX) //ставлю выход либо вход
 			{
-				map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, none, rm);
+				map[i][j] = new Block((x + j) * COMMON_SPRITE_SIZE, (y + i) * COMMON_SPRITE_SIZE, none, rm, top);
 				if(mode==enter)	enterRect = map[i][j]->getRect();
 				if(mode==exit_) exitRect = map[i][j]->getRect();
 			}
@@ -330,13 +351,13 @@ void Sublevel::addContent(Content * c)
 void Sublevel::addExit(direction holePosition, ResourceManager & rm)
 {
 	generateEnterExit(exitPosX, exitPosY, width, height, holePosition); //генерирую координаты
-	map[exitPosY][exitPosX] = new Block((x + exitPosX) * COMMON_SPRITE_SIZE, (y + exitPosY) * COMMON_SPRITE_SIZE, none, rm); //ставлю по ним пустой блок
+	map[exitPosY][exitPosX] = new Block((x + exitPosX) * COMMON_SPRITE_SIZE, (y + exitPosY) * COMMON_SPRITE_SIZE, none, rm, top); //ставлю по ним пустой блок
 	exitRect = map[exitPosY][exitPosX]->getRect();
 }
 void Sublevel::addEnter(direction holePosition, ResourceManager & rm)
 {
 	generateEnterExit(enterPosX, enterPosY, width, height, holePosition); //генерирую координаты
-	map[enterPosY][enterPosX] = new Block((x + enterPosX) * COMMON_SPRITE_SIZE, (y + enterPosY) * COMMON_SPRITE_SIZE, none, rm); //ставлю по ним пустой блок
+	map[enterPosY][enterPosX] = new Block((x + enterPosX) * COMMON_SPRITE_SIZE, (y + enterPosY) * COMMON_SPRITE_SIZE, none, rm, top); //ставлю по ним пустой блок
 	enterRect = map[enterPosY][enterPosX]->getRect();
 	
 }
