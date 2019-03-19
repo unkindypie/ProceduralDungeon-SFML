@@ -234,7 +234,15 @@ void Level::draw(sf::RenderWindow & win)
 		{
 			for (int j = 0; j < level[sub].getMap()[i].size(); j++)
 			{
-				level[sub].getMap()[i][j]->draw(win);
+				if (level[sub].getMap()[i][j]->getX() >= win.getView().getCenter().x - win.getSize().x / 2 &&
+					level[sub].getMap()[i][j]->getX() <= win.getView().getCenter().x + win.getSize().x / 2 &&
+					level[sub].getMap()[i][j]->getY() >= win.getView().getCenter().y - win.getSize().y / 2 &&
+					level[sub].getMap()[i][j]->getY() <= win.getView().getCenter().y + win.getSize().y / 2
+					)
+				{
+					level[sub].getMap()[i][j]->draw(win);
+				}
+				//level[sub].getMap()[i][j]->draw(win);
 			}
 		}
 	}

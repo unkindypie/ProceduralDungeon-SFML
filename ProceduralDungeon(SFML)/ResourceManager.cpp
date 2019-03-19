@@ -24,6 +24,7 @@ map<string, sf::Sprite>::iterator ResourceManager::loadSprite(string path, sf::I
 		sprites[path].setPosition(0, 0);
 	}
 	return sprites.find(path); //возвращаю указатель на этот спрайт
+
 }
 ResourceManager::~ResourceManager()
 {

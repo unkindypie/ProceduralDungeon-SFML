@@ -9,6 +9,10 @@ Player::Player(float x, float y, Sublevel * sub, ResourceManager & rm1) : rm(rm1
 	health = 1;
 	tries = 10;
 	speed = 0.3 * speedMultiplier;
+	//pxSizeX = 64;
+	//pxSizeY = 64;
+	pxSizeX = 16;
+	pxSizeY = 16;
 	//currentTime = 0;
 	//shootingCooldown = 300;
 	current_sublevel = sub;
@@ -21,6 +25,15 @@ Player::Player(float x, float y, Sublevel * sub, ResourceManager & rm1) : rm(rm1
 	am.addFrame("stand", rm, "images/player1.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
 	am.addFrame("walk", rm, "images/player2.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
 	am.addFrame("walk", rm, "images/player3.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
+	/*am.addFrame("stand", rm, "images/newplayer.png", sf::IntRect(0, 0 * pxSizeX, pxSizeX, pxSizeY));
+
+	am.addFrame("walk", rm, "images/newplayer.png", sf::IntRect(0, 0 * pxSizeX, pxSizeX, pxSizeY));
+	am.addFrame("walk", rm, "images/newplayer.png", sf::IntRect(0, 1 * pxSizeX, pxSizeX, pxSizeY));
+	am.addFrame("walk", rm, "images/newplayer.png", sf::IntRect(0, 2 * pxSizeX, pxSizeX, pxSizeY));
+	am.addFrame("walk", rm, "images/newplayer.png", sf::IntRect(0, 3 * pxSizeX, pxSizeX, pxSizeY));
+	am.addFrame("walk", rm, "images/newplayer.png", sf::IntRect(0, 4 * pxSizeX, pxSizeX, pxSizeY));
+	am.addFrame("walk", rm, "images/newplayer.png", sf::IntRect(0, 5 * pxSizeX, pxSizeX, pxSizeY));*/
+
 	am.setCurrentAnimation("stand");
 	sprite_iterator = am.getCurrentFrame();
 	(*sprite_iterator).second.setOrigin(pxSizeX / 2, pxSizeY / 2);
