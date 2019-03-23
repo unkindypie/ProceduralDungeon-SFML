@@ -1,6 +1,9 @@
 #include "GameInterface.h"
 #include <sstream>;
-#include "Entity.h"
+//#include "Entity.h"
+#include "Player.h"
+#include "HealthBar.h"
+#include "UIPicture.h"
 
 GameInterface::GameInterface(ResourceManager & rm, GameCamera & cam, float windowHeight, float windowWidth, int quantityOfHearts)
 {
@@ -18,24 +21,39 @@ GameInterface::GameInterface(ResourceManager & rm, GameCamera & cam, float windo
 	ostringstream ss;
 	ss << dynamic_cast<Entity*>(cam.getTarget())->getSpeed();
 	playerSpeed = ss.str();
-	
 }
+GameInterface::GameInterface(Level * level, float windowHeight, float windowWidth, GameCamera & cam) 
+{
+	objects.push_back(new HealthBar(dynamic_cast<Player*>(level->player), level->getResourceManager(), windowWidth, windowHeight));
+	objects.push_back(new UIPicture("images/gameover.png", level->getResourceManager(), 0, 0, 304, 200));
+	objects.push_back(new UIPicture("images/gamepassed.png", level->getResourceManager(), 0, 0, 200, 310));
+	objects[1]->setVisibility(false);
+	objects[2]->setVisibility(false);
+	this->windowHeight = windowHeight;
+	this->windowWidth = windowWidth;
+	x = cam.getX();
+	y = cam.getY();
 
+}
 void GameInterface::draw(sf::RenderWindow & win)
 {
 	if(isGameOver)
 	{
-		(*gameOver).second.setPosition(x, y);
-		win.draw((*gameOver).second);
+		objects[1]->setVisibility(true);
 	}
 	else if(isGamePassed)
 	{
-		(*gamePassed).second.setPosition(x, y);
-		win.draw((*gamePassed).second);
+		objects[2]->setVisibility(true);
 	}
-	else
+
+	for (int i = 0; i < objects.size(); i++)
 	{
-		for (int i = 0; i < quantityOfHearts; i++)
+		objects[i]->draw(win);
+	}
+		
+
+
+	/*	for (int i = 0; i < quantityOfHearts; i++)
 		{
 			(*healthbar).second.setPosition(x - (COMMON_SPRITE_SIZE * i), y);
 			win.draw((*healthbar).second);
@@ -46,10 +64,8 @@ void GameInterface::draw(sf::RenderWindow & win)
 		txt.setFont(font);
 		txt.setString(playerSpeed);
 		txt.setPosition(x - 200, y - 100);
-		win.draw(txt);
-		
-	}
-	
+		win.draw(txt);*/
+
 }
 
 void GameInterface::update(GameCamera & cam, int quantityOfHearts)
@@ -66,6 +82,16 @@ void GameInterface::update(GameCamera & cam, int quantityOfHearts)
 	ostringstream ss;
 	ss << dynamic_cast<Entity*>(cam.getTarget())->getSpeed();
 	playerSpeed = ss.str();
+}
+
+void GameInterface::update(float x, float y)
+{
+	this->x = x;
+	this->y = y;
+	for(int i = 0; i < objects.size(); i++)
+	{
+		objects[i]->update(x, y);
+	}
 }
 
 void GameInterface::gamepassed()

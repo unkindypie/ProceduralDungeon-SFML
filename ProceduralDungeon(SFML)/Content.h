@@ -1,6 +1,6 @@
 #pragma once
 #include "ResourceManager.h"
-const size_t COMMON_SPRITE_SIZE = 32;
+
 enum direction //перечисление позиций отверсти€ в подуровне
 {
 	left_, right_, top, down, left_top_angle, left_bottom_angle, right_top_angle, right_bottom_angle
@@ -10,7 +10,6 @@ class Content
 protected:
 	float x;//глобальные координаты в масштабах уровн€
 	float y;
-	//sf::Sprite * sprite = nullptr; //указатель на спрайт, который лежит в словаре в классе ResourceManager
 	map<string, sf::Sprite>::iterator sprite_iterator;
 	sf::FloatRect rect; //пр€моугольник спрайта. — помощью него осуществл€етс€ проверка столкновений благодар€ методу intersects 
 	

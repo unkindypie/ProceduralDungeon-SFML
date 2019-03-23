@@ -133,11 +133,14 @@
     <ClCompile Include="GameInterface.cpp" />
     <ClCompile Include="Guntrap.cpp" />
     <ClCompile Include="Blade.cpp" />
+    <ClCompile Include="HealthBar.cpp" />
+    <ClCompile Include="InterfaceObject.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Sublevel.cpp" />
+    <ClCompile Include="UIPicture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -150,10 +153,13 @@
     <ClInclude Include="GameInterface.h" />
     <ClInclude Include="Guntrap.h" />
     <ClInclude Include="Blade.h" />
+    <ClInclude Include="HealthBar.h" />
+    <ClInclude Include="InterfaceObject.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Sublevel.h" />
+    <ClInclude Include="UIPicture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

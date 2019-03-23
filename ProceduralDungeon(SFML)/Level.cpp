@@ -2,7 +2,34 @@
 #include "Player.h"
 #include "Guntrap.h"
 #include "Blade.h"
-Level::Level(){}
+Level::Level()
+{
+	Sublevel::X_SIZE = levelWidth = 1000000;
+	Sublevel::Y_SIZE = levelHeight = 720 / 32;
+	LevelGenerationState gs = normal;
+	Sublevel sub = Sublevel(0, 0, right_, exit_, gs, rm);
+	level.push_back(sub);
+	int lastWidth = level[level.size() - 1].getWidth();
+	for(int i = 0; i < 20; i++){
+		sub = Sublevel(lastWidth, 0, 0, level[level.size() - 1].getExitPosY(), 0, gs, rm);
+		sub.addExit(right_, rm);
+		level.push_back(sub);
+		lastWidth += sub.getWidth();
+	}
+	for (int i = 0; i < level.size() - 1; i++)
+	{
+		level[i].next = &level[i + 1];
+	}
+	for (int i = level.size() - 1; i > 0; i--)
+	{
+		level[i].prev = &level[i - 1];
+	}
+	
+
+	player = new Player((level[0].getWidth() / 2) * COMMON_SPRITE_SIZE, (level[0].getHeight() / 2) * COMMON_SPRITE_SIZE, &level[0], rm);
+
+	level[0].addContent(player);
+}
 Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находится основная часть алгортима процедурной генерации карты. он получился огромезный, но смысла разделять на функции я не вижу, потому что больше это ни где не используется
 {
 	Sublevel::X_SIZE = levelHeight;
@@ -225,26 +252,49 @@ vector<Sublevel> & Level::getLevelMap()
 {
 	return level;
 }
-
 void Level::draw(sf::RenderWindow & win)
 {
+	sf::FloatRect viewRect = { win.getView().getCenter().x - win.getSize().x / 2, win.getView().getCenter().y - win.getSize().y / 2, (float)win.getSize().x, (float)win.getSize().y };
 	for (int sub = 0; sub < level.size(); sub++) //проход по вектору подуровней уровня
 	{
 		for (int i = 0; i < level[sub].getMap().size(); i++) //проход по двумерному массиву подуровня
 		{
 			for (int j = 0; j < level[sub].getMap()[i].size(); j++)
 			{
-				if (level[sub].getMap()[i][j]->getX() >= win.getView().getCenter().x - win.getSize().x / 2 &&
-					level[sub].getMap()[i][j]->getX() <= win.getView().getCenter().x + win.getSize().x / 2 &&
-					level[sub].getMap()[i][j]->getY() >= win.getView().getCenter().y - win.getSize().y / 2 &&
-					level[sub].getMap()[i][j]->getY() <= win.getView().getCenter().y + win.getSize().y / 2
-					)
-				{
-					level[sub].getMap()[i][j]->draw(win);
-				}
-				//level[sub].getMap()[i][j]->draw(win);
+
+				if(viewRect.intersects(level[sub].getMap()[i][j]->getRect())) level[sub].getMap()[i][j]->draw(win);
 			}
 		}
+
+
+		//int endOfViewY = ((win.getView().getCenter().y + win.getSize().y / 2)) / COMMON_SPRITE_SIZE;
+		//int endOfViewX = ((win.getView().getCenter().x + win.getSize().x / 2)) / COMMON_SPRITE_SIZE;
+		//if(level[sub].getX() + level[sub].getWidth() <= endOfViewX && level[sub].getX() >= ((win.getView().getCenter().x - win.getSize().x / 2)) / COMMON_SPRITE_SIZE
+		//	&& level[sub].getY() + level[sub].getHeight() <= endOfViewY && level[sub].getY() >= ((win.getView().getCenter().y - win.getSize().y / 2)) / COMMON_SPRITE_SIZE)
+		//{
+		//	for (int i = 0; i < level[sub].getMap().size(); i++) //проход по двумерному массиву подуровня
+		//	{
+		//		for (int j = 0; j < level[sub].getMap()[i].size(); j++)
+		//		{
+		//			level[sub].getMap()[i][j]->draw(win);
+		//		}
+		//	}
+		//}
+
+		//for (int i = 0; i < level[sub].getMap().size(); i++) //проход по двумерному массиву подуровня
+		//{
+		//	for (int j = 0; j < level[sub].getMap()[i].size(); j++)
+		//	{
+		//		if (level[sub].getMap()[i][j]->getX() >= win.getView().getCenter().x - win.getSize().x / 2 &&
+		//			level[sub].getMap()[i][j]->getX() <= win.getView().getCenter().x + win.getSize().x / 2 &&
+		//			level[sub].getMap()[i][j]->getY() >= win.getView().getCenter().y - win.getSize().y / 2 &&
+		//			level[sub].getMap()[i][j]->getY() <= win.getView().getCenter().y + win.getSize().y / 2
+		//			)
+		//		{
+		//			level[sub].getMap()[i][j]->draw(win);
+		//		}
+		//	}
+		//}
 	}
 	////вариант отрисовки, в котором отрисовывается сначал тот подуровень, в котором находидтся игрок
 	//for (int i = 0; i < dynamic_cast<Player*>(player)->getCurrentSublevel()->getMap().size(); i++) 

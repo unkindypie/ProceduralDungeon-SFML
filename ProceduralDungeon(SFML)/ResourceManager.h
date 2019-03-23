@@ -7,6 +7,8 @@
 //int plUpdates = 0;
 using namespace std;
 
+
+const size_t COMMON_SPRITE_SIZE = 32;
 class ResourceManager
 {
 private:

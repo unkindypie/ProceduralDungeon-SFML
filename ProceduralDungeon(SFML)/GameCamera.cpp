@@ -4,7 +4,7 @@
 GameCamera::GameCamera(Content * target, sf::RenderWindow & win) : win(win)
 {
 	this->target = target;
-	speed = 2.5;
+	speed = 4.3;
 	x = win.getSize().x / 2;
 	y = win.getSize().y / 2;
 	view.reset(sf::FloatRect(x, y, win.getSize().x, win.getSize().y));
