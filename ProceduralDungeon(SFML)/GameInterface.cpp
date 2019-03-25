@@ -26,7 +26,7 @@ GameInterface::GameInterface(Level * level, float windowHeight, float windowWidt
 {
 	objects.push_back(new HealthBar(dynamic_cast<Player*>(level->player), level->getResourceManager(), windowWidth, windowHeight));
 	objects.push_back(new UIPicture("images/gameover.png", 0, 0, level->getResourceManager().loadSprite("images/gameover.png", sf::IntRect(0, 0, 304, 200))));
-	objects.push_back(new UIPicture("images/gamepassed.png", 0,0, rm.loadSprite("images/gamepassed.png", sf::IntRect(0, 0, 200, 310))));
+	objects.push_back(new UIPicture("images/gamepassed.png", 0,0, level->getResourceManager().loadSprite("images/gamepassed.png", sf::IntRect(0, 0, 200, 310))));
 	objects[1]->setVisibility(false);
 	objects[2]->setVisibility(false);
 	this->windowHeight = windowHeight;
