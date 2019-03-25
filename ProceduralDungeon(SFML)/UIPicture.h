@@ -4,7 +4,8 @@ class UIPicture :
 	public InterfaceObject
 {
 public:
-	UIPicture(string path, ResourceManager rm, float offsetX, float offsetY, int imageWidth, int imageHeight);
+	UIPicture();
+	UIPicture(string path, float offsetX, float offsetY, map<string, sf::Sprite>::iterator sprite_iterator);
 	void draw(sf::RenderWindow & win);
 	void update(int newX, int newY);
 	~UIPicture();

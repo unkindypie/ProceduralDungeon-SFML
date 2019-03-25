@@ -7,7 +7,7 @@
 
 GameInterface::GameInterface(ResourceManager & rm, GameCamera & cam, float windowHeight, float windowWidth, int quantityOfHearts)
 {
-	healthbar = rm.loadSprite("images/heart.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
+	/*healthbar = rm.loadSprite("images/heart.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
 	gameOver = rm.loadSprite("images/gameover.png", sf::IntRect(0, 0, 304, 200));
 	(*gameOver).second.setOrigin(304 / 2, 200 / 2);
 	gamePassed = rm.loadSprite("images/gamepassed.png", sf::IntRect(0, 0, 200, 310));
@@ -20,20 +20,19 @@ GameInterface::GameInterface(ResourceManager & rm, GameCamera & cam, float windo
 
 	ostringstream ss;
 	ss << dynamic_cast<Entity*>(cam.getTarget())->getSpeed();
-	playerSpeed = ss.str();
+	playerSpeed = ss.str();*/
 }
 GameInterface::GameInterface(Level * level, float windowHeight, float windowWidth, GameCamera & cam) 
 {
 	objects.push_back(new HealthBar(dynamic_cast<Player*>(level->player), level->getResourceManager(), windowWidth, windowHeight));
-	objects.push_back(new UIPicture("images/gameover.png", level->getResourceManager(), 0, 0, 304, 200));
-	objects.push_back(new UIPicture("images/gamepassed.png", level->getResourceManager(), 0, 0, 200, 310));
+	objects.push_back(new UIPicture("images/gameover.png", 0, 0, level->getResourceManager().loadSprite("images/gameover.png", sf::IntRect(0, 0, 304, 200))));
+	objects.push_back(new UIPicture("images/gamepassed.png", 0,0, rm.loadSprite("images/gamepassed.png", sf::IntRect(0, 0, 200, 310))));
 	objects[1]->setVisibility(false);
 	objects[2]->setVisibility(false);
 	this->windowHeight = windowHeight;
 	this->windowWidth = windowWidth;
 	x = cam.getX();
 	y = cam.getY();
-
 }
 void GameInterface::draw(sf::RenderWindow & win)
 {

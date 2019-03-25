@@ -10,7 +10,6 @@ class GameInterface
 	float x;
 	float y;
 
-
 	bool isGamePassed = 0;
 	bool isGameOver = 0;
 	int quantityOfHearts;

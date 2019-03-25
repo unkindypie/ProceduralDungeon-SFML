@@ -7,8 +7,7 @@ Player::Player(float x, float y, Sublevel * sub, ResourceManager & rm1) : rm(rm1
 	dirX = 0;
 	dirY = -1;
 	health = 1;
-	//tries = 10;
-	tries = 1;
+	tries = 10;
 	speed = 0.3 * speedMultiplier;
 	//pxSizeX = 64;
 	//pxSizeY = 64;

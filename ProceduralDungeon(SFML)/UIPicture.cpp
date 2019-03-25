@@ -1,10 +1,10 @@
 #include "UIPicture.h"
 
 
-
-UIPicture::UIPicture(string path, ResourceManager rm, float offsetX, float offsetY, int imageWidth, int imageHeight)
+UIPicture::UIPicture(){}
+UIPicture::UIPicture(string path, float offsetX, float offsetY, map<string, sf::Sprite>::iterator sprite_iterator)
 {
-	this->sprite_iterator = rm.loadSprite(path, sf::IntRect(0, 0, imageWidth, imageHeight));
+	this->sprite_iterator = sprite_iterator;
 	this->offsetX = offsetX;
 	this->offsetY = offsetY;
 	visible = true;
@@ -14,9 +14,8 @@ void UIPicture::draw(sf::RenderWindow & win)
 {
 	if(visible)
 	{
-		int tratata = false;
 		(*sprite_iterator).second.setPosition(x, y);
-		win.draw( (*sprite_iterator).second);
+		win.draw((*sprite_iterator).second);
 	}
 }
 
