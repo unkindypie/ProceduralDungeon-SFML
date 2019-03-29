@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <iterator>
+#include "DebugInformation.h"
 //sf::Clock globalClock;
 //int plUpdates = 0;
 using namespace std;

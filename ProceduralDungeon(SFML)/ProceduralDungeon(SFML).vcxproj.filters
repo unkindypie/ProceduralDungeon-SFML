@@ -69,6 +69,9 @@
     <ClCompile Include="UIPicture.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="DebugInformation.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h">
@@ -120,6 +123,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="UIPicture.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugInformation.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
