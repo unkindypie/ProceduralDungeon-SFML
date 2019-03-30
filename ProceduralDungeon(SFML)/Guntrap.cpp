@@ -45,16 +45,16 @@ void Guntrap::shoot(float elapsedTime)
 	switch (dir)
 	{
 	case left_:
-		current_sublevel->addContent(new Bullet(x + COMMON_SPRITE_SIZE, y - COMMON_SPRITE_SIZE / 2, 1, 0, current_sublevel, rm));
+		current_sublevel->addEntity(new Bullet(x + COMMON_SPRITE_SIZE, y - COMMON_SPRITE_SIZE / 2, 1, 0, current_sublevel, rm));
 		break;
 	case right_:
-		current_sublevel->addContent(new Bullet(x - COMMON_SPRITE_SIZE, y + COMMON_SPRITE_SIZE / 2, -1, 0, current_sublevel, rm));
+		current_sublevel->addEntity(new Bullet(x - COMMON_SPRITE_SIZE, y + COMMON_SPRITE_SIZE / 2, -1, 0, current_sublevel, rm));
 		break;
 	case top:
-		current_sublevel->addContent(new Bullet(x + COMMON_SPRITE_SIZE/2, y + COMMON_SPRITE_SIZE, 0, 1, current_sublevel, rm));
+		current_sublevel->addEntity(new Bullet(x + COMMON_SPRITE_SIZE/2, y + COMMON_SPRITE_SIZE, 0, 1, current_sublevel, rm));
 		break;
 	case down:
-		current_sublevel->addContent(new Bullet(x - COMMON_SPRITE_SIZE / 2, y - COMMON_SPRITE_SIZE, 0, -1, current_sublevel, rm));
+		current_sublevel->addEntity(new Bullet(x - COMMON_SPRITE_SIZE / 2, y - COMMON_SPRITE_SIZE, 0, -1, current_sublevel, rm));
 		break;
 	default:
 		break;

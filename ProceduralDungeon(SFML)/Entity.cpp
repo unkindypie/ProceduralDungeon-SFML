@@ -18,10 +18,10 @@ void Entity::move(float dirX, float dirY, float elapsedTime)
 		x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2; //получаю центр(координаты берутся с левого верхнего угла)
 		y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2;
 		updateRect();//обновляю прямоугольник игрока соответсвенно новым координатам
-		current_sublevel->getMap()[current_sublevel->getHeight() - 1].erase(current_sublevel->getContentIterator(this)); // Я ПОФИКСИЛ ТОТ БАГ СО СКОРОСТЬЮ!!!!! Фишка в том,
+		current_sublevel->getEntities().erase(current_sublevel->getEntityIterator(this));// Я ПОФИКСИЛ ТОТ БАГ СО СКОРОСТЬЮ!!!!! Фишка в том,
 		//что он обновлялся по нескольку раз, +(1*начальное_количество_обновлений) при каждом переходе, потому что я не удалял указатель на игрока из старого вектора. В итоге получалось так, что
 		//количество вызовов функции update у игрока росло в арифметической прогрессии. Сначала 30, потом 60, потом 90 и т.д. с каждым переходом.
-		current_sublevel->next->getMap()[current_sublevel->next->getHeight() - 1].push_back(std::move(this)); //перемещаю сущность в следующий подуровень
+		current_sublevel->next->getEntities().push_back(std::move(this)); //перемещаю сущность в следующий подуровень
 		current_sublevel = current_sublevel->next;//теперь текущий подуровень стает следующим для сущности
 		return;
 	}
@@ -32,8 +32,8 @@ void Entity::move(float dirX, float dirY, float elapsedTime)
 		x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2;
 		y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2;
 		updateRect();
-		current_sublevel->getMap()[current_sublevel->getHeight() - 1].erase(current_sublevel->getContentIterator(this));//фикс бага со скоростью
-		current_sublevel->prev->getMap()[current_sublevel->prev->getHeight() - 1].push_back(std::move(this));
+		current_sublevel->getEntities().erase(current_sublevel->getEntityIterator(this));//фикс бага со скоростью
+		current_sublevel->prev->getEntities().push_back(std::move(this)); //перемещаю сущность в следующий подуровень
 		current_sublevel = current_sublevel->prev;
 		return;
 	}
@@ -109,22 +109,33 @@ void Entity::decreaseHealth(float value)
 	health -= value;
 
 	if (health <= 0) {
-		current_sublevel->getMap()[current_sublevel->getHeight() - 1].erase(current_sublevel->getContentIterator(this));
+		current_sublevel->getEntities().erase(current_sublevel->getEntityIterator(this));
 		//delete this;
 	}
 
 }
 bool Entity::damageDealing()
 {
-	for (int i = current_sublevel->getWidth() - 1; i < current_sublevel->getMap()[current_sublevel->getHeight() - 1].size(); i++)
+	for(int i = 0; i < current_sublevel->getEntities().size(); i++)
 	{
-		if (current_sublevel->getMap()[current_sublevel->getHeight() - 1][i]->getRect().intersects(rect) && current_sublevel->getMap()[current_sublevel->getHeight() - 1][i]->isHitable() && current_sublevel->getMap()[current_sublevel->getHeight() - 1][i] != this)
+		if(current_sublevel->getEntities()[i]->getRect().intersects(rect) && current_sublevel->getEntities()[i]->isHitable() 
+			&& current_sublevel->getEntities()[i] != this) //если сущности пересакаются, пересеченную сущность можно ударить и она не является этой же сущностью
 		{
-			this->hit(dynamic_cast<Entity*>(current_sublevel->getMap()[current_sublevel->getHeight() - 1][i])); //при столкновении с другой сущностью наношу ей урон и удаляю пулю
-			
-			return true; 
+			this->hit(dynamic_cast<Entity*>(current_sublevel->getEntities()[i]));//то БЬЮ ЕЕ! РРРРРРРРР!!!
+			return true;
 		}
 	}
+
+	//старая версия
+	//for (int i = current_sublevel->getWidth() - 1; i < current_sublevel->getMap()[current_sublevel->getHeight() - 1].size(); i++)
+	//{
+	//	if (current_sublevel->getMap()[current_sublevel->getHeight() - 1][i]->getRect().intersects(rect) && current_sublevel->getMap()[current_sublevel->getHeight() - 1][i]->isHitable() && current_sublevel->getMap()[current_sublevel->getHeight() - 1][i] != this)
+	//	{
+	//		this->hit(dynamic_cast<Entity*>(current_sublevel->getMap()[current_sublevel->getHeight() - 1][i])); //при столкновении с другой сущностью наношу ей урон и удаляю пулю
+	//		
+	//		return true; 
+	//	}
+	//}
 	return false;
 }
 Sublevel * Entity::getCurrentSublevel()

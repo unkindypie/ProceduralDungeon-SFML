@@ -70,7 +70,7 @@ void Bullet::hitDetection(float elapsedTime)
 	}
 	if(damageDealing()) //если пул€ сталкиваетс€ с другой сущностью, то наношу ей урон(damageDealing), эта функци€ вовзращает true в таком случае и € удал€ю пулю
 	{
-		current_sublevel->getMap()[current_sublevel->getHeight() - 1].erase(current_sublevel->getContentIterator(this));
+		current_sublevel->getEntities().erase(current_sublevel->getEntityIterator(this));
 		delete this;
 		return;
 	}
@@ -82,7 +82,7 @@ void Bullet::hitDetection(float elapsedTime)
 	}
 	if (collide)  //поскольку в тот if может зайти много раз, чтобы зр€ не обновл€ть пр€моугольник спрайта 100500 раз вынес в отдельный if
 	{
-		current_sublevel->getMap()[current_sublevel->getHeight() - 1].erase(current_sublevel->getContentIterator(this));
+		current_sublevel->getEntities().erase(current_sublevel->getEntityIterator(this));
 		delete this;
 	}
 }

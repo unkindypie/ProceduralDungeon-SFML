@@ -7,7 +7,7 @@ protected:
 	float offsetX, offsetY; //отступ от начальных координат экрана(при смене камеры начальные координаты будут меняться)
 	map<string, sf::Sprite>::iterator sprite_iterator;
 	float windowHeight, windowWidth;
-	bool visible;
+	bool visible = true;
 public:
 	InterfaceObject();
 	virtual void draw(sf::RenderWindow & win) = 0;
@@ -24,7 +24,7 @@ public:
 	void setOffsetY(float y);
 
 	bool isVisible();
-	void setVisibility(bool value);
+	virtual void setVisibility(bool value);
 	~InterfaceObject();
 };
 

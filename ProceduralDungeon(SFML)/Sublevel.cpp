@@ -344,9 +344,9 @@ bool Sublevel::isAngle()
 {
 	return angle;
 }
-void Sublevel::addContent(Content * c)
+void Sublevel::addEntity(Content * c)
 {
-	map[height-1].push_back(c);
+	entities.push_back(c);
 }
 void Sublevel::addExit(direction holePosition, ResourceManager & rm)
 {
@@ -361,21 +361,31 @@ void Sublevel::addEnter(direction holePosition, ResourceManager & rm)
 	enterRect = map[enterPosY][enterPosX]->getRect();
 	
 }
-vector<Content*>::iterator Sublevel::getContentIterator(Content * cont) //поиск итератора на контент в векторе(который не вектор векторов, а именно вектор)
+vector<Content*>::iterator Sublevel::getEntityIterator(Content * cont)
 {
-	
-	for (vector<vector<Content*>>::iterator i = map.begin(); i != map.end(); i++)
+	for (vector<Content*>::iterator i = entities.begin(); i != entities.end(); i++) 
 	{
-		//return find((*i).begin(), (*i).end(), cont);
-		for(vector<Content*>::iterator j = (*i).begin(); j != (*i).end(); j++)
+		if ((*i) == cont)
 		{
-			if((*j)==cont)
-			{
-				return j;
-			}
+			return i;
 		}
 	}
 }
+//vector<Content*>::iterator Sublevel::getContentIterator(Content * cont) //поиск итератора на контент в векторе(который не вектор векторов, а именно вектор)
+//{
+//	
+//	for (vector<vector<Content*>>::iterator i = map.begin(); i != map.end(); i++)
+//	{
+//		//return find((*i).begin(), (*i).end(), cont);
+//		for(vector<Content*>::iterator j = (*i).begin(); j != (*i).end(); j++)
+//		{
+//			if((*j)==cont)
+//			{
+//				return j;
+//			}
+//		}
+//	}
+//}
 void Sublevel::fill(SublevelFillingType ft, ResourceManager & rm)
 {
 	bool rn;
@@ -398,9 +408,7 @@ void Sublevel::fill(SublevelFillingType ft, ResourceManager & rm)
 		for(int i = 2; i < width-2; i++)
 		{
 			rn = randomNumber(0, 1);
-			
-
-			if(rn) addContent(new Guntrap((x + i)*COMMON_SPRITE_SIZE, y * COMMON_SPRITE_SIZE + COMMON_SPRITE_SIZE, rm, top, this));
+			if(rn) addEntity(new Guntrap((x + i)*COMMON_SPRITE_SIZE, y * COMMON_SPRITE_SIZE + COMMON_SPRITE_SIZE, rm, top, this));
 		}
 		break;
 	case guntrapped_horizontal:
@@ -417,7 +425,7 @@ void Sublevel::fill(SublevelFillingType ft, ResourceManager & rm)
 				dirY = randomNumber(-1, 1);
 
 			} while (!dirX || !dirY);
-			addContent(new Blade((randomNumber(width/3, width-2)+x)*COMMON_SPRITE_SIZE, (randomNumber(height / 3, height - 2)+y) * COMMON_SPRITE_SIZE, this, rm, dirX, dirY));
+			addEntity(new Blade((randomNumber(width/3, width-2)+x)*COMMON_SPRITE_SIZE, (randomNumber(height / 3, height - 2)+y) * COMMON_SPRITE_SIZE, this, rm, dirX, dirY));
 		}
 		break;
 	default:
@@ -428,14 +436,7 @@ void Sublevel::fill(SublevelFillingType ft, ResourceManager & rm)
 //{
 //
 //}
-void Sublevel::addPlayerToEnter(ResourceManager & rm)
-{
-	float newXCord, newYCord;
-	this->getEnterGlobalCoords(newXCord, newYCord);
-	int x = newXCord + (COMMON_SPRITE_SIZE + 2) / 2;
-	int y = newYCord + (COMMON_SPRITE_SIZE + 2) / 2;
-	map[height - 1].push_back(new Player(x, y, this, rm));
-}
+
 sf::FloatRect Sublevel::getExitRect()
 {
 	return exitRect;
@@ -479,4 +480,8 @@ size_t Sublevel::getExitPosY()
 vector<vector<Content*>> & Sublevel::getMap()
 {
 	return map;
+}
+vector<Content*>& Sublevel::getEntities()
+{
+	return entities;
 }

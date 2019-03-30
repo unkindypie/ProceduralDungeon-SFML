@@ -28,7 +28,7 @@ Level::Level()
 
 	player = new Player((level[0].getWidth() / 2) * COMMON_SPRITE_SIZE, (level[0].getHeight() / 2) * COMMON_SPRITE_SIZE, &level[0], rm);
 
-	level[0].addContent(player);
+	level[0].addEntity(player);
 }
 Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находится основная часть алгортима процедурной генерации карты. он получился огромезный, но смысла разделять на функции я не вижу, потому что больше это ни где не используется
 {
@@ -232,7 +232,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 		}
 	}
 	player = new Player((level[0].getWidth() / 2) * COMMON_SPRITE_SIZE, (level[0].getHeight() / 2) * COMMON_SPRITE_SIZE, &level[0], rm);
-	level[0].addContent(player);
+	level[0].addEntity(player);
 	//size_t pos = level.size()-2;
 	//player = new Player((level[pos].getWidth() / 2) * COMMON_SPRITE_SIZE, (level[pos].getHeight() / 2) * COMMON_SPRITE_SIZE, &level[pos], rm);
 	//level[pos].addContent(player);
@@ -254,7 +254,7 @@ vector<Sublevel> & Level::getLevelMap()
 }
 void Level::draw(sf::RenderWindow & win)
 {
-	sf::FloatRect viewRect = { win.getView().getCenter().x - win.getSize().x / 2, win.getView().getCenter().y - win.getSize().y / 2, (float)win.getSize().x, (float)win.getSize().y };
+	sf::FloatRect viewRect = { win.getView().getCenter().x - win.getSize().x / 2, win.getView().getCenter().y - win.getSize().y / 2, (float)win.getSize().x, (float)win.getSize().y };//получаю прямоугольник вида
 	for (int sub = 0; sub < level.size(); sub++) //проход по вектору подуровней уровня
 	{
 		for (int i = 0; i < level[sub].getMap().size(); i++) //проход по двумерному массиву подуровня
@@ -265,7 +265,14 @@ void Level::draw(sf::RenderWindow & win)
 				if(viewRect.intersects(level[sub].getMap()[i][j]->getRect())) level[sub].getMap()[i][j]->draw(win);
 			}
 		}
-
+		for (int k = 0; k < level[sub].getEntities().size(); k++)
+		{
+			if (viewRect.intersects(level[sub].getEntities()[k]->getRect()))
+			{
+				level[sub].getEntities()[k]->draw(win);
+				DebugInformation::getInstance().renderedEntitiesCounter++;
+			}
+		}
 
 		//int endOfViewY = ((win.getView().getCenter().y + win.getSize().y / 2)) / COMMON_SPRITE_SIZE;
 		//int endOfViewX = ((win.getView().getCenter().x + win.getSize().x / 2)) / COMMON_SPRITE_SIZE;
@@ -296,57 +303,24 @@ void Level::draw(sf::RenderWindow & win)
 		//	}
 		//}
 	}
-	////вариант отрисовки, в котором отрисовывается сначал тот подуровень, в котором находидтся игрок
-	//for (int i = 0; i < dynamic_cast<Player*>(player)->getCurrentSublevel()->getMap().size(); i++) 
-	//{
-	//	for (int j = 0; j < dynamic_cast<Player*>(player)->getCurrentSublevel()->getMap()[i].size(); j++)
-	//	{
-	//		dynamic_cast<Player*>(player)->getCurrentSublevel()->getMap()[i][j]->draw(win);
-	//	}
-	//}
-	//for (int sub = 0; sub < level.size(); sub++) 
-	//{
-	//	if (&level[sub] != dynamic_cast<Player*>(player)->getCurrentSublevel())
-	//	{
-	//		for (int i = 0; i < level[sub].getMap().size(); i++) 
-	//		{
-	//			for (int j = 0; j < level[sub].getMap()[i].size(); j++)
-	//			{
-	//				level[sub].getMap()[i][j]->draw(win);
-	//			}
-	//		}
-	//	}
-	//}
 }
 void Level::update(float elapsedTime)
 {
 	for (int sub = 0; sub < level.size(); sub++) //проход по вектору подуровней уровня
 	{
-		for (int i = 0; i < level[sub].getMap().size(); i++) //проход по двумерному массиву подуровня
+		//for (int i = 0; i < level[sub].getMap().size(); i++) //проход по двумерному массиву подуровня
+		//{
+		//	for (int j = 0; j < level[sub].getMap()[i].size(); j++)
+		//	{
+		//		level[sub].getMap()[i][j]->update(elapsedTime);
+		//	}
+		//}
+		for (int k = 0; k < level[sub].getEntities().size(); k++)
 		{
-			for (int j = 0; j < level[sub].getMap()[i].size(); j++)
-			{
-				level[sub].getMap()[i][j]->update(elapsedTime);
-
-			}
+			DebugInformation::getInstance().updatedEntitiesCounter++;
+			level[sub].getEntities()[k]->update(elapsedTime);
 		}
 	}
-	////вариант обновления, где обновляются только Entity и всегда сначала тот подуровень, в котором находится игрок
-	//for (int j = 0; j < dynamic_cast<Player*>(player)->getCurrentSublevel()->getMap()[dynamic_cast<Player*>(player)->getCurrentSublevel()->getHeight() - 1].size(); j++)
-	//{
-	//	dynamic_cast<Player*>(player)->getCurrentSublevel()->getMap()[dynamic_cast<Player*>(player)->getCurrentSublevel()->getHeight() - 1][j]->update(elapsedTime);
-	//}
-	//for (int sub = 0; sub < level.size(); sub++) //проход по вектору подуровней уровня
-	//{
-	//	if (&level[sub] != dynamic_cast<Player*>(player)->getCurrentSublevel())
-	//	{
-	//		for (int j = 0; j < level[sub].getMap()[level[sub].getHeight() - 1].size(); j++)
-	//		{
-	//			level[sub].getMap()[level[sub].getHeight() - 1][j]->update(elapsedTime);
-	//		}
-	//	}
-	//}
-	
 }
 bool Level::isGameOver()
 {

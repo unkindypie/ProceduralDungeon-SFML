@@ -38,9 +38,11 @@ private:
 	sf::FloatRect exitRect; //FloatRect - класс прямоугольника, хранит свои координаты. Конкретно эти два я использую для обработки выхода и входа из подуровня
 	sf::FloatRect enterRect;
 	SublevelFillingType fillingType;//тип наполнения подуровня
-	vector<vector<Content*>> map;//двумерный массив, хрянищий все блоки подуровня, представляет собой полиморфный кластер. Вот такие умные слова я знаю.
+
+	vector<vector<Content*>> map;//двумерный вектор статических объектов игры. Т.е. они не меняют позиций. Позиция в массиве так же соответвует позиции на экране относительно начала подуровня
+	vector<Content*> entities; //отдельный вектор для сущностей этого подуровня
+
 	//функция с кучей параметров, необходимоя для процедурной генерации координат проходов подуровня
-	//ResourceManager *& rm;
 	void generateEnterExit(int & coordX, int & coordY, size_t width, size_t height, direction holePosition); //функция генерации координат входа или выхода, удолетворяющих размерам подуровня
 	bool angle = 0;
 	
@@ -58,13 +60,15 @@ public:
 	//конструкторы с произвольными координатами входа/выхода, шириной и высотой.
 	Sublevel(size_t x, size_t y, direction holePosition, holeMode mode, LevelGenerationState & gState, ResourceManager & rm); //конструктор подуровня с произвольной координатой отверстия или отверстий(зависит от mode)
 	vector<vector<Content*>> & getMap();
+	vector<Content*> & getEntities();
 	void addExit(direction holePosition, ResourceManager & rm); //функция для создания выхода в уже созданном подуровне
 	void addEnter(direction holePosition, ResourceManager & rm);
 	//get методы
 	void getExitGlobalCoords(float & x, float & y); //функция для получения глобальных координат выхода(в классе хранятся координаты относительно начала)
 	void getEnterGlobalCoords(float & x, float & y); //функция для получения глобальных координат выхода(в классе хранятся координаты относительно начала)
-	vector<Content*>::iterator getContentIterator(Content * cont); //возвращает итератор на элемент в векторе. Нужен для поиска и удаления элемента во время вызова из самого элемента
-	void addContent(Content * c); //добавление элемента в вектор подуровня(в конец)
+	vector<Content*>::iterator getEntityIterator(Content * cont); //возвращает итератор на элемент в векторе. Нужен для поиска и удаления элемента во время вызова из самого элемента
+	void addEntity(Content * c); //добавление сущности в вектор сущностей
+
 	void makeItAngle();
 	bool isAngle();
 	void fill(SublevelFillingType ft, ResourceManager & rm);
@@ -78,8 +82,6 @@ public:
 	size_t getEnterPosY();
 	size_t getExitPosX();
 	size_t getExitPosY();
-	void addPlayerToEnter(ResourceManager & rm);
-	//Sublevel & operator =(const Sublevel & sub);
 };
 size_t Sublevel::X_SIZE;
 size_t Sublevel::Y_SIZE;

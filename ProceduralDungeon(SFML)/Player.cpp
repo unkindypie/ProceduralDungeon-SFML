@@ -45,7 +45,7 @@ ResourceManager & Player::getResourceManager()
 }
 void Player::shoot()
 {
-	current_sublevel->addContent(new Bullet(x, y, dirX, dirY, current_sublevel, rm));
+	current_sublevel->addEntity(new Bullet(x, y, dirX, dirY, current_sublevel, rm));
 }
 void Player::movement(float elapsedTime)
 {

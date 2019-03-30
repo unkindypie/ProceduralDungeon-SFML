@@ -4,8 +4,8 @@
 #include <string>
 #include <iterator>
 #include "DebugInformation.h"
-//sf::Clock globalClock;
-//int plUpdates = 0;
+#include "GlobalValues.h"
+
 using namespace std;
 
 
@@ -15,11 +15,12 @@ class ResourceManager
 private:
 	map<string, sf::Texture> textures; 
 	map<string, sf::Sprite> sprites;
+	map<string, sf::Font> fonts;
 	void loadTexture(string path);
 public:
 	ResourceManager();
-	
-	map<string, sf::Sprite>::iterator loadSprite(string path, sf::IntRect rect);
+	map<string, sf::Sprite>::iterator loadSprite(string path, sf::IntRect rect); //загрузка спрайта, вовзращает итератор на спрайт в ассоциативном массиве, если его нет, то создает новый
+	map<string, sf::Font>::iterator loadFont(string path); //загрузка шрифта
 	~ResourceManager();
 };
 

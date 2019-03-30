@@ -26,6 +26,16 @@ map<string, sf::Sprite>::iterator ResourceManager::loadSprite(string path, sf::I
 	return sprites.find(path); //возвращаю указатель на этот спрайт
 
 }
+map<string, sf::Font>::iterator ResourceManager::loadFont(string path)
+{
+	if(fonts.find(path) == fonts.end())//если шрифта нет в асоциативном массиве - добавл€ю
+	{
+		sf::Font newfont;
+		newfont.loadFromFile(path);
+		fonts.emplace(path, newfont);
+	}
+	return fonts.find(path);
+}
 ResourceManager::~ResourceManager()
 {
 }
