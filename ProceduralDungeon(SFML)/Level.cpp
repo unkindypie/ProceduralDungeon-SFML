@@ -307,7 +307,7 @@ void Level::update(sf::FloatRect viewRect)
 	{
 		for (int k = 0; k < level[sub].getEntities().size(); k++)
 		{
-			if(level[sub].getEntities()[k]->getRect().intersects(viewRect))
+			if(level[sub].getEntities()[k]->getRect().intersects(viewRect)) //если сущность в поле зрени€, то обновл€ю ее
 			{
 				DebugInformation::getInstance().updatedEntitiesCounter++;
 				level[sub].getEntities()[k]->update();

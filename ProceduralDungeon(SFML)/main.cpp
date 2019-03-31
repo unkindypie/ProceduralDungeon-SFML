@@ -4,9 +4,7 @@
 int main()
 {
 	srand(time(NULL));
-
 	GlobalValues gl;
-
 	sf::RenderWindow window(sf::VideoMode(GlobalValues::getWindowWidth(), GlobalValues::getWindowHeight()), L"TODO: Придумать игре название"); //класс окна, в этой строчке я указываю его разрешение и название
 	sf::Clock updateClock; //класс счетчик времени, позволяет засекать и сбрасывать насчитанное время.
 	Level level(70/*WINDOW_WIDTH / COMMON_SPRITE_SIZE*/, 70/*WINDOW_HEIGHT / COMMON_SPRITE_SIZE*/); //создаю уровень
@@ -14,7 +12,7 @@ int main()
 	GameInterface interf(&level, cam); //интерфейс будет выводить жизни игрока относительно координат камеры
 	updateClock.restart();
 
-	float frames = 900;
+	float frames = GlobalValues::getFpsLimit();
 	float frameOffset = 1000 / frames;
 	float nextUpdate = updateClock.getElapsedTime().asMilliseconds();//это количество обновлений игрового цикла в герцах
 	float sleepTime = 0;

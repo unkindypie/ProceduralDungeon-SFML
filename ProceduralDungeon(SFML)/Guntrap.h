@@ -10,6 +10,7 @@ private:
 	float shootingCooldown;
 	ResourceManager & rm;
 	direction dir;
+	static sf::Clock shootingClock;
 public:
 	Guntrap(float x, float y, ResourceManager & rm, direction dir, Sublevel * current_sublevel);
 	void update();
@@ -17,4 +18,4 @@ public:
 	void shoot();
 	~Guntrap();
 };
-
+sf::Clock Guntrap::shootingClock;

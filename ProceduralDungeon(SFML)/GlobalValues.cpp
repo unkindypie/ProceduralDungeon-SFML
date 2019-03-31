@@ -12,9 +12,10 @@ GlobalValues::GlobalValues()
 	{
 		ofstream ofs;
 		ofs.open("config.cfg");
-		ofs << "WindowWidth: 1280\nWindowHeight: 720";
+		ofs << "WindowWidth: 1280\nWindowHeight: 720\nFPSLimit: 60";
 		windowWidth = 1280;
 		windowHeight = 720;
+		fpsLimit = 60;
 	}
 	else //если есть, то читаю и сохраняю в поля класса
 	{
@@ -29,6 +30,9 @@ GlobalValues::GlobalValues()
 				break;
 			case 1:
 				windowHeight = atoi(buf.c_str() + 14);
+				break;
+			case 2:
+				fpsLimit = atoi(buf.c_str() + 10);
 				break;
 			default:
 				break;
@@ -47,6 +51,13 @@ int GlobalValues::getWindowHeight()
 {
 	return windowHeight;
 }
+
+int GlobalValues::getFpsLimit()
+{
+	return fpsLimit;
+}
+
+
 
 
 GlobalValues::~GlobalValues()

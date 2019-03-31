@@ -41,6 +41,11 @@ void Guntrap::update()
 		shoot();
 		currentTimeBeforeShooting = 0;
 	}
+	//if(shootingClock.getElapsedTime().asMilliseconds() >= 2000)
+	//{
+	//	shoot();
+	//	shootingClock.restart();
+	//}
 }
 void Guntrap::shoot()
 {
