@@ -9,9 +9,9 @@ private:
 	int currentRotation = 0;
 public:
 	Blade(float x, float y, Sublevel * sub, ResourceManager & rm, int dirX, int dirY);
-	void update(float elapsedTime);
+	void update();
 	void draw(sf::RenderWindow & win);
-	void reflect(float elapsedTime);
+	void reflect();
 	~Blade();
 };
 

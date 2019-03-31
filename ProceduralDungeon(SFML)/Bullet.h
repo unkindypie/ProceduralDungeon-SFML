@@ -10,10 +10,10 @@ public:
 	size_t pxSizeY = 16;
 	Bullet();
 	Bullet(float x, float y, int dirX, int dirY, Sublevel * current_sublevel, ResourceManager & rm);
-	void hitDetection(float elapsedTime);
-	void update(float elapsedTime);
+	void hitDetection();
+	void update();
 	void draw(sf::RenderWindow & win);
-	void fly(float elapsedTime);
+	void fly();
 	~Bullet();
 };
 

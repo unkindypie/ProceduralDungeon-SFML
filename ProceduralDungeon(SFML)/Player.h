@@ -19,8 +19,8 @@ protected:
 public:
 	Player(float x, float y, Sublevel * sub, ResourceManager & rm);
 	void draw(sf::RenderWindow & win);
-	void movement(float elapsedTime);
-	void update(float elapsedTime);
+	void movement();
+	void update();
 	ResourceManager & getResourceManager();
 	bool isGameOver();
 	bool isLevelPassed();

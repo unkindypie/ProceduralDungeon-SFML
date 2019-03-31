@@ -30,17 +30,18 @@ Guntrap::Guntrap(float x, float y, ResourceManager & rm1, direction dir, Subleve
 	default:
 		break;
 	}
+	updateRect();
 }
-void Guntrap::update(float elapsedTime)
+void Guntrap::update()
 {
-	currentTimeBeforeShooting += elapsedTime;
+	currentTimeBeforeShooting += 1;
 	if(currentTimeBeforeShooting >= shootingCooldown)
 	{
-		shoot(elapsedTime);
+		shoot();
 		currentTimeBeforeShooting = 0;
 	}
 }
-void Guntrap::shoot(float elapsedTime)
+void Guntrap::shoot()
 {
 	switch (dir)
 	{

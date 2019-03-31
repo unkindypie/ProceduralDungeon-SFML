@@ -13,7 +13,7 @@ public:
 	Block(size_t x, size_t y, BlockType type, ResourceManager & rm, direction dir);
 	void setBlockType(BlockType type, ResourceManager & rm, direction dir);
 	void draw(sf::RenderWindow & win);
-	void update(float elapsedTime);
+	void update();
 	~Block();
 };
 

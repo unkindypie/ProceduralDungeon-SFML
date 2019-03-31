@@ -19,7 +19,7 @@ public:
 
 	Content();
     virtual void draw(sf::RenderWindow & win) = 0;
-	virtual void update(float elapsedTime) = 0;
+	virtual void update() = 0;
 	bool isCollides();
 	bool isHitable();
 	virtual void updateRect(); //метод для обновления координат прямоугольника спрайта

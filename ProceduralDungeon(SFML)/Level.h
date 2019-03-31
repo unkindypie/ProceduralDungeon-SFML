@@ -23,7 +23,7 @@ public:
 	bool isGameOver();
 	bool isLevelPassed();
 	void draw(sf::RenderWindow & win);
-	void update(float elapsedTime);
+	void update(sf::FloatRect viewRect);
 	~Level();
 };
 

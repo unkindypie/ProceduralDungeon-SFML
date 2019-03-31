@@ -3,12 +3,11 @@
 #include <string>
 
 
-void Entity::move(float dirX, float dirY, float elapsedTime)
+void Entity::move(float dirX, float dirY)
 {
-	elapsedTime *= speed;
 	//-------обработка выхода из подуровня-------------
-	x += dirX * elapsedTime; //сначала иду, потом проверяю столкновения(для выхода)
-	y += dirY * elapsedTime;
+	x += dirX * speed; //сначала иду, потом проверяю столкновения(для выхода)
+	y += dirY * speed;
 	updateRect(); //обновляю прямоугольник спрайта, поскольку координаты изменились
 
 	if (rect.intersects(current_sublevel->getExitRect()) && isDirectedToHole(dirX, dirY, exit_)) //обрабатываю выход из подуровня(проверяю, пересекает ли сущность прямоугольник выхода и двигается ли в сторону этого выхода)
@@ -39,16 +38,16 @@ void Entity::move(float dirX, float dirY, float elapsedTime)
 	}
 	else//в случае, если персонаж не находится в координатах выхода, то возвращаюсь обратно
 	{
-		x -= dirX * elapsedTime;
-		y -= dirY * elapsedTime;
+		x -= dirX * speed;
+		y -= dirY * speed;
 		updateRect();
 	}
 	//-------передвижение по подуровню--------------
 	bool collide = 0;
 	float prevx = x;
 	float prevy = y;
-	x += dirX * elapsedTime; //сначала иду, потом проверяю столкновения. Если они есть, то иду обратно
-	y += dirY * elapsedTime;
+	x += dirX * speed; //сначала иду, потом проверяю столкновения. Если они есть, то иду обратно
+	y += dirY * speed;
 	updateRect();
 
 	//отнимаю от координаты персонажа прямоугольника персонажа относительно начала координату начала подуровня деля на размер спрайта в пикселях получая координату блока в массиве
@@ -58,8 +57,8 @@ void Entity::move(float dirX, float dirY, float elapsedTime)
 		{
 			if(i < 0 || i > current_sublevel->getHeight()-1 || j < 0 || j > current_sublevel->getWidth() - 1)//защита от выхода за массив
 			{
-				x -= dirX * elapsedTime;//иду обратно
-				y -= dirY * elapsedTime;
+				x -= dirX * speed;//иду обратно
+				y -= dirY * speed;
 				updateRect();//обновляю прямоугольник спрайта
 				return;
 			}
@@ -71,8 +70,8 @@ void Entity::move(float dirX, float dirY, float elapsedTime)
 	}
 	if (collide)  //поскольку в тот if может зайти много раз, чтобы зря не обновлять прямоугольник спрайта 100500 раз вынес в отдельный if
 	{
-		x -= dirX * elapsedTime;//иду обратно
-		y -= dirY * elapsedTime;
+		x -= dirX * speed;//иду обратно
+		y -= dirY * speed;
 		updateRect();//обновляю прямоугольник спрайта
 	}
 	//cout << "dif X:" << x - prevx << " dif Y:" << y - prevy << endl;

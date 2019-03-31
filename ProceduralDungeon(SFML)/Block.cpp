@@ -15,7 +15,7 @@ void Block::draw(sf::RenderWindow & win)
 		sprite_iterator->second.setPosition(0, 0);
 	}
 }
-void Block::update(float elapsedTime)
+void Block::update()
 {
 
 }

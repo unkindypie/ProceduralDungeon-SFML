@@ -12,9 +12,9 @@ private:
 	direction dir;
 public:
 	Guntrap(float x, float y, ResourceManager & rm, direction dir, Sublevel * current_sublevel);
-	void update(float elapsedTime);
+	void update();
 	void draw(sf::RenderWindow & win);
-	void shoot(float elapsedTime);
+	void shoot();
 	~Guntrap();
 };
 

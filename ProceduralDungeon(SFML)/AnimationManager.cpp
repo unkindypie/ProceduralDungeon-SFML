@@ -33,9 +33,9 @@ map<string, sf::Sprite>::iterator & AnimationManager::getCurrentFrame()
 	return animations[currentAnimation].getCurrrentFrame();
 }
 
-void AnimationManager::tick(float elapsedTime)
+void AnimationManager::tick()
 {
-	animations[currentAnimation].tick(elapsedTime);
+	animations[currentAnimation].tick();
 }
 
 void AnimationManager::setAngle(int angle)

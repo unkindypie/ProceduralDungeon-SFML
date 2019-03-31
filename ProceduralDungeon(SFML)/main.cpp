@@ -14,17 +14,14 @@ int main()
 	GameInterface interf(&level, cam); //интерфейс будет выводить жизни игрока относительно координат камеры
 	updateClock.restart();
 
-	float elapsedTime;// здесь хранится прошеднее время
 	float frames = 900;
 	float frameOffset = 1000 / frames;
 	float nextUpdate = updateClock.getElapsedTime().asMilliseconds();//это количество обновлений игрового цикла в герцах
 	float sleepTime = 0;
 	sf::Event event; //sfml класс событие, позволяет обрабатывать много чего, в данном случае я использую его для обработки закрытия окна
 	float endCounter = 0;
-	elapsedTime = 1;
 	while (window.isOpen())
 	{
-
 		while (window.pollEvent(event)) //обрабатываю закрытие окна
 		{
 			if (event.type == sf::Event::Closed)
@@ -32,8 +29,8 @@ int main()
 		}
 		window.clear();//чищу окно от прошлого кадра
 
-		level.update(elapsedTime); //обновление 
-		cam.update(elapsedTime);
+		level.update(sf::FloatRect{ window.getView().getCenter().x - window.getSize().x / 2, window.getView().getCenter().y - window.getSize().y / 2, (float)window.getSize().x, (float)window.getSize().y }); //обновление 
+		cam.update(1);
 		interf.update(cam.getX(), cam.getY());
 		
 		level.draw(window); //отрисовка
@@ -43,7 +40,7 @@ int main()
 		{
 			cam.deathcam();
 			interf.gameover();
-			endCounter += elapsedTime;
+			endCounter++;
 			if (endCounter > 200)
 			{
 				break;
@@ -53,7 +50,7 @@ int main()
 		{
 			cam.deathcam();
 			interf.gamepassed();
-			endCounter += elapsedTime;
+			endCounter++;
 			if (endCounter > 200)
 			{
 				break;

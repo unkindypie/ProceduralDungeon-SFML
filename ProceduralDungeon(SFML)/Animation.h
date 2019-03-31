@@ -7,11 +7,12 @@ private:
 	vector<map<string, sf::Sprite>::iterator> frames;//вектор кадров анимации
 	float currentFrame;//текущий кадр, который должен быть отрисован
 	int angle; //угол спрайта
+	float speed = 0.1;
 public:
 	Animation();
 	void addFrame(ResourceManager & rm, string path, sf::IntRect rect); //добавление кадра в нимацию
 	map<string, sf::Sprite>::iterator & getCurrrentFrame(); //получение текущего кадра
-	void tick(float elapsedTime);//тик анимации. Необходим для прокрутки анимации(прохода по вектору)
+	void tick();//тик анимации. Необходим для прокрутки анимации(прохода по вектору)
 	void setAngle(int anlge);
 	~Animation();
 };

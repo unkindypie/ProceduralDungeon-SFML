@@ -215,7 +215,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 		level[i].prev = &level[i - 1];
 	}
 	SublevelFillingType stype;
-	for(int i = 1; i < level.size();i++)
+	/*for(int i = 1; i < level.size();i++)
 	{
 		if(!level[i].isAngle())
 		{
@@ -230,7 +230,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 			}
 			
 		}
-	}
+	}*/
 	player = new Player((level[0].getWidth() / 2) * COMMON_SPRITE_SIZE, (level[0].getHeight() / 2) * COMMON_SPRITE_SIZE, &level[0], rm);
 	level[0].addEntity(player);
 	//size_t pos = level.size()-2;
@@ -257,68 +257,56 @@ void Level::draw(sf::RenderWindow & win)
 	sf::FloatRect viewRect = { win.getView().getCenter().x - win.getSize().x / 2, win.getView().getCenter().y - win.getSize().y / 2, (float)win.getSize().x, (float)win.getSize().y };//получаю прямоугольник вида
 	for (int sub = 0; sub < level.size(); sub++) //проход по вектору подуровней уровня
 	{
-		for (int i = 0; i < level[sub].getMap().size(); i++) //проход по двумерному массиву подуровня
-		{
-			for (int j = 0; j < level[sub].getMap()[i].size(); j++)
-			{
+		int startY = viewRect.top / COMMON_SPRITE_SIZE;
+		int endY = (viewRect.top + viewRect.height) / COMMON_SPRITE_SIZE;
+		int startX = viewRect.left / COMMON_SPRITE_SIZE;
+		int endX = (viewRect.left + viewRect.width) / COMMON_SPRITE_SIZE;
+		if (startY < 0) startY = 0;
+		if (startX < 0) startX = 0;
+		//тут должна быть проверка на выход координат вида за пределы уровня. Но я никому не расскажу, что ее здесь нет
+		
+		//если подуровень находится за координатами вида, то пропускаю итерацию
+		if (startY >= level[sub].getY() + level[sub].getHeight() || endY <= level[sub].getY()
+			|| startX >= level[sub].getX() + level[sub].getWidth() || endX <= level[sub].getX()) continue;
 
-				if(viewRect.intersects(level[sub].getMap()[i][j]->getRect())) level[sub].getMap()[i][j]->draw(win);
+		//получаю конкретное пересечение подуровней с видом, дабы далее идти циклом только по тем блокам, которые находятся в поле зрения
+		int beginY = startY - level[sub].getY();
+		int finalY = endY - level[sub].getY();
+
+		if (beginY < 0) beginY = 0;
+		if (finalY > level[sub].getHeight()) finalY = level[sub].getHeight();
+
+		int beginX = startX - level[sub].getX();
+		int finalX = endX - level[sub].getX();
+
+		if (beginX < 0) beginX = 0;
+		if (finalX > level[sub].getWidth()) finalX = level[sub].getWidth();
+
+		//сама отрисовка блоков
+		for(int i = beginY; i < finalY; i++)
+		{
+			for (int j = beginX; j < finalX; j++)
+			{
+				level[sub].getMap()[i][j]->draw(win);
 			}
 		}
+		//отрисовка сущностей
 		for (int k = 0; k < level[sub].getEntities().size(); k++)
 		{
-			if (viewRect.intersects(level[sub].getEntities()[k]->getRect()))
-			{
 				level[sub].getEntities()[k]->draw(win);
 				DebugInformation::getInstance().renderedEntitiesCounter++;
-			}
 		}
 
-		//int endOfViewY = ((win.getView().getCenter().y + win.getSize().y / 2)) / COMMON_SPRITE_SIZE;
-		//int endOfViewX = ((win.getView().getCenter().x + win.getSize().x / 2)) / COMMON_SPRITE_SIZE;
-		//if(level[sub].getX() + level[sub].getWidth() <= endOfViewX && level[sub].getX() >= ((win.getView().getCenter().x - win.getSize().x / 2)) / COMMON_SPRITE_SIZE
-		//	&& level[sub].getY() + level[sub].getHeight() <= endOfViewY && level[sub].getY() >= ((win.getView().getCenter().y - win.getSize().y / 2)) / COMMON_SPRITE_SIZE)
-		//{
-		//	for (int i = 0; i < level[sub].getMap().size(); i++) //проход по двумерному массиву подуровня
-		//	{
-		//		for (int j = 0; j < level[sub].getMap()[i].size(); j++)
-		//		{
-		//			level[sub].getMap()[i][j]->draw(win);
-		//		}
-		//	}
-		//}
-
-		//for (int i = 0; i < level[sub].getMap().size(); i++) //проход по двумерному массиву подуровня
-		//{
-		//	for (int j = 0; j < level[sub].getMap()[i].size(); j++)
-		//	{
-		//		if (level[sub].getMap()[i][j]->getX() >= win.getView().getCenter().x - win.getSize().x / 2 &&
-		//			level[sub].getMap()[i][j]->getX() <= win.getView().getCenter().x + win.getSize().x / 2 &&
-		//			level[sub].getMap()[i][j]->getY() >= win.getView().getCenter().y - win.getSize().y / 2 &&
-		//			level[sub].getMap()[i][j]->getY() <= win.getView().getCenter().y + win.getSize().y / 2
-		//			)
-		//		{
-		//			level[sub].getMap()[i][j]->draw(win);
-		//		}
-		//	}
-		//}
 	}
 }
-void Level::update(float elapsedTime)
+void Level::update(sf::FloatRect viewRect)
 {
 	for (int sub = 0; sub < level.size(); sub++) //проход по вектору подуровней уровня
 	{
-		//for (int i = 0; i < level[sub].getMap().size(); i++) //проход по двумерному массиву подуровня
-		//{
-		//	for (int j = 0; j < level[sub].getMap()[i].size(); j++)
-		//	{
-		//		level[sub].getMap()[i][j]->update(elapsedTime);
-		//	}
-		//}
 		for (int k = 0; k < level[sub].getEntities().size(); k++)
 		{
 			DebugInformation::getInstance().updatedEntitiesCounter++;
-			level[sub].getEntities()[k]->update(elapsedTime);
+			level[sub].getEntities()[k]->update();
 		}
 	}
 }

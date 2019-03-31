@@ -47,50 +47,50 @@ void Player::shoot()
 {
 	current_sublevel->addEntity(new Bullet(x, y, dirX, dirY, current_sublevel, rm));
 }
-void Player::movement(float elapsedTime)
+void Player::movement()
 {
 	am.setCurrentAnimation("stand");
 	sprite_iterator = am.getCurrentFrame();
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		move(0, -1, elapsedTime);
+		move(0, -1);
 		dirX = 0;
 		dirY = -1;
 		am.setCurrentAnimation("walk");
 		am.setAngle(0);
 		sprite_iterator = am.getCurrentFrame();
-		am.tick(elapsedTime);
+		am.tick();
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		move(0, 1, elapsedTime);
+		move(0, 1);
 		dirX = 0;
 		dirY = 1;
 		am.setCurrentAnimation("walk");
 		am.setAngle(180);
 		sprite_iterator = am.getCurrentFrame();
-		am.tick(elapsedTime);
+		am.tick();
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		move(1, 0, elapsedTime);
+		move(1, 0);
 		dirX = 1;
 		dirY = 0;
 		am.setCurrentAnimation("walk");
 		am.setAngle(90);
 		sprite_iterator = am.getCurrentFrame();
-		am.tick(elapsedTime);
+		am.tick();
 
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		move(-1, 0, elapsedTime);
+		move(-1, 0);
 		dirX = -1;
 		dirY = 0;
 		am.setCurrentAnimation("walk");
 		am.setAngle(-90);
 		sprite_iterator = am.getCurrentFrame();
-		am.tick(elapsedTime);
+		am.tick();
 	}
 	/*if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
@@ -123,7 +123,7 @@ void Player::decreaseHealth(float value)
 	}
 
 }
-void Player::update(float elapsedTime)
+void Player::update()
 {
 	if (current_sublevel->next == NULL)
 	{
@@ -134,7 +134,7 @@ void Player::update(float elapsedTime)
 		//delete this;
 		return;
 	}
-	movement(elapsedTime);
+	movement();
 	
 	//if(globalClock.getElapsedTime().asSeconds() >= 1) //причина бага ускорени€ находитс€ где-то здесь. — каждыи проходом через вход/выход количество обновлений возрастает в 2 раза от изначального(30)
 	//{

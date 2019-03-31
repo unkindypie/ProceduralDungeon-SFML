@@ -42,20 +42,19 @@ Bullet::Bullet(float x, float y, int dirX, int dirY, Sublevel * current_sublevel
 	this->current_sublevel = current_sublevel;
 	this->dirX = dirX;
 	this->dirY = dirY;
+	updateRect();
 }
-void Bullet::fly(float elapsedTime)
+void Bullet::fly()
 {
-	move(dirX, dirY, elapsedTime);
+	move(dirX, dirY);
 }
 
-void Bullet::hitDetection(float elapsedTime)
+void Bullet::hitDetection()
 {
-	elapsedTime *= speed;
 	bool collide = 0;
-	elapsedTime *= speed;
 
-	x += dirX * elapsedTime; //сначала иду, потом проверяю столкновения. Если они есть, то иду обратно
-	y += dirY * elapsedTime;
+	x += dirX * speed; //сначала иду, потом проверяю столкновения. Если они есть, то иду обратно
+	y += dirY * speed;
 	updateRect();
 	//отнимаю от координаты персонажа прямоугольника персонажа относительно начала координату начала подуровня деля на размер спрайта в пикселях получая координату блока в массиве
 	for (int i = (rect.top - current_sublevel->getY()*COMMON_SPRITE_SIZE) / COMMON_SPRITE_SIZE; i < (rect.top - current_sublevel->getY()*COMMON_SPRITE_SIZE + rect.height) / COMMON_SPRITE_SIZE; i++)
@@ -75,8 +74,8 @@ void Bullet::hitDetection(float elapsedTime)
 		return;
 	}
 	
-	if (x - COMMON_SPRITE_SIZE / 2 - current_sublevel->getX() * COMMON_SPRITE_SIZE + dirX * elapsedTime < 0 && x + COMMON_SPRITE_SIZE / 2 - current_sublevel->getX() * COMMON_SPRITE_SIZE + dirX * elapsedTime > current_sublevel->getWidth() * COMMON_SPRITE_SIZE &&
-		y - COMMON_SPRITE_SIZE / 2 - current_sublevel->getY() * COMMON_SPRITE_SIZE + dirY * elapsedTime < 0 && y + COMMON_SPRITE_SIZE / 2 - current_sublevel->getY() * COMMON_SPRITE_SIZE + dirY * elapsedTime > current_sublevel->getHeight() * COMMON_SPRITE_SIZE)
+	if (x - COMMON_SPRITE_SIZE / 2 - current_sublevel->getX() * COMMON_SPRITE_SIZE + dirX * speed < 0 && x + COMMON_SPRITE_SIZE / 2 - current_sublevel->getX() * COMMON_SPRITE_SIZE + dirX * speed > current_sublevel->getWidth() * COMMON_SPRITE_SIZE &&
+		y - COMMON_SPRITE_SIZE / 2 - current_sublevel->getY() * COMMON_SPRITE_SIZE + dirY * speed < 0 && y + COMMON_SPRITE_SIZE / 2 - current_sublevel->getY() * COMMON_SPRITE_SIZE + dirY * speed > current_sublevel->getHeight() * COMMON_SPRITE_SIZE)
 	{
 		collide = 1;
 	}
@@ -86,12 +85,12 @@ void Bullet::hitDetection(float elapsedTime)
 		delete this;
 	}
 }
-void Bullet::update(float elapsedTime)
+void Bullet::update()
 {
 	sprite_iterator = am.getCurrentFrame();
-	am.tick(elapsedTime);
-	fly(elapsedTime);
-	hitDetection(elapsedTime);
+	am.tick();
+	fly();
+	hitDetection();
 
 }
 void Bullet::draw(sf::RenderWindow & win)
