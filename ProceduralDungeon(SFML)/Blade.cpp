@@ -9,6 +9,7 @@ Blade::Blade(float x, float y, Sublevel * sub, ResourceManager & rm, int dirX, i
 	speed = 0.3 * speedMultiplier;
 	health = 20;
 	damage = 1;
+	independent = true; //лезвие самостоятельное. При выходе за пределы экрана оно продолжит жить
 	this->dirX = dirX;
 	this->dirY = dirY;
 	sprite_iterator = rm.loadSprite("images/razer.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));

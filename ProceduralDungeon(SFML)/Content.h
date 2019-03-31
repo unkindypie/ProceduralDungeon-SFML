@@ -13,8 +13,9 @@ protected:
 	map<string, sf::Sprite>::iterator sprite_iterator;
 	sf::FloatRect rect; //прямоугольник спрайта. С помощью него осуществляется проверка столкновений благодаря методу intersects 
 	
-	bool collides;
-	bool hitable;
+	bool collides; //иммет ли объект коллизии
+	bool hitable; //можно ли его ударить
+	bool independent; //умрет ли он при выходе за границы экрана или продолжит жить
 public:
 
 	Content();
@@ -22,6 +23,7 @@ public:
 	virtual void update() = 0;
 	bool isCollides();
 	bool isHitable();
+	bool isIndependent();
 	virtual void updateRect(); //метод для обновления координат прямоугольника спрайта
 	sf::FloatRect getRect();
 	float getX();

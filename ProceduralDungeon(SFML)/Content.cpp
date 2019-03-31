@@ -13,6 +13,10 @@ bool Content::isHitable()
 {
 	return hitable;
 }
+bool Content::isIndependent()
+{
+	return independent;
+}
 float Content::getX()
 {
 	return x;

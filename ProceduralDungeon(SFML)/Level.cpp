@@ -215,7 +215,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 		level[i].prev = &level[i - 1];
 	}
 	SublevelFillingType stype;
-	/*for(int i = 1; i < level.size();i++)
+	for(int i = 1; i < level.size();i++)
 	{
 		if(!level[i].isAngle())
 		{
@@ -230,7 +230,7 @@ Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находи
 			}
 			
 		}
-	}*/
+	}
 	player = new Player((level[0].getWidth() / 2) * COMMON_SPRITE_SIZE, (level[0].getHeight() / 2) * COMMON_SPRITE_SIZE, &level[0], rm);
 	level[0].addEntity(player);
 	//size_t pos = level.size()-2;
@@ -254,9 +254,11 @@ vector<Sublevel> & Level::getLevelMap()
 }
 void Level::draw(sf::RenderWindow & win)
 {
+	//основная идея в том, чтобы цикл отрисовки ходил только по тем блокам, которые заведомо влазят в поле зрения, а не проверял это походу дела, проходя по всем сразу
 	sf::FloatRect viewRect = { win.getView().getCenter().x - win.getSize().x / 2, win.getView().getCenter().y - win.getSize().y / 2, (float)win.getSize().x, (float)win.getSize().y };//получаю прямоугольник вида
 	for (int sub = 0; sub < level.size(); sub++) //проход по вектору подуровней уровня
 	{
+		//получаю координаты вида(поля зрения) в виде блоков, а не пикселей
 		int startY = viewRect.top / COMMON_SPRITE_SIZE;
 		int endY = (viewRect.top + viewRect.height) / COMMON_SPRITE_SIZE;
 		int startX = viewRect.left / COMMON_SPRITE_SIZE;
@@ -282,7 +284,7 @@ void Level::draw(sf::RenderWindow & win)
 		if (beginX < 0) beginX = 0;
 		if (finalX > level[sub].getWidth()) finalX = level[sub].getWidth();
 
-		//сама отрисовка блоков
+		//сама отрисовка блоков, ради которой и был весь этот ужас сверху. Все это ради того, чтобы цикл не отрабатывал лишние итерации, тем самым загружая процессор
 		for(int i = beginY; i < finalY; i++)
 		{
 			for (int j = beginX; j < finalX; j++)
@@ -305,8 +307,17 @@ void Level::update(sf::FloatRect viewRect)
 	{
 		for (int k = 0; k < level[sub].getEntities().size(); k++)
 		{
-			DebugInformation::getInstance().updatedEntitiesCounter++;
-			level[sub].getEntities()[k]->update();
+			if(level[sub].getEntities()[k]->getRect().intersects(viewRect))
+			{
+				DebugInformation::getInstance().updatedEntitiesCounter++;
+				level[sub].getEntities()[k]->update();
+			}
+			else if(!level[sub].getEntities()[k]->isIndependent()) //удаляю несамостоятельные сущности, вылетевшие за пределы поля зрения
+			{
+				Content * ptr = level[sub].getEntities()[k];
+				level[sub].getEntities().erase(level[sub].getEntityIterator(level[sub].getEntities()[k]));
+				delete ptr;
+			}
 		}
 	}
 }

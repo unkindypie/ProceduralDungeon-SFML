@@ -9,6 +9,7 @@ Player::Player(float x, float y, Sublevel * sub, ResourceManager & rm1) : rm(rm1
 	health = 1;
 	tries = 10;
 	speed = 0.3 * speedMultiplier;
+	independent = true; //игрок самостоятельный. При выходе за пределы экрана он продолжит жить
 	//pxSizeX = 64;
 	//pxSizeY = 64;
 	pxSizeX = 16;

@@ -12,6 +12,7 @@ Bullet::Bullet(float x, float y, int dirX, int dirY, Sublevel * current_sublevel
 	damage = 1;
 	speed = 0.1 * speedMultiplier;
 	hitable = false;
+	independent = false; //пуля не самостаятельная. При выходе за экран она исчезнет
 	//sprite_iterator = rm.loadSprite("images/fire1.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
 	am.addAnimation("fly");
 	am.addFrame("fly", rm, "images/fire1.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));

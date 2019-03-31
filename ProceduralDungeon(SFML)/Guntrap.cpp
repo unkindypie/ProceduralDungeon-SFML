@@ -8,6 +8,7 @@ Guntrap::Guntrap(float x, float y, ResourceManager & rm1, direction dir, Subleve
 	sprite_iterator = rm.loadSprite("images/guntrap.png", sf::IntRect(0, 0, pxSizeX, pxSizeY));
 	shootingCooldown = 50;
 	currentTimeBeforeShooting = 0;
+	independent = true; //ловушка самосто€тельна€. ѕри выходе за пределы экрана она продолжит жить.
 	this->x = x;
 	this->y = y;
 	(*sprite_iterator).second.setPosition(x, y);
