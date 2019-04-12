@@ -12,14 +12,14 @@ protected:
 	float y;
 	map<string, sf::Sprite>::iterator sprite_iterator;
 	sf::FloatRect rect; //прямоугольник спрайта. С помощью него осуществляется проверка столкновений благодаря методу intersects 
-	
+	string shader = "";
 	bool collides; //иммет ли объект коллизии
 	bool hitable; //можно ли его ударить
 	bool independent; //умрет ли он при выходе за границы экрана или продолжит жить
 public:
 
 	Content();
-    virtual void draw(sf::RenderWindow & win) = 0;
+    virtual void draw(sf::RenderTarget & win) = 0;
 	virtual void update() = 0;
 	bool isCollides();
 	bool isHitable();
@@ -30,6 +30,7 @@ public:
 	float getY();
 	void setX(float x);
 	void setY(float y);
+	string getShader();
 	float & getXDirectly();
 	float & getYDirectly();
 	~Content();

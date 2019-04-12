@@ -26,7 +26,6 @@ void FPSMonitor::update(int newX, int newY)
 			ss << "FPS: " << fps;
 			text.setString(ss.str());
 			fps = 0;
-			DebugInformation::getInstance().clear();
 		}
 	}
 }

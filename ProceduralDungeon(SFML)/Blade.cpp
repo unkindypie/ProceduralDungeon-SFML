@@ -80,7 +80,7 @@ void Blade::reflect()
 		}
 	}
 }
-void Blade::draw(sf::RenderWindow & win)
+void Blade::draw(sf::RenderTarget & win)
 {
 	sprite_iterator->second.setPosition(x, y);
 	win.draw(sprite_iterator->second);

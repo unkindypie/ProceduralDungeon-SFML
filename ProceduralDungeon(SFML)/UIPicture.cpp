@@ -10,7 +10,7 @@ UIPicture::UIPicture(string path, float offsetX, float offsetY, map<string, sf::
 	visible = true;
 }
 
-void UIPicture::draw(sf::RenderWindow & win)
+void UIPicture::draw(sf::RenderTarget & win)
 {
 	if(visible)
 	{

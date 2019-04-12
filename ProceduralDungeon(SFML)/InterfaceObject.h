@@ -10,7 +10,7 @@ protected:
 	bool visible = true;
 public:
 	InterfaceObject();
-	virtual void draw(sf::RenderWindow & win) = 0;
+	virtual void draw(sf::RenderTarget & win) = 0;
 	virtual void update(int newX, int newY) = 0;
 
 	float getX();

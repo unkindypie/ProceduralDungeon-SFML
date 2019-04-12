@@ -14,7 +14,7 @@ private:
 public:
 	Guntrap(float x, float y, ResourceManager & rm, direction dir, Sublevel * current_sublevel);
 	void update();
-	void draw(sf::RenderWindow & win);
+	void draw(sf::RenderTarget & win);
 	void shoot();
 	~Guntrap();
 };

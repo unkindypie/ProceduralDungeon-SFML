@@ -67,7 +67,7 @@ void Guntrap::shoot()
 		break;
 	}
 }
-void Guntrap::draw(sf::RenderWindow & win)
+void Guntrap::draw(sf::RenderTarget & win)
 {
 	switch (dir)
 	{

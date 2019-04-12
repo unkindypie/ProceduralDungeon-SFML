@@ -32,6 +32,8 @@ Level::Level()
 }
 Level::Level(size_t levelWidth, size_t levelHeight) //в этом конструкторе находится основная часть алгортима процедурной генерации карты. он получился огромезный, но смысла разделять на функции я не вижу, потому что больше это ни где не используется
 {
+	//current_shader = rm.loadShader("lightning");
+
 	Sublevel::X_SIZE = levelHeight;
 	Sublevel::Y_SIZE = levelWidth;
 	this->levelHeight = levelHeight;
@@ -296,7 +298,70 @@ void Level::draw(sf::RenderWindow & win)
 		for (int k = 0; k < level[sub].getEntities().size(); k++)
 		{
 				level[sub].getEntities()[k]->draw(win);
+				/*if(level[sub].getEntities()[k]->getShader() == (*current_shader).first)
+				{
+					
+				}*/
 				DebugInformation::getInstance().renderedEntitiesCounter++;
+		}
+
+	}
+}
+void Level::draw(sf::RenderTexture & rendTexture, vector<sf::Glsl::Vec2> & lightEmiters, sf::FloatRect viewRect)
+{
+	//основная идея в том, чтобы цикл отрисовки ходил только по тем блокам, которые заведомо влазят в поле зрения, а не проверял это походу дела, проходя по всем сразу
+	//sf::FloatRect viewRect = { view.getCenter().x - rendTexture.getSize().x / 2, view.getCenter().y - rendTexture.getSize().y / 2, (float)rendTexture.getSize().x, (float)rendTexture.getSize().y };//получаю прямоугольник вида
+	
+	for (int sub = 0; sub < level.size(); sub++) //проход по вектору подуровней уровня
+	{
+		//получаю координаты вида(поля зрения) в виде блоков, а не пикселей
+		int startY = viewRect.top / COMMON_SPRITE_SIZE;
+		int endY = (viewRect.top + viewRect.height) / COMMON_SPRITE_SIZE;
+		int startX = viewRect.left / COMMON_SPRITE_SIZE;
+		int endX = (viewRect.left + viewRect.width) / COMMON_SPRITE_SIZE;
+		if (startY < 0) startY = 0;
+		if (startX < 0) startX = 0;
+		//тут должна быть проверка на выход координат вида за пределы уровня. Но я никому не расскажу, что ее здесь нет
+
+		//если подуровень находится за координатами вида, то пропускаю итерацию
+		if (startY >= level[sub].getY() + level[sub].getHeight() || endY <= level[sub].getY()
+			|| startX >= level[sub].getX() + level[sub].getWidth() || endX <= level[sub].getX()) continue;
+
+		//получаю конкретное пересечение подуровней с видом, дабы далее идти циклом только по тем блокам, которые находятся в поле зрения
+		int beginY = startY - level[sub].getY();
+		int finalY = endY - level[sub].getY();
+
+		if (beginY < 0) beginY = 0;
+		if (finalY > level[sub].getHeight()) finalY = level[sub].getHeight();
+
+		int beginX = startX - level[sub].getX();
+		int finalX = endX - level[sub].getX();
+
+		if (beginX < 0) beginX = 0;
+		if (finalX > level[sub].getWidth()) finalX = level[sub].getWidth();
+
+		//сама отрисовка блоков, ради которой и был весь этот ужас сверху. Все это ради того, чтобы цикл не отрабатывал лишние итерации, тем самым загружая процессор
+		for (int i = beginY; i < finalY; i++)
+		{
+			for (int j = beginX; j < finalX; j++)
+			{
+				level[sub].getMap()[i][j]->draw(rendTexture);
+			}
+		}
+		//отрисовка сущностей
+		for (int k = 0; k < level[sub].getEntities().size(); k++)
+		{
+			level[sub].getEntities()[k]->draw(rendTexture);
+			if(level[sub].getEntities()[k]->getShader() == string("lightning")/*(*current_shader).first*/)
+			{
+				lightEmiters.push_back(sf::Glsl::Vec2(level[sub].getEntities()[k]->getX() - viewRect.left, viewRect.height + viewRect.top - level[sub].getEntities()[k]->getY()));
+				/*if(std::find(lightEmiters.begin(), lightEmiters.end(), sf::Glsl::Vec2(level[sub].getEntities()[k]->getX(), level[sub].getEntities()[k]->getY()))==lightEmiters.end())
+				{
+					
+				}*/
+				
+			}
+			DebugInformation::getInstance().renderedEntitiesCounter++;
 		}
 
 	}
@@ -328,6 +393,10 @@ bool Level::isGameOver()
 bool Level::isLevelPassed()
 {
 	return dynamic_cast<Player*>(player)->isLevelPassed();
+}
+map<string, sf::Shader*>::iterator & Level::getCurrentShader()
+{
+	return current_shader;
 }
 Level::~Level()
 {

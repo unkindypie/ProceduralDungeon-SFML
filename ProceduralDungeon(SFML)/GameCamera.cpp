@@ -1,7 +1,7 @@
 #include "GameCamera.h"
 
 
-GameCamera::GameCamera(Content * target, sf::RenderWindow & win) : win(win)
+GameCamera::GameCamera(Content * target, sf::RenderTarget & win) : win(win)
 {
 	this->target = target;
 	speed = 4.3;
@@ -11,6 +11,8 @@ GameCamera::GameCamera(Content * target, sf::RenderWindow & win) : win(win)
 }
 void GameCamera::update(float elapasedTime)
 {
+	//view.setCenter(target->getX(), target->getY());
+	//view.setCenter(1280/2, 720/2);
 	if(x < target->getX())
 	{
 	/*	if(x - x > 0 && x + x < win.getSize().x)

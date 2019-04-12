@@ -10,7 +10,7 @@ UIDebugInfo::UIDebugInfo(map<string, sf::Font>::iterator font_iterator)
 	entitiesUpdated.text.setScale(0.4, 0.4);
 }
 
-void UIDebugInfo::draw(sf::RenderWindow & win)
+void UIDebugInfo::draw(sf::RenderTarget & win)
 {
 	if(visible)
 	{

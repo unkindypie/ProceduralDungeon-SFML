@@ -34,6 +34,10 @@ void Content::setY(float y)
 {
 	this->y = y;
 }
+string Content::getShader()
+{
+	return shader;
+}
 float & Content::getXDirectly()
 {
 	return x;

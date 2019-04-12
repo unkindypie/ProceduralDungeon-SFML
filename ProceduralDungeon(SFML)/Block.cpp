@@ -6,14 +6,14 @@ Block::Block()
 	type = none;
 
 }
-void Block::draw(sf::RenderWindow & win)
+void Block::draw(sf::RenderTarget & win)
 {
-	if(type != none)
-	{
+	//if(type != none)
+	//{
 		sprite_iterator->second.setPosition(x, y);
 		win.draw(sprite_iterator->second);
 		sprite_iterator->second.setPosition(0, 0);
-	}
+	//}
 }
 void Block::update()
 {
@@ -26,6 +26,7 @@ void Block::setBlockType(BlockType type, ResourceManager & rm, direction dir)
 	{
 	case none:
 		collides = false;
+		sprite_iterator = rm.loadSprite("images/emptytile.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
 		rect = sf::FloatRect(x, y, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE);
 		break;
 	case brick:
@@ -56,6 +57,7 @@ Block::Block(size_t x, size_t y, BlockType type, ResourceManager & rm, direction
 	{
 	case none:
 		collides = false;
+		sprite_iterator = rm.loadSprite("images/emptytile.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
 		rect = sf::FloatRect(x, y, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE);
 		break;
 	case brick:

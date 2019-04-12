@@ -12,6 +12,7 @@ Bullet::Bullet(float x, float y, int dirX, int dirY, Sublevel * current_sublevel
 	damage = 1;
 	speed = 0.1 * speedMultiplier;
 	hitable = false;
+	shader = "lightning";
 	independent = false; //пуля не самостаятельная. При выходе за экран она исчезнет
 	//sprite_iterator = rm.loadSprite("images/fire1.png", sf::IntRect(0, 0, COMMON_SPRITE_SIZE, COMMON_SPRITE_SIZE));
 	am.addAnimation("fly");
@@ -94,7 +95,7 @@ void Bullet::update()
 	hitDetection();
 
 }
-void Bullet::draw(sf::RenderWindow & win)
+void Bullet::draw(sf::RenderTarget & win)
 {
 	sprite_iterator = am.getCurrentFrame();
 	sprite_iterator->second.setPosition(x, y);

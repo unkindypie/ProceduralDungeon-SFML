@@ -21,7 +21,7 @@ GameInterface::GameInterface(Level * level, GameCamera & cam)
 	objects.push_back(new FPSMonitor(level->getResourceManager().loadFont("fonts/prstart.ttf")));
 	objects.push_back(new UIDebugInfo(level->getResourceManager().loadFont("fonts/prstart.ttf")));
 }
-void GameInterface::draw(sf::RenderWindow & win)
+void GameInterface::draw(sf::RenderTarget & win)
 {
 	if(isGameOver)
 	{

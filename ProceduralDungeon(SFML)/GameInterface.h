@@ -17,7 +17,7 @@ class GameInterface
 public:
 	GameInterface(Level * level, GameCamera & cam);
 
-	void draw(sf::RenderWindow & win);
+	void draw(sf::RenderTarget & win);
 	void update(float x, float y);
 	void gameover();
 	void gamepassed();

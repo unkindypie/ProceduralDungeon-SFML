@@ -10,7 +10,7 @@ protected:
 	Player * player;
 public:
 	HealthBar(Player * player, ResourceManager & rm, float windowWidth, float windowHeight);
-	void draw(sf::RenderWindow & win);
+	void draw(sf::RenderTarget & win);
 	void update(int newX, int newY);
 	~HealthBar();
 };

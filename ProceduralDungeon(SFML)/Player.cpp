@@ -147,7 +147,7 @@ void Player::update()
 	//plUpdates++;
 	//currentTime += elapsedTime;
 }
-void Player::draw(sf::RenderWindow & win)
+void Player::draw(sf::RenderTarget & win)
 {
 	if(health > 0)
 	{

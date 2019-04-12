@@ -10,7 +10,7 @@ private:
 public:
 	Blade(float x, float y, Sublevel * sub, ResourceManager & rm, int dirX, int dirY);
 	void update();
-	void draw(sf::RenderWindow & win);
+	void draw(sf::RenderTarget & win);
 	void reflect();
 	~Blade();
 };

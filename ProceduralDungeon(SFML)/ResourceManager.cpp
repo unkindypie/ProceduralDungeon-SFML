@@ -36,6 +36,16 @@ map<string, sf::Font>::iterator ResourceManager::loadFont(string path)
 	}
 	return fonts.find(path);
 }
+map<string, sf::Shader*>::iterator ResourceManager::loadShader(string name)
+{
+	if(shaders.find(name) == shaders.end())
+	{
+		sf::Shader shader;
+		shader.loadFromFile("shaders/" + name + ".vert", "shaders/" + name + ".frag");
+		shaders.emplace(name, &shader);
+	}
+	return shaders.find(name);
+}
 ResourceManager::~ResourceManager()
 {
 }

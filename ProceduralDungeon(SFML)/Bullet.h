@@ -12,7 +12,7 @@ public:
 	Bullet(float x, float y, int dirX, int dirY, Sublevel * current_sublevel, ResourceManager & rm);
 	void hitDetection();
 	void update();
-	void draw(sf::RenderWindow & win);
+	void draw(sf::RenderTarget & win);
 	void fly();
 	~Bullet();
 };

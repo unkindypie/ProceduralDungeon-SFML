@@ -11,7 +11,7 @@ HealthBar::HealthBar(Player * player, ResourceManager & rm, float windowWidth, f
 	hearts = player->getTries();
 }
 
-void HealthBar::draw(sf::RenderWindow & win)
+void HealthBar::draw(sf::RenderTarget & win)
 {
 	for (int i = 0; i < hearts; i++)
 	{

@@ -18,7 +18,7 @@ protected:
 	ResourceManager & rm;
 public:
 	Player(float x, float y, Sublevel * sub, ResourceManager & rm);
-	void draw(sf::RenderWindow & win);
+	void draw(sf::RenderTarget & win);
 	void movement();
 	void update();
 	ResourceManager & getResourceManager();

@@ -7,7 +7,7 @@ class UIDebugInfo :
 	UIText entitiesUpdated;
 public:
 	UIDebugInfo(map<string, sf::Font>::iterator font_iterator);
-	void draw(sf::RenderWindow & win);
+	void draw(sf::RenderTarget & win);
 	void update(int newX, int newY);
 	virtual void setVisibility(bool value);
 	~UIDebugInfo();

@@ -12,7 +12,7 @@ UIText::UIText(string str, map<string, sf::Font>::iterator font_iterator, float 
 	this->offsetX = offsetX;
 	this->offsetY = offsetY;
 }
-void UIText::draw(sf::RenderWindow & win)
+void UIText::draw(sf::RenderTarget & win)
 {
 	if(visible)
 	{
