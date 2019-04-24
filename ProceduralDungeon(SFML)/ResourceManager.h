@@ -21,6 +21,7 @@ private:
 public:
 	ResourceManager();
 	map<string, sf::Sprite>::iterator loadSprite(string path, sf::IntRect rect); //загрузка спрайта, вовзращает итератор на спрайт в ассоциативном массиве, если его нет, то создает новый
+	map<string, sf::Sprite>::iterator downloadSprite(string path, sf::Sprite sprite); //добавление спрайта
 	map<string, sf::Font>::iterator loadFont(string path); //загрузка шрифта
 	map<string, sf::Shader*>::iterator loadShader(string name); //загрузить шейдер по названию(без пути и типа файла. функция сама подгрузит vert и frag, добавив их в путь)
 	~ResourceManager();

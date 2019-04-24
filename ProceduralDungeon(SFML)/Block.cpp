@@ -8,12 +8,12 @@ Block::Block()
 }
 void Block::draw(sf::RenderTarget & win)
 {
-	//if(type != none)
-	//{
+	if(type != none)
+	{
 		sprite_iterator->second.setPosition(x, y);
 		win.draw(sprite_iterator->second);
 		sprite_iterator->second.setPosition(0, 0);
-	//}
+	}
 }
 void Block::update()
 {

@@ -1,5 +1,6 @@
 ﻿#include "Level.h"
 #include "GameInterface.h"
+#include "Background.h"
 
 int main()
 {
@@ -35,11 +36,13 @@ int main()
 
 	shader.setUniform("texture", sf::Shader::CurrentTexture);
 	shader.setUniform("resolution", sf::Glsl::Vec2(window.getSize().x, window.getSize().y));
-	shader.setUniform("ambientData", sf::Glsl::Vec4(0.5, 0.5, 0.8, 0.9));
+	shader.setUniform("ambientData", sf::Glsl::Vec4(0.9, 0.9, 1, 2.5));
 	shader.setUniform("lightData", sf::Glsl::Vec4(1.0, 0.5, 0.2, 2));
-	shader.setUniform("lightSize", sf::Glsl::Vec2(0.1, 0));
+	shader.setUniform("lightSize", sf::Glsl::Vec2(0.15, 0));
 
 	sf::FloatRect viewRect;//прямоугольник она для проверки, входит ли объекты в область видимости игрока(т.е. вида окна)
+
+	Background background(0, 0, level.getResourceManager());
 	while (window.isOpen())
 	{
 		while (window.pollEvent(event)) //обрабатываю закрытие окна
@@ -49,31 +52,33 @@ int main()
 		}
 		window.clear();//чищу окно от прошлого кадра
 		renderTexture.clear(/*sf::Color(12, 13, 69)*/);
+	
 		DebugInformation::getInstance().clear();
 
 		viewRect = sf::FloatRect{ renderTexture.getView().getCenter().x - window.getSize().x / 2, renderTexture.getView().getCenter().y - window.getSize().y / 2, (float)window.getSize().x, (float)window.getSize().y };
 		level.update(viewRect); //обновление 
 		cam.update(1);
 		interf.update(window.getView().getCenter().x, window.getView().getCenter().y); //вид окна - вид интерфеса. вид в cam - вид самой игры.(элементы окна рендерятся напрямую в окно, а остальное рендерится в renderTexture, а потом только в окно)
-	
+		background.update(viewRect);
+
+		background.draw(renderTexture, viewRect);
 		level.draw(renderTexture, lightEmiters, viewRect); //отрисовка
 
-		//(*level.getCurrentShader()).second->setUniform("currentLightsCount", (int)lightEmiters.size());
-		//(*level.getCurrentShader()).second->setUniform("time", sf::Glsl::Vec2(0.5, 0));
-		//(*level.getCurrentShader()).second->setUniformArray("positions", lightEmiters.data(), (int)lightEmiters.size());
+
 		if(lightEmiters.size() > 0){
 			shader.setUniform("currentLightsCount", (int)lightEmiters.size());
 			shader.setUniform("time", sf::Glsl::Vec2(0.5, 0));
 			shader.setUniformArray("positions", lightEmiters.data(), (int)lightEmiters.size());
 		}
+		
 		renderTexture.display();
-	
+
 		const sf::Texture& resultTexture = renderTexture.getTexture();
-		//window.draw(sf::Sprite(resultTexture), (*level.getCurrentShader()).second);
 		sf::Sprite sp(resultTexture);
+
 		window.draw(sp, &shader);
 		//window.draw(sf::Sprite(resultTexture));
-
+		
 
 		interf.draw(window);
 		window.display();

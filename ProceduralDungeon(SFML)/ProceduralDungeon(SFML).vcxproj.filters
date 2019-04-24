@@ -96,6 +96,9 @@
     <ClCompile Include="UIDebugInfo.cpp">
       <Filter>Исходные файлы\UIElements</Filter>
     </ClCompile>
+    <ClCompile Include="Background.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h">
@@ -163,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="UIDebugInfo.h">
       <Filter>Файлы заголовков\UIElements</Filter>
+    </ClInclude>
+    <ClInclude Include="Background.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

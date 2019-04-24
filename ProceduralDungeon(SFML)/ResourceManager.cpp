@@ -11,6 +11,7 @@ void ResourceManager::loadTexture(string path)
 	{
 		sf::Texture texture;
 		texture.loadFromFile(path);
+		texture.setRepeated(true);
 		textures.emplace(path, texture);
 	}
 }
@@ -25,6 +26,14 @@ map<string, sf::Sprite>::iterator ResourceManager::loadSprite(string path, sf::I
 	}
 	return sprites.find(path); //возвращаю указатель на этот спрайт
 
+}
+map<string, sf::Sprite>::iterator ResourceManager::downloadSprite(string path, sf::Sprite sprite)
+{
+	if (sprites.find(path) == sprites.end()) //если такого спрайта нет, то добавляю его
+	{
+		sprites.emplace(path, sprite);
+	}
+	return sprites.find(path);
 }
 map<string, sf::Font>::iterator ResourceManager::loadFont(string path)
 {

@@ -11,8 +11,10 @@ GameCamera::GameCamera(Content * target, sf::RenderTarget & win) : win(win)
 }
 void GameCamera::update(float elapasedTime)
 {
-	//view.setCenter(target->getX(), target->getY());
-	//view.setCenter(1280/2, 720/2);
+	/*view.setCenter(target->getX(), target->getY());
+	x = target->getX();
+	y = target->getY();*/
+
 	if(x < target->getX())
 	{
 	/*	if(x - x > 0 && x + x < win.getSize().x)
@@ -28,6 +30,10 @@ void GameCamera::update(float elapasedTime)
 		//}
 	}
 	if (y < target->getY())
+	{
+		move(x, target->getY(), elapasedTime);
+	}
+	if (y > target->getY())
 	{
 		move(x, target->getY(), elapasedTime);
 	}
