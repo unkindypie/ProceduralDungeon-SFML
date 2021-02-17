@@ -10,7 +10,8 @@ class GameCamera
 public:
 
 	GameCamera(Content * target, sf::RenderTarget & win);
-	void move(float x, float y, float elapasedTime);
+	void move(float x, float y);
+	void inputConroledMove();
 	void update(float elapasedTime);
 	Content * getTarget();
 	float getX();

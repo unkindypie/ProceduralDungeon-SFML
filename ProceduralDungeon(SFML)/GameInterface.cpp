@@ -5,15 +5,18 @@
 #include "UIPicture.h"
 #include "FPSMonitor.h"
 #include "UIDebugInfo.h"
+#include <iostream>
 
 GameInterface::GameInterface(Level * level, GameCamera & cam) 
 {
-	this->windowHeight = GlobalValues::getWindowHeight();
-	this->windowWidth = GlobalValues::getWindowWidth();
+	this->windowHeight = GlobalValues::getViewHeight();
+	this->windowWidth = GlobalValues::getViewWidth();
 	x = cam.getX();
 	y = cam.getY();
+	
+	std::cout << windowHeight << endl;
 
-	objects.push_back(new HealthBar(dynamic_cast<Player*>(level->player), level->getResourceManager(), windowWidth, windowHeight));
+	objects.push_back(new HealthBar(dynamic_cast<Player*>(level->player), level->getResourceManager(), this->windowWidth, this->windowHeight));
 	objects.push_back(new UIPicture("images/gameover.png", 0, 0, level->getResourceManager().loadSprite("images/gameover.png", sf::IntRect(0, 0, 304, 200))));
 	objects.push_back(new UIPicture("images/gamepassed.png", 0,0, level->getResourceManager().loadSprite("images/gamepassed.png", sf::IntRect(0, 0, 200, 310))));
 	objects[1]->setVisibility(false);

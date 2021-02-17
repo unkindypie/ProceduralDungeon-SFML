@@ -1,4 +1,5 @@
 #include "GameCamera.h"
+#include "GlobalValues.h"
 
 
 GameCamera::GameCamera(Content * target, sf::RenderTarget & win) : win(win)
@@ -11,53 +12,73 @@ GameCamera::GameCamera(Content * target, sf::RenderTarget & win) : win(win)
 }
 void GameCamera::update(float elapasedTime)
 {
-	/*view.setCenter(target->getX(), target->getY());
+	view.setCenter(target->getX(), target->getY());
 	x = target->getX();
-	y = target->getY();*/
+	y = target->getY();
+	inputConroledMove();
 
 	if(x < target->getX())
 	{
-	/*	if(x - x > 0 && x + x < win.getSize().x)
-		{*/
-			move(target->getX(), y, elapasedTime);
-		//}
+		move(target->getX(), y);
 	}
 	if (x > target->getX())
 	{
-	/*	if (x - x > 0 && x + x < win.getSize().x)
-		{*/
-			move(target->getX(), y, elapasedTime);
-		//}
+		move(target->getX(), y);
 	}
 	if (y < target->getY())
 	{
-		move(x, target->getY(), elapasedTime);
+		move(x, target->getY());
 	}
 	if (y > target->getY())
 	{
-		move(x, target->getY(), elapasedTime);
+		move(x, target->getY());
 	}
 	view.setCenter(x, y);
 	win.setView(view);
 }
-void GameCamera::move(float x, float y, float elapasedTime)
+void GameCamera::move(float x, float y)
 {
 	if(this->x < x)
 	{
-		this->x += elapasedTime * 0.5 * speed;
-		view.move(this->x, this->y);
+		this->x +=  0.5 * speed;
 	}
 	if (this->x > x)
 	{
-		this->x -= elapasedTime * 0.5 * speed;
-		view.move(this->x, this->y);
+		this->x -=  0.5 * speed;
 	}
 	if (this->y < y)
 	{
-		this->y += elapasedTime * 0.5 * speed;
-		view.move(this->x, this->y);
+		this->y += 0.5 * speed;
 	}
 	
+}
+void GameCamera::inputConroledMove()
+{
+	size_t offset = 3;
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	{
+		y -= offset;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		y += offset;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		x += offset;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		x -= offset;
+	}
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+	{
+		GlobalValues::zoomScaleFactor = 0.5;
+		view.setSize(GlobalValues::getWindowWidth() * GlobalValues::zoomScaleFactor, GlobalValues::getWindowHeight() * GlobalValues::zoomScaleFactor);
+		GlobalValues::setViewWidth(GlobalValues::getWindowWidth() / 2);
+		GlobalValues::setViewHeight(GlobalValues::getWindowHeight() / 2);
+	}
+	view.setCenter(x, y);
 }
 void GameCamera::deathcam()//красиво пролетаю по уровню под конец
 {

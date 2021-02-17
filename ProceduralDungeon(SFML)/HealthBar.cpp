@@ -1,5 +1,5 @@
 #include "HealthBar.h"
-
+#include <iostream>
 
 
 HealthBar::HealthBar(Player * player, ResourceManager & rm, float windowWidth, float windowHeight)

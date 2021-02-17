@@ -355,7 +355,7 @@ void Level::draw(sf::RenderTexture & rendTexture, vector<sf::Glsl::Vec2> & light
 			if(level[sub].getEntities()[k]->getShader() == string("lightning")/*(*current_shader).first*/)//собираю координаты фаерболлов, в которых буду рисовать шейдеры
 			{
 				//сохраняю координаты с учетом сдвига вида и того, что в сраном glsl по y координаты зеркально отражены
-				lightEmiters.push_back(sf::Glsl::Vec2(level[sub].getEntities()[k]->getX() - viewRect.left, viewRect.height + viewRect.top - level[sub].getEntities()[k]->getY()));
+				lightEmiters.push_back(sf::Glsl::Vec2((level[sub].getEntities()[k]->getX() - viewRect.left)*GlobalValues::zoomScaleFactor, (viewRect.height + viewRect.top - level[sub].getEntities()[k]->getY())*GlobalValues::zoomScaleFactor));
 			}
 			DebugInformation::getInstance().renderedEntitiesCounter++;
 		}

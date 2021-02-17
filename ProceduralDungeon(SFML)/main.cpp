@@ -7,6 +7,7 @@ int main()
 	srand(time(NULL));
 	GlobalValues gl;
 	sf::RenderWindow window(sf::VideoMode(GlobalValues::getWindowWidth(), GlobalValues::getWindowHeight()), L"TODO: Придумать игре название"); //класс окна, в этой строчке я указываю его разрешение и название
+
 	sf::RenderTexture renderTexture;
 	renderTexture.create(window.getSize().x, window.getSize().y);
 
@@ -55,7 +56,7 @@ int main()
 	
 		DebugInformation::getInstance().clear();
 
-		viewRect = sf::FloatRect{ renderTexture.getView().getCenter().x - window.getSize().x / 2, renderTexture.getView().getCenter().y - window.getSize().y / 2, (float)window.getSize().x, (float)window.getSize().y };
+		viewRect = sf::FloatRect{ renderTexture.getView().getCenter().x - renderTexture.getView().getSize().x / 2, renderTexture.getView().getCenter().y - renderTexture.getView().getSize().y / 2, (float)renderTexture.getView().getSize().x, (float)renderTexture.getView().getSize().y };
 		level.update(viewRect); //обновление 
 		cam.update(1);
 		interf.update(window.getView().getCenter().x, window.getView().getCenter().y); //вид окна - вид интерфеса. вид в cam - вид самой игры.(элементы окна рендерятся напрямую в окно, а остальное рендерится в renderTexture, а потом только в окно)

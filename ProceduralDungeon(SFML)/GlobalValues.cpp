@@ -40,6 +40,8 @@ GlobalValues::GlobalValues()
 			pos++;
 		}
 	}
+	viewHeight = windowHeight;
+	viewWidth = windowWidth;
 }
 
 int GlobalValues::getWindowWidth()
@@ -50,6 +52,24 @@ int GlobalValues::getWindowWidth()
 int GlobalValues::getWindowHeight()
 {
 	return windowHeight;
+}
+
+int GlobalValues::getViewWidth()
+{
+	return viewWidth;
+}
+int GlobalValues::getViewHeight()
+{
+	return viewHeight;
+}
+
+void GlobalValues::setViewWidth(int width)
+{
+	viewWidth = width;
+}
+void GlobalValues::setViewHeight(int height)
+{
+	viewHeight = height;
 }
 
 int GlobalValues::getFpsLimit()
